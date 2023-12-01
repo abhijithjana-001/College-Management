@@ -331,3 +331,5 @@ Q.idea/sonarlint/securityhotspotstore/a/c/acf0f1c4050118f67563559e8faaa609591409
 Q.idea/sonarlint/securityhotspotstore/e/c/ec0b548077f7a54d16a986bfc0aaf8eae1bfff48,a\f\affba4e7e62d0404ef6e353bce7a8493358fb446
 Å
 Q.idea/sonarlint/securityhotspotstore/a/3/a33facb33b394e1aeebd26e84a9540f8233320e9,2\b\2b896a90c4f6f6cf2d09e7bdb9b074ae51c5f7c0
+ä
+ZCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/studentdto.java,a\2\a26bb81bd53ad73ef3a24311da53042d6b692fde
