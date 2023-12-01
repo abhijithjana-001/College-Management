@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Table(name="student")
 public class Student {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long student_id;
     private String  name;
 
