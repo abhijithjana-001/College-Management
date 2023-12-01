@@ -6,4 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "teacher")
 public class TeacherController {
+    long id;
+
 }
