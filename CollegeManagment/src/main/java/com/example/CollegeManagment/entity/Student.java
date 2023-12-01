@@ -1,8 +1,6 @@
 package com.example.CollegeManagment.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +16,7 @@ public class Student {
     @Id
     private Long student_id;
     private String  name;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Department department;
 }
