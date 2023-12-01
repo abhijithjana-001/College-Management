@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -12,10 +14,17 @@ import lombok.NoArgsConstructor;
 @Table(name = "department")
 public class Department {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     String name;
+
+    @OneToMany(mappedBy = "department")
+    private Set<Student> students;
+
+    @OneToMany(mappedBy = "department")
+    private Set<Teacher> teachers;
 
 }
