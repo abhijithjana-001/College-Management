@@ -13,11 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name="student")
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long student_id;
     private String  name;
 
-    @ManyToOne()
+    @ManyToOne ()
     private Department department;
 }
