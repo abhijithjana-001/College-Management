@@ -13,7 +13,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TeacherRequestDTO {
     private String name;
-
     private Department department;
-
 }

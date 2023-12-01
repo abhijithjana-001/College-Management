@@ -1,4 +1,4 @@
 package com.example.CollegeManagment.service;
 
-public interface studentservice {
+public interface Studentservice {
 }
