@@ -333,3 +333,7 @@ Q.idea/sonarlint/securityhotspotstore/e/c/ec0b548077f7a54d16a986bfc0aaf8eae1bfff
 Q.idea/sonarlint/securityhotspotstore/a/3/a33facb33b394e1aeebd26e84a9540f8233320e9,2\b\2b896a90c4f6f6cf2d09e7bdb9b074ae51c5f7c0
 Š
 ZCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/studentdto.java,a\2\a26bb81bd53ad73ef3a24311da53042d6b692fde
+‘
+aCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/TeacherRequestDTO.java,4\0\4021c298a8b998c83423aeabbc531b814b21f492
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentservice.java,f\7\f717455ac5778e00954cf14a5acb50aff5d4c8a3
