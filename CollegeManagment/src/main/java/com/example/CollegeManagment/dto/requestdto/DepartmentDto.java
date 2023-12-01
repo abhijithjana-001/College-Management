@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DepartmentDto {
 
-    String name;
+    private String name;
 }
