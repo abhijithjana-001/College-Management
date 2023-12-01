@@ -17,8 +17,8 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long student_id;
-    private String  name;
+    private String  sname;
 
-    @ManyToOne ()
+    @OneToOne ()
     private Department department;
 }

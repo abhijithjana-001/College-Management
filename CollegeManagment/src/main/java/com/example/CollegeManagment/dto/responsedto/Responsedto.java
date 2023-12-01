@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class Responsedto<T> {
     private  Boolean success;
     private  String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private  T result;
 }
