@@ -15,6 +15,7 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+
     @OneToMany(cascade = CascadeType.ALL)
     private Department department;
 }
