@@ -337,3 +337,5 @@ ZCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/stud
 aCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/TeacherRequestDTO.java,4\0\4021c298a8b998c83423aeabbc531b814b21f492
 á
 WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentservice.java,f\7\f717455ac5778e00954cf14a5acb50aff5d4c8a3
+ç
+]CollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/DepartmentDto.java,6\a\6a40486698abce0eec29971083866342c6f4a62a
