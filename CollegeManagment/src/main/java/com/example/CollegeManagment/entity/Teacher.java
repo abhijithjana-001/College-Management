@@ -16,6 +16,6 @@ public class Teacher {
     private long id;
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Department department;
 }
