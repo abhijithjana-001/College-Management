@@ -17,4 +17,6 @@ public class Teacher {
 
     private String name;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private Department department;
 }
