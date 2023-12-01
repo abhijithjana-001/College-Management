@@ -18,5 +18,6 @@ public class Student {
     private String  name;
 
     @ManyToOne(cascade = CascadeType.ALL)
+
     private Department department;
 }
