@@ -22,5 +22,6 @@ public class Student {
     private String  sname;
 
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+   @JoinColumn(name="id",nullable = false)
     private Department department;
 }
