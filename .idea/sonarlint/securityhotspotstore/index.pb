@@ -61,8 +61,6 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/repository/TeacherR
 `CollegeManagment/src/main/java/com/example/CollegeManagment/controller/DepartmentController.java,2\c\2c2a42a3a3f24535abbd71fe9804e20f66e39eb1
 é
 ^CollegeManagment/src/main/java/com/example/CollegeManagment/Exception/AppExceptionHandler.java,e\f\efd031217d476305d43b4fc7dfa41d720c799de0
-ä
-ZCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/Requestdto.java,5\5\55c6c8611925181210cdb61dd947460d32eba805
 á
 WCollegeManagment/src/main/java/com/example/CollegeManagment/Exception/ItemNotFound.java,a\2\a24ac650aa7248e22f0ff68151b697a2c869b79c
 ä
@@ -144,13 +142,7 @@ Q.idea/sonarlint/securityhotspotstore/f/8/f8c97c1c5ccdcf19c1c924ea1442e7dbae92a6
 Å
 Q.idea/sonarlint/securityhotspotstore/f/a/fa59aae815baff74b04158c21367744f7b529414,b\f\bf0317a44d506a4bcac44665e3ff05bf13c765b5
 Å
-Q.idea/sonarlint/securityhotspotstore/9/0/9008707da55f45109f5124a27c9f5a94d8858cbc,a\6\a6e2c358e3e228fc1b8c74a885a36682755a3f98
-Å
 Q.idea/sonarlint/securityhotspotstore/d/e/de9c65b705084790874c562855251dc4e2dd8704,3\2\327383ba37d1f5126e311be92ac4b4c0bcb6f9a6
-Å
-Q.idea/sonarlint/securityhotspotstore/7/d/7de90a791611bc45e4ec5b1f97f58c09f5f3e074,f\1\f1945ae2b43e62e79b08110b6f1ff087a0831d4f
-Å
-Q.idea/sonarlint/securityhotspotstore/6/f/6f421b154ed20d541d842629d1c1085a6d820246,b\2\b2cc8f23e310854f7532716791b5086df6fd3462
 w
 G.idea/sonarlint/issuestore/4/4/44726896363e1c1bf690ed8fbb012acb5cbf8148,e\1\e11a458592a69fe269daca98ffd45d9168f01808
 Å
@@ -183,14 +175,10 @@ Q.idea/sonarlint/securityhotspotstore/b/8/b899400721612333d1233462c4158484197a93
 Q.idea/sonarlint/securityhotspotstore/b/f/bf0317a44d506a4bcac44665e3ff05bf13c765b5,c\5\c508ef658affb8d759a5f498b870521aad812d2a
 Å
 Q.idea/sonarlint/securityhotspotstore/b/8/b84e27037b9886c69cb1c1afe758d2f7da8a5234,e\b\eb98c965a8da3b8d80def11cf0655d378ed307e9
-Å
-Q.idea/sonarlint/securityhotspotstore/b/2/b2cc8f23e310854f7532716791b5086df6fd3462,e\3\e34c7dfdb38abf2d532fccba8f2408eb4b7c4aa5
 w
 G.idea/sonarlint/issuestore/3/2/327383ba37d1f5126e311be92ac4b4c0bcb6f9a6,1\d\1d5e27466a70020b3b194d2461cacaeebe3636c6
 w
 G.idea/sonarlint/issuestore/3/9/397829ca3ea274681c1382be99e03d4f9837b35f,9\c\9c22ca9a71f8617ecdf4bd866ed776a5bc7182bb
-Å
-Q.idea/sonarlint/securityhotspotstore/f/1/f1945ae2b43e62e79b08110b6f1ff087a0831d4f,d\f\dff08ef94a9c9ddd5604b3a994442de1dd7b7d52
 w
 G.idea/sonarlint/issuestore/4/9/49a1595f62c0e03dc22ab552290cecc0a7ab804c,6\b\6bfe592714318e6f7dab2a6cb4eeeb3abeffce8c
 w
@@ -200,8 +188,6 @@ G.idea/sonarlint/issuestore/3/a/3a3fd407a857bec2bf338e650914f3454ed59974,3\e\3e
 w
 G.idea/sonarlint/issuestore/a/f/af9e7e223df10875fe2d5ee6c9769a63986ca107,c\3\c31c84e26f5c1dab2ca7dce4387bc019127bf65b
 w
-G.idea/sonarlint/issuestore/a/6/a6e2c358e3e228fc1b8c74a885a36682755a3f98,5\a\5a3d45cac6138349c56c8fc489729f7c0893058b
-w
 G.idea/sonarlint/issuestore/a/c/acf0f1c4050118f67563559e8faaa6095914090f,d\3\d3d720d2c8a8488e6ce57f7592f684f86f02506e
 w
 G.idea/sonarlint/issuestore/a/3/a33facb33b394e1aeebd26e84a9540f8233320e9,6\5\6590afb965d01a60d2b32ca23109de4c257187ac
@@ -209,8 +195,6 @@ w
 G.idea/sonarlint/issuestore/a/2/a2a07964672af0fce4748aec854067e7eddd3460,b\d\bdbc205107e87a7cbd43a2d1d3b494e7c544e53b
 Å
 Q.idea/sonarlint/securityhotspotstore/6/b/6b8275c81a5e5aaffd6d71ccc2c69dc8488f5552,1\f\1fc2dd016cbd8574f73015d62f6ece9627f42684
-Å
-Q.idea/sonarlint/securityhotspotstore/5/5/55c6c8611925181210cdb61dd947460d32eba805,7\c\7ce901717551ab4bdd6c8d2527680cd6e0aabe58
 Å
 Q.idea/sonarlint/securityhotspotstore/5/5/55474cd4a755f6e5e68c4e780b372e51a4237e43,a\f\af4a4cb9d7c9987e8337ab4344cee1d0b0b22a82
 Å
@@ -252,8 +236,6 @@ G.idea/sonarlint/issuestore/9/a/9abf97c5bef64910281469d7595ce169de6e7647,6\4\64
 w
 G.idea/sonarlint/issuestore/9/3/93e0571fa98ab7de8ac9b6a3df451fbe7a02089d,6\8\68bf10b15fdf1a5fd1cfaf9c609ed0637170f40f
 w
-G.idea/sonarlint/issuestore/b/2/b2cc8f23e310854f7532716791b5086df6fd3462,3\d\3d7d345e0c961d11cf04c0ac0886c425cf7f9baf
-w
 G.idea/sonarlint/issuestore/b/f/bf0317a44d506a4bcac44665e3ff05bf13c765b5,7\c\7c62d0c9d92c581145df0379731bc2c554427027
 w
 G.idea/sonarlint/issuestore/7/f/7f30f03dd00901ba98f3340d54a292995e8df076,6\2\62ad5c2af5584068d56f8f28c89d0363ce89fcb6
@@ -263,8 +245,6 @@ w
 G.idea/sonarlint/issuestore/7/b/7b7a74312d1c34afa877c153fbde869433d5f950,9\e\9edd02af1be3879cc7df30f8db958d538a656a97
 w
 G.idea/sonarlint/issuestore/e/c/ec0b548077f7a54d16a986bfc0aaf8eae1bfff48,4\4\44ea5aa690a3f10abd94908bb59a9a53fba4d52a
-w
-G.idea/sonarlint/issuestore/f/1/f1945ae2b43e62e79b08110b6f1ff087a0831d4f,4\a\4a836087bb5a9e101d74445f0530774627937612
 w
 G.idea/sonarlint/issuestore/e/d/eda907cf287b52e33d66828c87b1496c404564da,e\f\efb27b4ca378fe8bf458b20a764134d7f47db1bc
 w
@@ -322,8 +302,6 @@ Q.idea/sonarlint/securityhotspotstore/a/f/af9e7e223df10875fe2d5ee6c9769a63986ca1
 Å
 Q.idea/sonarlint/securityhotspotstore/e/4/e49cf0aa7afc4f9e41f2cb25d303f49bc14a245e,b\f\bf02e4317a503e1c02e3d20e24555e133ff9c741
 Å
-Q.idea/sonarlint/securityhotspotstore/a/6/a6e2c358e3e228fc1b8c74a885a36682755a3f98,1\e\1e6c46d5b3d7fd53982b5b6d1056137680f37198
-Å
 Q.idea/sonarlint/securityhotspotstore/e/1/e1568ff08cac3a95b96073903a594297fcb3c06a,e\a\ea26167bdc51180ff79589c909230f2e88985a66
 Å
 Q.idea/sonarlint/securityhotspotstore/a/c/acf0f1c4050118f67563559e8faaa6095914090f,0\5\0572c0faf45312accf1414b20bc961afa2ef53a1
@@ -341,3 +319,13 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentserv
 ]CollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/DepartmentDto.java,6\a\6a40486698abce0eec29971083866342c6f4a62a
 ê
 `CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentServiceImpl.java,7\3\733f5df742a4992ad6343b70b16b781c5be0799d
+ì
+cCollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/DepartmentServiceImpl.java,d\c\dc94b0c53de29f6faceae065dff4f01d71358287
+ñ
+fCollegeManagment/src/main/java/com/example/CollegeManagment/dto/responsedto/DepartmentResponseDto.java,9\a\9a6a78db248a5ff7596a494960eb0cfbe9a34f84
+Å
+Q.idea/sonarlint/securityhotspotstore/d/c/dc94b0c53de29f6faceae065dff4f01d71358287,c\4\c4ff3c83d3b6f01123ae2c4a36dbb2a2a359cd35
+Å
+Q.idea/sonarlint/securityhotspotstore/9/a/9a6a78db248a5ff7596a494960eb0cfbe9a34f84,f\f\ffdf4b1fb81f283114af8df183b4f85f81e83ed9
+ä
+ZCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/Studentdto.java,e\1\e11f40036081dd0edca5c143eec18106bd45784a

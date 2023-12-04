@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Table(name="student")
+
 public class Student {
 
     @Id
@@ -19,6 +21,6 @@ public class Student {
     private Long student_id;
     private String  sname;
 
-    @OneToOne ()
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Department department;
 }
