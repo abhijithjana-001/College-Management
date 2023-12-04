@@ -61,8 +61,6 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/repository/TeacherR
 `CollegeManagment/src/main/java/com/example/CollegeManagment/controller/DepartmentController.java,2\c\2c2a42a3a3f24535abbd71fe9804e20f66e39eb1
 é
 ^CollegeManagment/src/main/java/com/example/CollegeManagment/Exception/AppExceptionHandler.java,e\f\efd031217d476305d43b4fc7dfa41d720c799de0
-ä
-ZCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/Requestdto.java,5\5\55c6c8611925181210cdb61dd947460d32eba805
 á
 WCollegeManagment/src/main/java/com/example/CollegeManagment/Exception/ItemNotFound.java,a\2\a24ac650aa7248e22f0ff68151b697a2c869b79c
 ä
@@ -144,13 +142,7 @@ Q.idea/sonarlint/securityhotspotstore/f/8/f8c97c1c5ccdcf19c1c924ea1442e7dbae92a6
 Å
 Q.idea/sonarlint/securityhotspotstore/f/a/fa59aae815baff74b04158c21367744f7b529414,b\f\bf0317a44d506a4bcac44665e3ff05bf13c765b5
 Å
-Q.idea/sonarlint/securityhotspotstore/9/0/9008707da55f45109f5124a27c9f5a94d8858cbc,a\6\a6e2c358e3e228fc1b8c74a885a36682755a3f98
-Å
 Q.idea/sonarlint/securityhotspotstore/d/e/de9c65b705084790874c562855251dc4e2dd8704,3\2\327383ba37d1f5126e311be92ac4b4c0bcb6f9a6
-Å
-Q.idea/sonarlint/securityhotspotstore/7/d/7de90a791611bc45e4ec5b1f97f58c09f5f3e074,f\1\f1945ae2b43e62e79b08110b6f1ff087a0831d4f
-Å
-Q.idea/sonarlint/securityhotspotstore/6/f/6f421b154ed20d541d842629d1c1085a6d820246,b\2\b2cc8f23e310854f7532716791b5086df6fd3462
 w
 G.idea/sonarlint/issuestore/4/4/44726896363e1c1bf690ed8fbb012acb5cbf8148,e\1\e11a458592a69fe269daca98ffd45d9168f01808
 Å
@@ -341,3 +333,7 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentserv
 ]CollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/DepartmentDto.java,6\a\6a40486698abce0eec29971083866342c6f4a62a
 ê
 `CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentServiceImpl.java,7\3\733f5df742a4992ad6343b70b16b781c5be0799d
+Å
+Q.idea/sonarlint/securityhotspotstore/7/3/733f5df742a4992ad6343b70b16b781c5be0799d,b\8\b820e14c4ee605494db9d69799d0642df81f2452
+Å
+Q.idea/sonarlint/securityhotspotstore/6/a/6a40486698abce0eec29971083866342c6f4a62a,c\c\cc7b47936768c46b34dd0d190c954719c7e604dc
