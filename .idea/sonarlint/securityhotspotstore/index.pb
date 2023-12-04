@@ -327,3 +327,5 @@ fCollegeManagment/src/main/java/com/example/CollegeManagment/dto/responsedto/Dep
 Q.idea/sonarlint/securityhotspotstore/d/c/dc94b0c53de29f6faceae065dff4f01d71358287,c\4\c4ff3c83d3b6f01123ae2c4a36dbb2a2a359cd35
 Å
 Q.idea/sonarlint/securityhotspotstore/9/a/9a6a78db248a5ff7596a494960eb0cfbe9a34f84,f\f\ffdf4b1fb81f283114af8df183b4f85f81e83ed9
+ä
+ZCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/Studentdto.java,e\1\e11f40036081dd0edca5c143eec18106bd45784a

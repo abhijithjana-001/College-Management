@@ -4,7 +4,6 @@ import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.service.Studentservice;
-import com.example.CollegeManagment.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ import java.util.List;
 @RequestMapping(value = "student")
 public class StudentController {
     @Autowired
-    private StudentServiceImpl studentservice;
+    private Studentservice studentservice;
 
     @PostMapping("/add")
     public ResponseEntity<Responsedto<Student>> addstudent(@RequestBody Studentdto studentdto){
@@ -29,8 +28,16 @@ public class StudentController {
     }
 
      @DeleteMapping("/delete/{id}")
-     public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id){
+     public ResponseEntity<Responsedto<Student>> deleteStudent(@PathVariable Long id){
          Responsedto responsedto=studentservice.deletebyid(id);
          return ResponseEntity.ok(responsedto);
      }
+
+
+     @PutMapping("/update/{id}")
+     public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id,@RequestBody Studentdto studentdto){
+         Responsedto responsedto=studentservice.updateStudent(studentdto,id);
+         return ResponseEntity.ok(responsedto);
+     }
+
 }

@@ -1,12 +1,12 @@
 
 K
-java:S3740"/Provide the parametrized type for this generic.(Õêµ8ßƒ¢Ã1
+java:S3740"/Provide the parametrized type for this generic.(Õêµ8×¼ª£Ã1
 L
-java:S3740"/Provide the parametrized type for this generic.(ŠæŒø8àƒ¢Ã1
+java:S3740"/Provide the parametrized type for this generic.(ŠæŒø8Ø¼ª£Ã1
 L
-java:S3740!"/Provide the parametrized type for this generic.(•‰Æ8àƒ¢Ã1
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÏåÔùÿÿÿÿÿ8âƒ¢Ã1
+java:S3740 "/Provide the parametrized type for this generic.(•‰Æ8Ø¼ª£Ã1
+L
+java:S3740'"/Provide the parametrized type for this generic.(æÁÔÙ8Ø¼ª£Ã1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÏåÔùÿÿÿÿÿ8Ú¼ª£Ã1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ğƒ¢Ã1
-m
-java:S1128"PRemove this unused import 'com.example.CollegeManagment.service.Studentservice'.(û€é8é¦„¢Ã1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8å¼ª£Ã1

@@ -1,15 +1,8 @@
 
 L
-java:S3740!"/Provide the parametrized type for this generic.(àÅÂ8¼«÷¢Ã1
+java:S3740""/Provide the parametrized type for this generic.(àÅÂ8¦Ã¢£Ã1
 Q
-java:S3740*"/Provide the parametrized type for this generic.(ñÊğúüÿÿÿÿ8¼«÷¢Ã1
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8¾«÷¢Ã1
+java:S3740+"/Provide the parametrized type for this generic.(­ñù»øÿÿÿÿ8å¨ô¤Ã1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8¨Ã¢£Ã1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Í«÷¢Ã1
-w
-java:S1128"ZRemove this unused import 'com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO'.(ÆÓïæ8Õ«÷¢Ã1
-j
-java:S1128"HRemove this unused import 'com.example.CollegeManagment.entity.Teacher'.(Ô‹ë®ûÿÿÿÿ8Ö«÷¢Ã1
-m
-java:S1128
-"PRemove this unused import 'com.example.CollegeManagment.repository.TeacherRepo'.(ØÍ†Ë8Ö«÷¢Ã1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8·Ã¢£Ã1
