@@ -13,10 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name="student")
 public class Student {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long student_id;
     private String  name;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToOne ()
     private Department department;
 }
