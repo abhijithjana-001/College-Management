@@ -5,6 +5,7 @@ import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.Student;
+import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.Studentservice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,16 @@ import java.util.List;
 public class StudentServiceImpl implements Studentservice {
     @Autowired
     private StudentRepo studentRepo;
+
+    @Autowired
+    private DepartmentRepo departmentRepo;
     public Responsedto<Student> addStudent(Studentdto studentdto) {
       Student student=new Student();
       student.setSname(studentdto.getName());
-        Department department=studentdto.getDepartment();
-        department.setId(studentdto.getDepartment().getId());
+        Department department=departmentRepo.findById(studentdto.getDepartment().getId()).get();
+        if(department==null)
+            new Department(studentdto.getDepartment().getId(),studentdto.getDepartment().getName());
+
       student.setDepartment(department);
       studentRepo.save(student);
       return new Responsedto<>(true,"student added successful",student);
