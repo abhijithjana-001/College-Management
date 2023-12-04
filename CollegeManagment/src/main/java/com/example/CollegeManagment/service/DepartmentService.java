@@ -1,15 +1,18 @@
 package com.example.CollegeManagment.service;
 
 import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
-import com.example.CollegeManagment.dto.responsedto.DepartmentResponseDto;
+import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
-import com.example.CollegeManagment.entity.Student;
 
 import java.util.List;
 
 public interface DepartmentService {
 
-    Department createDepartment(DepartmentDto departmentDto);
+    Responsedto addDepartment(DepartmentDto departmentDto);
 
-    DepartmentResponseDto<List<DepartmentResponseDto>> findAllDepartments();
+    Responsedto<List<Department>> findAllDepartments();
+
+    Responsedto<Department> updateDepartment(long id, DepartmentDto departmentDto);
+
+    Responsedto<Department> delete(Long id);
 }

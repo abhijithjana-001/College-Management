@@ -19,6 +19,12 @@ public class Department {
 
     String name;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Student> students;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Teacher> teachers;
+
 
 
 }
