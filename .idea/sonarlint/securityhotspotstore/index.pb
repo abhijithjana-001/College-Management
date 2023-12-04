@@ -337,3 +337,11 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentserv
 Q.idea/sonarlint/securityhotspotstore/7/3/733f5df742a4992ad6343b70b16b781c5be0799d,b\8\b820e14c4ee605494db9d69799d0642df81f2452
 Å
 Q.idea/sonarlint/securityhotspotstore/6/a/6a40486698abce0eec29971083866342c6f4a62a,c\c\cc7b47936768c46b34dd0d190c954719c7e604dc
+Å
+Q.idea/sonarlint/securityhotspotstore/b/8/b820e14c4ee605494db9d69799d0642df81f2452,a\9\a9793da736b15c9bf901780d08a53b98db68d68c
+w
+G.idea/sonarlint/issuestore/b/8/b820e14c4ee605494db9d69799d0642df81f2452,a\b\abe464b67ced2f869781b98c1e7d0e4283aae383
+w
+G.idea/sonarlint/issuestore/c/c/cc7b47936768c46b34dd0d190c954719c7e604dc,5\d\5d4aa19b6d3a50ace9e41290d0714ea22f063dff
+Å
+Q.idea/sonarlint/securityhotspotstore/c/c/cc7b47936768c46b34dd0d190c954719c7e604dc,1\0\10b3e7a351e84ed907bd94263a7a459aec58d2c1
