@@ -1,16 +1,18 @@
-package com.example.CollegeManagment.dto.requestdto;
+package com.example.CollegeManagment.dto.responsedto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class DepartmentDto {
+public class DepartmentResponseDto<T> {
+
+    private Integer id;
 
     private String name;
+
+    private T data;
 
 }
