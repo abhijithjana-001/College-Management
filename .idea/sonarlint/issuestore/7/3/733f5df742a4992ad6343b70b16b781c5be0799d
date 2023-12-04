@@ -1,4 +1,10 @@
 
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8ÿı¥Ã1
+Q
+java:S37401"/Provide the parametrized type for this generic.(­ñù»øÿÿÿÿ8éø“§Ã1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8íø“§Ã1
+r
+java:S3655"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ş˜²’ûÿÿÿÿ8†ù“§Ã1
 _
-java:S2094"BRemove this empty class, write its code or make it an "interface".(©Í”8’ÿı¥Ã1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ˆù“§Ã1
+_
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ˆù“§Ã1

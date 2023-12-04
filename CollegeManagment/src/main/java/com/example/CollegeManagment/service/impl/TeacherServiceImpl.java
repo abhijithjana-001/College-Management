@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.service.impl;
 
+import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Teacher;
@@ -32,30 +33,29 @@ public class TeacherServiceImpl {
             return new Responsedto<>(true,"Added Successfully",teacher);
         }
 
-//        @Override
-//        public EmployeeResponseDTO<List<Teacher>> findAll() {
-//            List<Teacher> employees=employeeRepository.findAll();
-//            return new EmployeeResponseDTO<>(true,"Employee List",employees);
-//        }
-//
-//
-//        @Override
-//        public EmployeeResponseDTO<Teacher> update(long id, EmployeeRequestDTO employeeRequestDTO) {
-//            Teacher employee = employeeRepository.findById(id).orElseThrow(()->new
-//                    EmployeeNotFoundException("Employee not found with ID : "+id));
-//
-//            employee.setName(employeeRequestDTO.getName());
-//            employee.setAge(employeeRequestDTO.getAge());
-//            employee.setPhoneNo(employeeRequestDTO.getPhoneNo());
-//            employeeRepository.save(employee);
-//            return new EmployeeResponseDTO<Teacher>(true, "Updated Successfully", employee);
-//        }
-//
-//        @Override
-//        public EmployeeResponseDTO<Teacher> delete(long id) {
-//
-//            employeeRepository.deleteById(id);
-//            return new EmployeeResponseDTO<Teacher>(true, "Deleted Successfully", null);
-//        }
-//
+        //@Override
+        public Responsedto<List<Teacher>> findAll() {
+            List<Teacher> teachers=teacherRepo.findAll();
+            return new Responsedto<>(true,"Teachers List",teachers);
+        }
+
+
+       // @Override
+        public Responsedto<Teacher> update(long id, TeacherRequestDTO teacherRequestDTO) {
+            Teacher teacher = teacherRepo.findById(id).orElseThrow(()->new
+                    ItemNotFound("Teacher not found with ID : "+id));
+
+            teacher.setName(teacherRequestDTO.getName());
+            teacher.setDepartment(teacherRequestDTO.getDepartment());
+            teacherRepo.save(teacher);
+            return new Responsedto<Teacher>(true, "Updated Successfully", teacher);
+        }
+
+        //@Override
+        public Responsedto<Teacher> delete(long id) {
+
+            teacherRepo.deleteById(id);
+            return new Responsedto<Teacher>(true, "Deleted Successfully", null);
+        }
+
       }
