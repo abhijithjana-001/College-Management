@@ -19,6 +19,6 @@ public class Student {
     private Long student_id;
     private String  sname;
 
-    @OneToOne ()
+    @OneToOne()
     private Department department;
 }
