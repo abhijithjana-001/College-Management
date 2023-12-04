@@ -1,5 +1,10 @@
 
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8¬¦ß Ã1
 _
-java:S6813
-"BRemove this field injection and use constructor injection instead.(êæÄŞ8õ€ Ã1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8¸¦ß Ã1
+w
+java:S1128"ZRemove this unused import 'com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO'.(ÆÓïæ8îğà Ã1
+j
+java:S1128"HRemove this unused import 'com.example.CollegeManagment.entity.Teacher'.(Ô‹ë®ûÿÿÿÿ8îğà Ã1
+m
+java:S1128	"PRemove this unused import 'com.example.CollegeManagment.repository.TeacherRepo'.(ØÍ†Ë8îğà Ã1

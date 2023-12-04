@@ -347,3 +347,5 @@ G.idea/sonarlint/issuestore/c/c/cc7b47936768c46b34dd0d190c954719c7e604dc,5\d\5d
 Q.idea/sonarlint/securityhotspotstore/c/c/cc7b47936768c46b34dd0d190c954719c7e604dc,1\0\10b3e7a351e84ed907bd94263a7a459aec58d2c1
 ê
 `CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/TeacherServiceImpl.java,d\0\d0f8012cd7e80e3a4f53d8560f295e2b8cfe9767
+ä
+ZCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/Studentdto.java,e\1\e11f40036081dd0edca5c143eec18106bd45784a
