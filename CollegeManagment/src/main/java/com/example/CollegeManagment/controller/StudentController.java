@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "student")
 public class StudentController {
@@ -20,4 +22,15 @@ public class StudentController {
                  Responsedto responsedto=studentservice.addStudent(studentdto);
                  return ResponseEntity.ok(responsedto);
     }
+    @GetMapping("/list")
+    public ResponseEntity<Responsedto<List<Student>>> listStudent(){
+        Responsedto responsedto=studentservice.listStudent();
+        return ResponseEntity.ok(responsedto);
+    }
+
+     @DeleteMapping("/delete/{id}")
+     public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id){
+         Responsedto responsedto=studentservice.deletebyid(id);
+         return ResponseEntity.ok(responsedto);
+     }
 }

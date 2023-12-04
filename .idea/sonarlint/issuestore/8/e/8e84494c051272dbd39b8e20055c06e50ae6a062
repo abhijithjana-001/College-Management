@@ -1,3 +1,5 @@
 
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÔËéÿÿÿÿÿ8¥” Ã1
-q	java:S116"URename this field "student_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ê£×®8¨” Ã1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÔËéÿÿÿÿÿ8¿€ë¡Ã1
+q	java:S116"URename this field "student_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ê£×®8Ğ€ë¡Ã1
+o
+java:S1128"RRemove this unused import 'com.fasterxml.jackson.annotation.JsonIgnoreProperties'.(ô’ˆî8ƒÍ¹¢Ã1
