@@ -321,8 +321,6 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentserv
 `CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentServiceImpl.java,7\3\733f5df742a4992ad6343b70b16b781c5be0799d
 ì
 cCollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/DepartmentServiceImpl.java,d\c\dc94b0c53de29f6faceae065dff4f01d71358287
-ñ
-fCollegeManagment/src/main/java/com/example/CollegeManagment/dto/responsedto/DepartmentResponseDto.java,9\a\9a6a78db248a5ff7596a494960eb0cfbe9a34f84
 Å
 Q.idea/sonarlint/securityhotspotstore/d/c/dc94b0c53de29f6faceae065dff4f01d71358287,c\4\c4ff3c83d3b6f01123ae2c4a36dbb2a2a359cd35
 Å
