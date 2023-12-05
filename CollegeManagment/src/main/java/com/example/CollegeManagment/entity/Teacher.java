@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class Teacher {
     @Id
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tid;
 
     private String name;
@@ -24,7 +24,7 @@ public class Teacher {
     @ManyToMany
     @JoinTable(
             name = "teacher_department", // Specify the name of the join table
-            joinColumns = @JoinColumn(name = "teacher_id"), // Specify the column in the join table for Teacher
+            joinColumns = @JoinColumn(name = "tid"), // Specify the column in the join table for Teacher
             inverseJoinColumns = @JoinColumn(name = "department_id") // Specify the column in the join table for Department
     )
     private Set<Department> departments=new HashSet<>();

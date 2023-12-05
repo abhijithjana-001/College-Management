@@ -34,7 +34,7 @@ public class TeacherServiceImpl {
 
             Teacher teacher=new Teacher();
             teacher.setName(teacherRequestDTO.getName());
-            teacher.setTid(teacherRequestDTO.getId());
+//            teacher.setTid(teacherRequestDTO.getId());
 //            Department department=departmentRepo.findById(teacherRequestDTO.getDepartment().getId()).get();
 //            teacher.setDepartment(department);
             teacher.setDepartments(teacherRequestDTO.getDepartment());
