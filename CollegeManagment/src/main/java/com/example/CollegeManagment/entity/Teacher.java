@@ -15,9 +15,11 @@ import java.util.Set;
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long tid;
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name="id",nullable = false)
-    private Set<Department> department;
+    private Department department;
+
+
 }
