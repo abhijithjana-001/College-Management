@@ -1,10 +1,20 @@
 
 {
-java:S22938"YReplace the type specification in this constructor call with the diamond operator ("<>").(êòÅÀúÿÿÿÿ8İ‚›ÁÃ1
+java:S2293>"YReplace the type specification in this constructor call with the diamond operator ("<>").(êòÅÀúÿÿÿÿ8­µ¨ËÃ1
 v
-java:S2293>"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ğëúá8ß‚›ÁÃ1
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8ˆ‰ë¡Ã1
+java:S2293D"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ğëúá8®µ¨ËÃ1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8¯µ¨ËÃ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8·â©ÃÃ1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8»µ¨ËÃ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8·â©ÃÃ1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8»µ¨ËÃ1
+X	java:S125&"<This block of commented-out lines of code should be removed.(úÆ˜‡8³ñÆÍÃ1
+h
+java:S1128"KRemove this unused import 'com.example.CollegeManagment.entity.Department'.(‘ÇÃÌ8“˜ÎÃ1
+d
+java:S1128
+"BRemove this unused import 'org.apache.coyote.BadRequestException'.(£¯¬ÿûÿÿÿÿ8“˜ÎÃ1
+J
+java:S1128".Remove this unused import 'java.util.HashSet'.(Ê‚êX8’“˜ÎÃ1
+L
+java:S1128"*Remove this unused import 'java.util.Set'.(ö²„¤şÿÿÿÿ8”“˜ÎÃ1

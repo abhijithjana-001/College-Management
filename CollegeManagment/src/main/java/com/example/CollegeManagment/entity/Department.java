@@ -29,7 +29,8 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private Set<Student> students;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "departments")
     private Set<Teacher> teachers;
 
 
@@ -38,10 +39,10 @@ public class Department {
         this.name=name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id);
+//    }
 
 
 }

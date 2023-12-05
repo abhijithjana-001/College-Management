@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class TeacherRequestDTO {
+    private Long id;
     private String name;
-    private Department department;
+    private Set<Department> department;
 }
