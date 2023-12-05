@@ -44,7 +44,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Responsedto<Department> delete(Long id) {
         departmentRepo.deleteById(id);
-        return null;
+        return new Responsedto<>(true, "Successfully Deleted", null);
     }
 
 
