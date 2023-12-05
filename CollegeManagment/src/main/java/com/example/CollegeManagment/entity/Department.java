@@ -39,10 +39,10 @@ public class Department {
         this.name=name;
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id);
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 
 }
