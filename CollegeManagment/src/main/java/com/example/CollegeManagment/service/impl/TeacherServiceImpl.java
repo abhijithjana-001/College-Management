@@ -28,10 +28,12 @@ public class TeacherServiceImpl {
             Teacher teacher=new Teacher();
             teacher.setName(teacherRequestDTO.getName());
             teacher.setDepartment(teacherRequestDTO.getDepartment());
-            Department department=departmentRepo.findById(teacherRequestDTO.getDepartment().getId()).orElseThrow(()->new ItemNotFound("Department not exist"));
-            Set<Teacher> teachers=department.getTeachers();
-            teachers.add(teacher);
-            department.setTeachers(teachers);
+//         //   Department department=departmentRepo.findById(teacherRequestDTO.getDepartment().getId()).orElseThrow(()->new ItemNotFound("Department not exist"));
+//       //  Set<Teacher> teachers=department.getTeachers();
+//            Set<Department> departments=teacherRequestDTO.getDepartment().;
+//            departments.add(department);
+//            department.setTeachers(teachers);
+//            teacherRepo.save(teacher);
             teacherRepo.save(teacher);
             return new Responsedto<>(true,"Added Successfully",teacher);
         }

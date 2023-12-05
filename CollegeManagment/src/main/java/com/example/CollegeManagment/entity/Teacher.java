@@ -15,20 +15,20 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Table(name="teacher")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "tid")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "tid")
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long tid;
     private String name;
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name="id",nullable = false)
-    private Department department;
+    @ManyToMany(mappedBy = "teachers")
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(tid);
-    }
+    private Set<Department> department;
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(tid);
+//    }
 
 
 

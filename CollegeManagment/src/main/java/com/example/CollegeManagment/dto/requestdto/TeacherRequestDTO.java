@@ -15,5 +15,5 @@ import java.util.Set;
 @Builder
 public class TeacherRequestDTO {
     private String name;
-    private Department department;
+    private Set<Department> department;
 }

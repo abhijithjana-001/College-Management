@@ -29,7 +29,12 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private Set<Student> students;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "teachers",
+            joinColumns = @JoinColumn(name = "department_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id")
+    )
     private Set<Teacher> teachers;
 
 
@@ -38,10 +43,10 @@ public class Department {
         this.name=name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id);
+//    }
+//
 
 }
