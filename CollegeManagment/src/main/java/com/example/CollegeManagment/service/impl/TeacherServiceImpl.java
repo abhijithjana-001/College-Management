@@ -11,11 +11,14 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
 public class TeacherServiceImpl {
+
+
 
 
         @Autowired
@@ -24,16 +27,17 @@ public class TeacherServiceImpl {
         DepartmentRepo departmentRepo;
 
 
+
+
         public  Responsedto<Teacher> addTeacher(TeacherRequestDTO teacherRequestDTO) {
+
+
             Teacher teacher=new Teacher();
             teacher.setName(teacherRequestDTO.getName());
-            teacher.setDepartment(teacherRequestDTO.getDepartment());
-//         //   Department department=departmentRepo.findById(teacherRequestDTO.getDepartment().getId()).orElseThrow(()->new ItemNotFound("Department not exist"));
-//       //  Set<Teacher> teachers=department.getTeachers();
-//            Set<Department> departments=teacherRequestDTO.getDepartment().;
-//            departments.add(department);
-//            department.setTeachers(teachers);
-//            teacherRepo.save(teacher);
+            teacher.setTid(teacherRequestDTO.getId());
+//            Department department=departmentRepo.findById(teacherRequestDTO.getDepartment().getId()).get();
+//            teacher.setDepartment(department);
+            teacher.setDepartments(teacherRequestDTO.getDepartment());
             teacherRepo.save(teacher);
             return new Responsedto<>(true,"Added Successfully",teacher);
         }
@@ -50,8 +54,10 @@ public class TeacherServiceImpl {
             Teacher teacher = teacherRepo.findById(id).orElseThrow(()->new
                     ItemNotFound("Teacher not found with ID : "+id));
 
+
             teacher.setName(teacherRequestDTO.getName());
-            teacher.setDepartment(teacherRequestDTO.getDepartment());
+            teacher.setDepartments(teacherRequestDTO.getDepartment());
+
             teacherRepo.save(teacher);
             return new Responsedto<Teacher>(true, "Updated Successfully", teacher);
         }

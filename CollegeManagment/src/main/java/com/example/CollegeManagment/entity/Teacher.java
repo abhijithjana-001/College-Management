@@ -1,11 +1,9 @@
 package com.example.CollegeManagment.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Objects;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,21 +13,19 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Table(name="teacher")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "tid")
+
 public class Teacher {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long tid;
+
     private String name;
-    @ManyToMany(mappedBy = "teachers")
 
-    private Set<Department> department;
-
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(tid);
-//    }
-
-
-
+    @ManyToMany
+    @JoinTable(
+            name = "teacher_department", // Specify the name of the join table
+            joinColumns = @JoinColumn(name = "teacher_id"), // Specify the column in the join table for Teacher
+            inverseJoinColumns = @JoinColumn(name = "department_id") // Specify the column in the join table for Department
+    )
+    private Set<Department> departments=new HashSet<>();
 }

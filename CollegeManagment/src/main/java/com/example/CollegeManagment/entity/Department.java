@@ -29,12 +29,8 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private Set<Student> students;
 
-    @ManyToMany
-    @JoinTable(
-            name = "teachers",
-            joinColumns = @JoinColumn(name = "department_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_id")
-    )
+    @JsonIgnore
+    @ManyToMany(mappedBy = "departments")
     private Set<Teacher> teachers;
 
 
@@ -47,6 +43,6 @@ public class Department {
 //    public int hashCode() {
 //        return Objects.hash(id);
 //    }
-//
+
 
 }
