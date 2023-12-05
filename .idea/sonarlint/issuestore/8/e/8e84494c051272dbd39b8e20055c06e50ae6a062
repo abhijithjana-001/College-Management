@@ -3,8 +3,8 @@
 q	java:S116"URename this field "student_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ê£×®8šƒÑÉÃ1
 X	java:S125%"<This block of commented-out lines of code should be removed.(İ ’ì8µİÎÊÃ1
 k
-java:S1128"NRemove this unused import 'com.fasterxml.jackson.annotation.JsonIdentityInfo'.(—éÑğ8ñŠÏÊÃ1
+java:S1128"NRemove this unused import 'com.fasterxml.jackson.annotation.JsonIdentityInfo'.(—éÑğ8³ñ‘ÏÃ1
 m
-java:S1128"PRemove this unused import 'com.fasterxml.jackson.annotation.ObjectIdGenerators'.(èîí8ñŠÏÊÃ1
+java:S1128"PRemove this unused import 'com.fasterxml.jackson.annotation.ObjectIdGenerators'.(èîí8µñ‘ÏÃ1
 K
-java:S1128".Remove this unused import 'java.util.Objects'.(¼¸õ›8µİÎÊÃ1
+java:S1128".Remove this unused import 'java.util.Objects'.(¼¸õ›8¶ñ‘ÏÃ1
