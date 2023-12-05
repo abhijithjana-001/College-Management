@@ -1,7 +1,9 @@
 
 Q
-java:S37401"/Provide the parametrized type for this generic.(­ñù»øÿÿÿÿ8ØİíÀÃ1
+java:S37400"/Provide the parametrized type for this generic.(­ñù»øÿÿÿÿ8ØİíÀÃ1
 {	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8İİíÀÃ1
+r
+java:S3655"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ş˜²’ûÿÿÿÿ8»Ê£ÁÃ1
 _
 java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8õİíÀÃ1
 _
