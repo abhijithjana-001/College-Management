@@ -21,7 +21,7 @@ public class Student {
     private Long student_id;
     private String  sname;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne()
    @JoinColumn(name="id",nullable = false)
     private Department department;
 }
