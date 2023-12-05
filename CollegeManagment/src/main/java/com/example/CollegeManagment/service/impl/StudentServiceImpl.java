@@ -23,7 +23,7 @@ public class StudentServiceImpl implements Studentservice {
     public Responsedto<Student> addStudent(Studentdto studentdto) {
       Student student=new Student();
       student.setSname(studentdto.getName());
-        Department department=departmentRepo.findById(studentdto.getDepartment().getId()).get();
+       Department department=departmentRepo.findById(studentdto.getDepartment().getId()).get();
 
 
       student.setDepartment(department);
