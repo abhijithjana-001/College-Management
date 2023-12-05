@@ -1,13 +1,12 @@
 package com.example.CollegeManagment.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,7 +30,7 @@ public class Department {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "departments")
-    private Set<Teacher> teachers;
+    private List<Teacher> teachers;
 
 
     public Department(Long id,String name){
@@ -39,10 +38,10 @@ public class Department {
         this.name=name;
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id);
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 
 }
