@@ -3,7 +3,9 @@ package com.example.CollegeManagment.service.impl;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.Teacher;
+import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.TeacherRepo;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class TeacherServiceImpl {
 
         @Autowired
         TeacherRepo teacherRepo;
+        @Autowired
+        DepartmentRepo departmentRepo;
 
 
 
@@ -28,7 +32,8 @@ public class TeacherServiceImpl {
 
             Teacher teacher=new Teacher();
             teacher.setName(teacherRequestDTO.getName());
-            teacher.setDepartment(teacherRequestDTO.getDepartment());
+            Department department=departmentRepo.findById(teacherRequestDTO.getDepartment().getId()).get();
+            teacher.setDepartment(department);
             teacherRepo.save(teacher);
             return new Responsedto<>(true,"Added Successfully",teacher);
         }
