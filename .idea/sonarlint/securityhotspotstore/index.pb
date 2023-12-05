@@ -323,8 +323,6 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentserv
 cCollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/DepartmentServiceImpl.java,d\c\dc94b0c53de29f6faceae065dff4f01d71358287
 Å
 Q.idea/sonarlint/securityhotspotstore/d/c/dc94b0c53de29f6faceae065dff4f01d71358287,c\4\c4ff3c83d3b6f01123ae2c4a36dbb2a2a359cd35
-Å
-Q.idea/sonarlint/securityhotspotstore/9/a/9a6a78db248a5ff7596a494960eb0cfbe9a34f84,f\f\ffdf4b1fb81f283114af8df183b4f85f81e83ed9
 ä
 ZCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/Studentdto.java,e\1\e11f40036081dd0edca5c143eec18106bd45784a
 Å
@@ -333,3 +331,7 @@ Q.idea/sonarlint/securityhotspotstore/d/0/d0f8012cd7e80e3a4f53d8560f295e2b8cfe97
 Q.idea/sonarlint/securityhotspotstore/e/1/e11f40036081dd0edca5c143eec18106bd45784a,f\1\f10ec71200f925acb61cb467ef0d3921e152d09a
 ê
 `CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/TeacherServiceImpl.java,d\0\d0f8012cd7e80e3a4f53d8560f295e2b8cfe9767
+î
+dCollegeManagment/src/test/java/com/example/CollegeManagment/controller/DepartmentControllerTest.java,9\c\9c2be005164a94b9cad33288eeda123ef74b4a47
+é
+^CollegeManagment/src/test/java/com/example/CollegeManagment/service/DepartmentServiceTest.java,3\7\378292bdd65c12e793950b70b6950713d58ded77
