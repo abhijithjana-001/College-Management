@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class StudentServiceImpl implements Studentservice {
@@ -23,11 +24,19 @@ public class StudentServiceImpl implements Studentservice {
     public Responsedto<Student> addStudent(Studentdto studentdto) {
       Student student=new Student();
       student.setSname(studentdto.getName());
-        Department department=departmentRepo.findById(studentdto.getDepartment().getId()).get();
+      student.setDepartment(studentdto.getDepartment());
 
 
-      student.setDepartment(department);
-      studentRepo.save(student);
+        Department department=departmentRepo.findById(studentdto.getDepartment().getId()).orElseThrow(()->new ItemNotFound("Department not exit"));
+
+        Set<Student> students = department.getStudents();
+        students.add(student);
+        department.setStudents(students);
+
+
+        student.setDepartment(department);
+//        departmentRepo.save(department);
+       studentRepo.save(student);
       return new Responsedto<>(true,"student added successful",student);
     }
     public  Responsedto<Student> viewdetails(Long id){
