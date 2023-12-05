@@ -53,7 +53,6 @@ public class TeacherServiceImpl {
 
         //@Override
         public Responsedto<Teacher> delete(long id) {
-
             teacherRepo.deleteById(id);
             return new Responsedto<Teacher>(true, "Deleted Successfully", null);
         }

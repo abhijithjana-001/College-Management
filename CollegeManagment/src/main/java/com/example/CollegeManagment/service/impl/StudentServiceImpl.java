@@ -24,8 +24,7 @@ public class StudentServiceImpl implements Studentservice {
       Student student=new Student();
       student.setSname(studentdto.getName());
         Department department=departmentRepo.findById(studentdto.getDepartment().getId()).get();
-        if(department==null)
-            new Department(studentdto.getDepartment().getId(),studentdto.getDepartment().getName());
+
 
       student.setDepartment(department);
       studentRepo.save(student);
