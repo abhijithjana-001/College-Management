@@ -1,6 +1,7 @@
 package com.example.CollegeManagment.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,12 +19,14 @@ import java.util.Set;
 public class Department {
     @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
+    private String name;
 
-    String name;
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_id")
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_id")
+    @JsonIgnore
+    @OneToMany(mappedBy = "department")
     private Set<Student> students;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
