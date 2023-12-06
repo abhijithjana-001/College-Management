@@ -26,7 +26,7 @@ public class Department {
 
     @JsonIgnore
     @OneToMany(mappedBy = "department")
-    private Set<Student> students;
+    private List<Student> students;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "departments")
@@ -38,10 +38,10 @@ public class Department {
         this.name=name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id);
+//    }
 
 
 }
