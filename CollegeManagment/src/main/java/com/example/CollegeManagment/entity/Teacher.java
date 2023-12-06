@@ -23,9 +23,9 @@ public class Teacher {
 
     @ManyToMany
     @JoinTable(
-            name = "teacher_department", // Specify the name of the join table
-            joinColumns = @JoinColumn(name = "tid"), // Specify the column in the join table for Teacher
-            inverseJoinColumns = @JoinColumn(name = "department_id") // Specify the column in the join table for Department
+            name = "teacher_department",
+            joinColumns = @JoinColumn(name = "tid"),
+            inverseJoinColumns = @JoinColumn(name = "department_id")
     )
     private Set<Department> departments=new HashSet<>();
 }

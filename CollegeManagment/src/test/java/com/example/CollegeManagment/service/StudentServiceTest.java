@@ -34,10 +34,7 @@ public class StudentServiceTest {
     @InjectMocks
     private StudentServiceImpl studentService;
 
-//    @BeforeEach
-//    public void setUp() {
-//        MockitoAnnotations.initMocks(this);
-//    }
+
 
     @Test
     public void testAddStudent() {

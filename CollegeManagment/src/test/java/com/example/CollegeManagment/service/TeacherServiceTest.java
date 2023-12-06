@@ -118,6 +118,6 @@ public class TeacherServiceTest {
         Responsedto<Teacher> response = teacherService.delete(teacherId);
 
         assertNull(response.getResult());
-        assertTrue(response.getSuccess()); // Assuming success even if data is null
+        assertTrue(response.getSuccess());
     }
 }
