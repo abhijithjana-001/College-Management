@@ -8,7 +8,7 @@ _
 java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8»µ¨ËÃ1
 _
 java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8»µ¨ËÃ1
-X	java:S125&"<This block of commented-out lines of code should be removed.(úÆ˜‡8³ñÆÍÃ1
+]	java:S125%"<This block of commented-out lines of code should be removed.(à±•‡øÿÿÿÿ8óìõÎÃ1
 h
 java:S1128"KRemove this unused import 'com.example.CollegeManagment.entity.Department'.(‘ÇÃÌ8“˜ÎÃ1
 d

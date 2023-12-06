@@ -4,26 +4,23 @@ import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.service.DepartmentService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.ResultMatcher;
 
-import static org.mockito.ArgumentMatchers.any;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.Mockito.when;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(DepartmentController.class)
-public class DepartmentControllerTest {
+@WebMvcTest(TeacherController.class)
+class DepartmentControllerTest{
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,52 +29,71 @@ public class DepartmentControllerTest {
     private DepartmentService departmentService;
 
     @Test
-    public void testAddDepartment() throws Exception {
-        // Mock the input data
-        DepartmentDto departmentRequestDto = new DepartmentDto();
-        departmentRequestDto.setName("Test Department");
+    void addDepartmentTest() throws Exception {
+        DepartmentDto departmentDto = new DepartmentDto();
+        departmentDto.setName("department");
 
-        // Mock the service response
-        Department department = new Department();
-        department.setId(1L);
-        department.setName("Test Department");
-        Responsedto<Department> responseDto = new Responsedto<>(department);
+        Responsedto<Department> responseDTO = new Responsedto<>(true, "Added Successfully", new Department());
 
-        when(departmentService.addDepartment(any(DepartmentDto.class))).thenReturn(responseDto);
+        when(departmentService.addDepartment(departmentDto)).thenReturn(responseDTO);
 
-        // Perform the HTTP POST request
-        mockMvc.perform((RequestBuilder) post("/api/department/createDepartment")
+        mockMvc.perform(post("/api/department/createDepartment")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .contentType(asJsonString(departmentRequestDto)))
+                        .content(asJsonString(departmentDto)))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) jsonPath("$.data.name").value("Test Department"));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Added Successfully"));
     }
 
     @Test
-    public void testFindAllDepartments() throws Exception {
-        // Mock the service response
-        Department department1 = new Department(1L, "Department 1");
-        Department department2 = new Department(2L, "Department 2");
-        List<Department> departmentList = Arrays.asList(department1, department2);
-        Responsedto<List<Department>> responseDto = new Responsedto<>(departmentList);
+    void findAllDepartmentTest() throws Exception {
+        List<Department> departments = Arrays.asList(new Department(), new Department());
+        Responsedto<List<Department>> responseDTO = new Responsedto<>(true, "Department List", departments);
 
-        when(departmentService.findAllDepartments()).thenReturn(responseDto);
+        when(departmentService.findAllDepartments()).thenReturn(responseDTO);
 
-        // Perform the HTTP GET request
-        mockMvc.perform(get("/api/department/listDepartments"))
+        mockMvc.perform(get("/api/department/listDepartments")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data", hasSize(2)))
-                .andExpect(jsonPath("$.data[0].name").value("Department 1"))
-                .andExpect(jsonPath("$.data[1].name").value("Department 2"));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Department List"));
     }
 
-    // Add similar tests for update and delete methods as needed
+    @Test
+    void updateDepartmentTest() throws Exception {
+        long departmentId = 1L;
+        DepartmentDto requestDTO = new DepartmentDto();
+        requestDTO.setName("Updated Department");
 
-    // Helper method to convert object to JSON string
-    private static MediaType asJsonString(final Object obj) {
+        Responsedto<Department> responseDTO = new Responsedto<>(true, "Updated Successfully", new Department());
+
+        when(departmentService.updateDepartment(departmentId, requestDTO)).thenReturn(responseDTO);
+
+        mockMvc.perform(put("/api/department/updateDepartment/{id}", departmentId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Updated Successfully"));
+    }
+
+    @Test
+    void deleteDepartmentTest() throws Exception {
+        long departmentId = 1L;
+        Responsedto<Department> responseDTO = new Responsedto<>(true, "Deleted Successfully", null);
+
+        when(departmentService.delete(departmentId)).thenReturn(responseDTO);
+
+        mockMvc.perform(delete("/api/department/deleteDepartment/{id}", departmentId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Deleted Successfully"));
+    }
+
+    private static String asJsonString(final Object obj) {
         try {
-            final ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(obj);
+            return new ObjectMapper().writeValueAsString(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
