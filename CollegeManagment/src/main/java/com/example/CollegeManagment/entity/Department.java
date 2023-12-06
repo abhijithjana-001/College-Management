@@ -23,11 +23,11 @@ public class Department {
 
     @JsonIgnore
     @OneToMany(mappedBy = "department")
-    private List<Student> students;
+    private Set<Student> students;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "departments")
-    private List<Teacher> teachers;
+    private Set<Teacher> teachers;
 
 
 

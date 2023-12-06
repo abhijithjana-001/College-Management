@@ -37,7 +37,7 @@ public class TeacherServiceImpl {
 //            teacher.setTid(teacherRequestDTO.getId());
 //            Department department=departmentRepo.findById(teacherRequestDTO.getDepartment().getId()).get();
 //            teacher.setDepartment(department);
-            teacher.setDepartments(teacherRequestDTO.getDepartment());
+            teacher.setDepartments((Set<Department>) teacherRequestDTO.getDepartment());
             teacherRepo.save(teacher);
             return new Responsedto<>(true,"Added Successfully",teacher);
         }
@@ -56,7 +56,7 @@ public class TeacherServiceImpl {
 
 
             teacher.setName(teacherRequestDTO.getName());
-            teacher.setDepartments(teacherRequestDTO.getDepartment());
+            teacher.setDepartments((Set<Department>) teacherRequestDTO.getDepartment());
 
             teacherRepo.save(teacher);
             return new Responsedto<Teacher>(true, "Updated Successfully", teacher);

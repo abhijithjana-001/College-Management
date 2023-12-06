@@ -61,3 +61,5 @@ Q.idea/sonarlint/securityhotspotstore/9/5/9597ff94838e03b13db2854c79462a0f8cbc72
 Q.idea/sonarlint/securityhotspotstore/2/d/2d8ce7f4428519b2d7659ee61859542319811e50,f\d\fd49b803e462f3771026d043d2109160b7cc78d1
 K
 CollegeManagment/.gitignore,4\a\4a8a0d5971d4c9a9326bc318f1cf6d2401907904
+‘
+aCollegeManagment/src/main/java/com/example/CollegeManagment/dto/requestdto/TeacherRequestDTO.java,4\0\4021c298a8b998c83423aeabbc531b814b21f492
