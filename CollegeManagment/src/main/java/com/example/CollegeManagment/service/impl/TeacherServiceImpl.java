@@ -7,6 +7,7 @@ import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.TeacherRepo;
+import com.example.CollegeManagment.service.Teacherservice;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class TeacherServiceImpl {
+public class TeacherServiceImpl implements Teacherservice {
 
         @Autowired
         TeacherRepo teacherRepo;

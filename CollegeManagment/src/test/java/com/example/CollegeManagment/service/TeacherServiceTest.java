@@ -33,11 +33,6 @@ public class TeacherServiceTest {
     @InjectMocks
     private TeacherServiceImpl teacherService;
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
     public void testAddTeacher() {
         TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();

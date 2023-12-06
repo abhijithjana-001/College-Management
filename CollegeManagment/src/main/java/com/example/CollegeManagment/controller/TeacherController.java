@@ -3,7 +3,7 @@ package com.example.CollegeManagment.controller;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Teacher;
-import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
+import com.example.CollegeManagment.service.Teacherservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,30 +14,30 @@ import java.util.List;
 @RequestMapping(value = "teacher")
 public class TeacherController {
     @Autowired
-    TeacherServiceImpl teacherServiceImpl;
+    Teacherservice teacherService;
 
     @PostMapping("/addTeacher")
     public ResponseEntity<Responsedto<Teacher>> addTeacher(@RequestBody TeacherRequestDTO teacherRequestDTO) {
-        Responsedto<Teacher> Responsedto=teacherServiceImpl.addTeacher(teacherRequestDTO);
+        Responsedto<Teacher> Responsedto= teacherService.addTeacher(teacherRequestDTO);
         return ResponseEntity.ok(Responsedto);
     }
 
     @GetMapping("/teachers")
     public ResponseEntity<Responsedto<List<Teacher>>> findAll(){
-        Responsedto<List<Teacher>> all=teacherServiceImpl.findAll();
+        Responsedto<List<Teacher>> all= teacherService.findAll();
         return ResponseEntity.ok(all);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Responsedto<Teacher>> update(@RequestBody TeacherRequestDTO teacherRequestDTO,
                                                                 @PathVariable long id) {
-        Responsedto<Teacher> Responsedto = teacherServiceImpl.update(id, teacherRequestDTO);
+        Responsedto<Teacher> Responsedto = teacherService.update(id, teacherRequestDTO);
         return ResponseEntity.ok(Responsedto);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Responsedto<Teacher>> delete(@PathVariable long id) {
-        Responsedto<Teacher> Responsedto = teacherServiceImpl.delete(id);
+        Responsedto<Teacher> Responsedto = teacherService.delete(id);
         return ResponseEntity.ok(Responsedto);
     }
 
