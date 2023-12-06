@@ -29,10 +29,6 @@ public class Department {
     @ManyToMany(mappedBy = "departments")
     private List<Teacher> teachers;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 
 
     public Department(Long id,String name){
@@ -44,6 +40,7 @@ public class Department {
 //    public int hashCode() {
 //        return Objects.hash(id);
 //    }
+
 
 
 }
