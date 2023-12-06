@@ -14,10 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,7 +42,7 @@ public class StudentServiceTest {
         Studentdto studentdto = new Studentdto("John Doe", new Department(1L, "Computer Science"));
 
         Department mockedDepartment = new Department(1L, "Computer Science");
-        mockedDepartment.setStudents(new HashSet<>());
+        mockedDepartment.setStudents(new ArrayList<>());
 
         Student mockedStudent = new Student();
         mockedStudent.setSname("John Doe");
