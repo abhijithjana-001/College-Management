@@ -18,15 +18,10 @@ import java.util.Set;
 @Service
 public class TeacherServiceImpl {
 
-
-
-
         @Autowired
         TeacherRepo teacherRepo;
         @Autowired
         DepartmentRepo departmentRepo;
-
-
 
 
         public  Responsedto<Teacher> addTeacher(TeacherRequestDTO teacherRequestDTO) {
