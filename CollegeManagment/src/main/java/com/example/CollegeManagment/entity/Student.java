@@ -24,8 +24,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long student_id;
     private String  sname;
-    //    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL )
-//   @JoinColumn(name="id",nullable = false)
+
 
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -33,9 +32,5 @@ public class Student {
     private Department department;
 
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(student_id);
-//    }
 
 }
