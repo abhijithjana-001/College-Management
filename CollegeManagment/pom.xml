@@ -52,14 +52,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
-=======
+
+
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -67,7 +67,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
->>>>>>> 9b7e6bf328ba83f8139c53084b90e8ebca852e8c
+
 
 	<build>
 		<plugins>
