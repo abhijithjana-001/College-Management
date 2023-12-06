@@ -1,29 +1,27 @@
 package com.example.CollegeManagment.controller;
 
-import com.example.CollegeManagment.controller.DepartmentController;
 import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.service.DepartmentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @WebMvcTest(DepartmentController.class)
 public class DepartmentControllerTest {
 @Autowired
@@ -81,8 +79,8 @@ public class DepartmentControllerTest {
 
     @Test
     public void testUpdateDepartment() throws Exception {
-        DepartmentDto departmentDto = new DepartmentDto("Updated Computer Science");
-        Department existingDepartment = new Department(1L, "Computer Science");
+        DepartmentDto departmentDto = new DepartmentDto("Computer Science");
+        Department existingDepartment = new Department(1L, "Updated Computer Science");
         Responsedto<Department> mockedResponse = new Responsedto<>(true, "Department updated successfully", existingDepartment);
 
         when(departmentService.updateDepartment(anyLong(), any(DepartmentDto.class))).thenReturn(mockedResponse);
