@@ -21,27 +21,31 @@ public class Department {
     private Long id;
     private String name;
 
-//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_id")
-
     @JsonIgnore
     @OneToMany(mappedBy = "department")
-    private Set<Student> students;
+    private List<Student> students;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "departments")
     private List<Teacher> teachers;
 
+<<<<<<< HEAD
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+=======
 
     public Department(Long id,String name){
         this.id=id;
         this.name=name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id);
+//    }
+>>>>>>> 828f2e69a25f2ff1ff2228b9a37cff3dceeed54f
 
 
 }
