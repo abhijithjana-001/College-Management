@@ -21,9 +21,6 @@ public class Department {
     private Long id;
     private String name;
 
-//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_id")
-
     @JsonIgnore
     @OneToMany(mappedBy = "department")
     private Set<Student> students;
@@ -31,12 +28,6 @@ public class Department {
     @JsonIgnore
     @ManyToMany(mappedBy = "departments")
     private List<Teacher> teachers;
-
-
-    public Department(Long id,String name){
-        this.id=id;
-        this.name=name;
-    }
 
     @Override
     public int hashCode() {

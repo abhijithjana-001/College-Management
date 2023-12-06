@@ -335,3 +335,5 @@ Q.idea/sonarlint/securityhotspotstore/e/1/e11f40036081dd0edca5c143eec18106bd4578
 dCollegeManagment/src/test/java/com/example/CollegeManagment/controller/DepartmentControllerTest.java,9\c\9c2be005164a94b9cad33288eeda123ef74b4a47
 Ž
 ^CollegeManagment/src/test/java/com/example/CollegeManagment/service/DepartmentServiceTest.java,3\7\378292bdd65c12e793950b70b6950713d58ded77
+‘
+aCollegeManagment/src/test/java/com/example/CollegeManagment/controller/TeacherControllerTest.java,3\2\326c959adfc295c503515adb58d6168957be4f74
