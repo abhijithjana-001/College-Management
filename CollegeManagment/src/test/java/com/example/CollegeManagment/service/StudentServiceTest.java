@@ -77,7 +77,6 @@ public class StudentServiceTest {
         mockedStudent.setStudent_id(studentId);
         mockedStudent.setSname("John Doe");
         mockedStudent.setDepartment(new Department(1L, "Computer Science"));
-
         when(studentRepo.findById(anyLong())).thenReturn(Optional.of(mockedStudent));
 
         // Perform the test

@@ -29,7 +29,7 @@ public class StudentServiceImpl implements Studentservice {
 
         Department department=departmentRepo.findById(studentdto.getDepartment().getId()).orElseThrow(()->new ItemNotFound("Department not exit"));
 
-        Set<Student> students = department.getStudents();
+        List<Student> students = department.getStudents();
         students.add(student);
         department.setStudents(students);
 
