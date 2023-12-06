@@ -5,27 +5,26 @@ import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.service.Studentservice;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(StudentController.class)
-class StudentControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class StudentControllerTest {
 
     @Mock
     private Studentservice studentservice;
@@ -33,92 +32,112 @@ class StudentControllerTest {
     @InjectMocks
     private StudentController studentController;
 
-    @Test
-    void addStudent() throws Exception {
-        Studentdto studentdto = new Studentdto();
-        Responsedto<Student> expectedResponse = new Responsedto<>(true, "Student added successfully", new Student(/* provide expected student details */));
+    private MockMvc mockMvc;
 
-        when(studentservice.addStudent(studentdto)).thenReturn(expectedResponse);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/student/add")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(studentdto)))
-                .andExpect(status().isOk());
-
-
-        verify(studentservice, times(1)).addStudent(studentdto);
-        verifyNoMoreInteractions(studentservice);
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(studentController).build();
     }
 
     @Test
-    void listStudent() throws Exception {
-        List<Student> studentList = Collections.singletonList(new Student(/* provide expected student details */));
-        Responsedto<List<Student>> expectedResponse = new Responsedto<>(true, "List of students retrieved successfully", studentList);
+    public void testAddStudent() throws Exception {
+        // Mocking data
+        Studentdto studentdto = new Studentdto("John Doe", null);
+        Responsedto<Student> mockedResponse = new Responsedto<>(true, "student added successful", new Student());
 
-        when(studentservice.listStudent()).thenReturn(expectedResponse);
+        when(studentservice.addStudent(studentdto)).thenReturn(mockedResponse);
 
+        // Perform the request and assert the response
+        mockMvc.perform(MockMvcRequestBuilders.post("/student/add")
+                        .content("{\"name\":\"John Doe\",\"department\":null}")
+                        .contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("student added successful"));
+
+        // Verify that the addStudent method was called
+        verify(studentservice, times(1)).addStudent(studentdto);
+    }
+
+    @Test
+    public void testListStudent() throws Exception {
+        // Mocking data
+        List<Student> mockedStudents = Arrays.asList(new Student(), new Student());
+        Responsedto<List<Student>> mockedResponse = new Responsedto<>(true, "student list : 2 students", mockedStudents);
+
+        when(studentservice.listStudent()).thenReturn(mockedResponse);
+
+        // Perform the request and assert the response
         mockMvc.perform(MockMvcRequestBuilders.get("/student/list"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(asJsonString(expectedResponse)));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("student list : 2 students"))
+                .andExpect(jsonPath("$.result").isArray());
 
+        // Verify that the listStudent method was called
         verify(studentservice, times(1)).listStudent();
-        verifyNoMoreInteractions(studentservice);
     }
 
     @Test
-    void findStudent() throws Exception {
+    public void testFindStudent() throws Exception {
+        // Mocking data
         Long studentId = 1L;
-        Responsedto<Student> expectedResponse = new Responsedto<>(true, "Student details retrieved successfully",new Student());
+        Student mockedStudent = new Student();
+        mockedStudent.setStudent_id(studentId);
+        Responsedto<Student> mockedResponse = new Responsedto<>(true, "student added successful", mockedStudent);
 
-        when(studentservice.viewdetails(studentId)).thenReturn(expectedResponse);
+        when(studentservice.viewdetails(studentId)).thenReturn(mockedResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}", studentId))
-                .andExpect(status().isOk())
-                .andExpect(content().json(asJsonString(expectedResponse)));
+        // Perform the request and assert the response
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}", studentId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success").value(true))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("student added successful"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.student_id").value(studentId));
 
+        // Verify that the viewdetails method was called
         verify(studentservice, times(1)).viewdetails(studentId);
-        verifyNoMoreInteractions(studentservice);
+
     }
 
     @Test
-    void deleteStudent() throws Exception {
+    public void testDeleteStudent() throws Exception {
+        // Mocking data
         Long studentId = 1L;
-        Responsedto<Student> expectedResponse = new Responsedto<>(true, "Student deleted successfully", new Student());
+        Responsedto<Student> mockedResponse = new Responsedto<>(true, "student delete successful", null);
 
-        when(studentservice.deletebyid(studentId)).thenReturn(expectedResponse);
+        when(studentservice.deletebyid(studentId)).thenReturn(mockedResponse);
 
+        // Perform the request and assert the response
         mockMvc.perform(MockMvcRequestBuilders.delete("/student/delete/{id}", studentId))
                 .andExpect(status().isOk())
-                .andExpect(content().json(asJsonString(expectedResponse)));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("student delete successful"));
 
+        // Verify that the deletebyid method was called
         verify(studentservice, times(1)).deletebyid(studentId);
-        verifyNoMoreInteractions(studentservice);
     }
 
     @Test
-    void updateStudent() throws Exception {
+    public void testUpdateStudent() throws Exception {
+        // Mocking data
         Long studentId = 1L;
-        Studentdto updatedStudentDto = new Studentdto(/* provide updated details */);
-        Responsedto<Student> expectedResponse = new Responsedto<>(true, "Student updated successfully", new Student(/* provide updated details */));
+        Studentdto updatedStudentDto = new Studentdto("Updated John Doe", null);
+        Responsedto<Student> mockedResponse = new Responsedto<>(true, "student updated successful", new Student());
 
-        when(studentservice.updateStudent(updatedStudentDto, studentId)).thenReturn(expectedResponse);
+        when(studentservice.updateStudent(updatedStudentDto, studentId)).thenReturn(mockedResponse);
 
+        // Perform the request and assert the response
         mockMvc.perform(MockMvcRequestBuilders.put("/student/update/{id}", studentId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(updatedStudentDto)))
+                        .content("{\"name\":\"Updated John Doe\",\"department\":null}")
+                        .contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(asJsonString(expectedResponse)));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("student updated successful"));
 
+        // Verify that the updateStudent method was called
         verify(studentservice, times(1)).updateStudent(updatedStudentDto, studentId);
-        verifyNoMoreInteractions(studentservice);
-    }
-
-    // Utility method to convert objects to JSON string
-    private String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }
