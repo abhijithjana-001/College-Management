@@ -29,10 +29,6 @@ public class DepartmentServiceTest {
     @InjectMocks
     private DepartmentServiceImpl departmentService;
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testAddDepartment() {

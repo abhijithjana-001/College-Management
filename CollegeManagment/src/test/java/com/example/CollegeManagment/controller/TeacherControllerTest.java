@@ -3,6 +3,7 @@ package com.example.CollegeManagment.controller;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Teacher;
+import com.example.CollegeManagment.service.Teacherservice;
 import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class TeacherControllerTest{
     private MockMvc mockMvc;
 
     @MockBean
-    private TeacherServiceImpl teacherService;
+    private Teacherservice teacherService;
 
     @Test
     void addTeacherTest() throws Exception {
