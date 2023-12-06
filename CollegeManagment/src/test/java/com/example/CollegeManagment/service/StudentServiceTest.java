@@ -74,7 +74,6 @@ public class StudentServiceTest {
         mockedStudent.setStudent_id(studentId);
         mockedStudent.setSname("John Doe");
         mockedStudent.setDepartment(new Department(1L, "Computer Science"));
-
         when(studentRepo.findById(anyLong())).thenReturn(Optional.of(mockedStudent));
 
         // Perform the test
@@ -126,7 +125,7 @@ public class StudentServiceTest {
     public void testListStudent() {
         // Mocking data
         List<Student> mockedStudents = Arrays.asList(
-                new Student(1L, "John Doe", new Department(1L, "Computer Science")),
+                new Student(1L, "John Doe",new Department(1L, "Computer Science")),
                 new Student(2L, "Jane Doe", new Department(2L, "Physics"))
         );
 
