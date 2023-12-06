@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.dto.responsedto;
 
+import com.example.CollegeManagment.entity.Department;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -16,4 +17,7 @@ public class Responsedto<T> {
     private  String message;
 
     private  T result;
+
+    public Responsedto(Department department) {
+    }
 }
