@@ -92,7 +92,10 @@ public class TeacherServiceTest {
         Department department = new Department();
         department.setId(1L);
         department.setName("Updated Department");
-        teacherRequestDTO.setDepartment((Set<Department>) department);
+        HashSet<Department> set=new HashSet();
+        set.add(department);
+
+        teacherRequestDTO.setDepartment(set);
 
         Teacher existingTeacher = new Teacher();
         existingTeacher.setTid(teacherId);
