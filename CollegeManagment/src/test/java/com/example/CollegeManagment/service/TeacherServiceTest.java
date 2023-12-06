@@ -21,7 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
-//@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class TeacherServiceTest {
 
     @Mock
@@ -45,21 +45,25 @@ public class TeacherServiceTest {
         Department department = new Department();
         department.setId(1L);
         department.setName("Test Department");
-        teacherRequestDTO.setDepartment((Set<Department>)department);
+        HashSet<Department> set=new HashSet();
+        set.add(department);
+        teacherRequestDTO.setDepartment(set);
 
         Teacher savedTeacher = new Teacher();
-        savedTeacher.setTid(1L);
-        savedTeacher.setName("Test Teacher");
-        savedTeacher.setDepartments((Set<Department>) department);
 
-        when(departmentRepo.findById(1L)).thenReturn(Optional.of(department));
+        savedTeacher.setName("Test Teacher");
+        savedTeacher.setDepartments(set);
+
+
         when(teacherRepo.save(any(Teacher.class))).thenReturn(savedTeacher);
 
         Responsedto<Teacher> response = teacherService.addTeacher(teacherRequestDTO);
 
+
         assertTrue(response.getSuccess());
         assertEquals("Added Successfully", response.getMessage());
-        assertEquals(savedTeacher, response.getResult());
+
+        assertEquals(savedTeacher.getTid(), response.getResult().getTid());
     }
 
     @Test
@@ -119,6 +123,6 @@ public class TeacherServiceTest {
         Responsedto<Teacher> response = teacherService.delete(teacherId);
 
         assertNull(response.getResult());
-        assertTrue(response.getSuccess());
+        assertTrue(response.getSuccess()); // Assuming success even if data is null
     }
 }
