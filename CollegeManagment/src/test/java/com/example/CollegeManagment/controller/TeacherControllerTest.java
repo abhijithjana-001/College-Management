@@ -4,97 +4,100 @@ import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class TeacherControllerTest {
+@WebMvcTest(TeacherController.class)
+class TeacherControllerTests {
 
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private TeacherServiceImpl teacherService;
 
-    @InjectMocks
-    private TeacherController teacherController;
+    @Test
+    void addTeacherTest() throws Exception {
+        TeacherRequestDTO requestDTO = new TeacherRequestDTO();
+        requestDTO.setName("John Doe");
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+        Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Added Successfully", new Teacher());
+
+        when(teacherService.addTeacher(requestDTO)).thenReturn(responseDTO);
+
+        mockMvc.perform(post("/teacher/addTeacher")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Added Successfully"));
     }
 
     @Test
-    void testAddTeacher() {
-        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
-        teacherRequestDTO.setName("Test Teacher");
+    void findAllTeachersTest() throws Exception {
+        List<Teacher> teachers = Arrays.asList(new Teacher(), new Teacher());
+        Responsedto<List<Teacher>> responseDTO = new Responsedto<>(true, "Teacher List", teachers);
 
-        Teacher savedTeacher = new Teacher();
-        savedTeacher.setTid(1L);
-        savedTeacher.setName("Test Teacher");
+        when(teacherService.findAll()).thenReturn(responseDTO);
 
-        when(teacherService.addTeacher(any())).thenReturn(new Responsedto<>(true, "Added Successfully", savedTeacher));
-
-        ResponseEntity<Responsedto<Teacher>> responseEntity = teacherController.addTeacher(teacherRequestDTO);
-
-        assertEquals(200, responseEntity.getStatusCodeValue());
-        assertEquals(savedTeacher, responseEntity.getBody().getResult());
+        mockMvc.perform(get("/teacher/teachers")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Teacher List"));
     }
 
     @Test
-    void testFindAllTeachers() {
-        List<Teacher> teachers = new ArrayList<>();
-        Teacher teacher1 = new Teacher();
-        teacher1.setTid(1L);
-        teacher1.setName("Teacher 1");
-        teachers.add(teacher1);
-
-        Teacher teacher2 = new Teacher();
-        teacher2.setTid(2L);
-        teacher2.setName("Teacher 2");
-        teachers.add(teacher2);
-
-        when(teacherService.findAll()).thenReturn(new Responsedto<>(true, "Teachers List", teachers));
-
-        ResponseEntity<Responsedto<List<Teacher>>> responseEntity = teacherController.findAll();
-
-        assertEquals(200, responseEntity.getStatusCodeValue());
-        assertEquals(teachers, responseEntity.getBody().getResult());
-    }
-
-    @Test
-    void testUpdateTeacher() {
+    void updateTeacherTest() throws Exception {
         long teacherId = 1L;
-        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
-        teacherRequestDTO.setName("Updated Teacher");
+        TeacherRequestDTO requestDTO = new TeacherRequestDTO();
+        requestDTO.setName("Updated Teacher");
 
-        Teacher updatedTeacher = new Teacher();
-        updatedTeacher.setTid(teacherId);
-        updatedTeacher.setName("Updated Teacher");
+        Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Updated Successfully", new Teacher());
 
-        when(teacherService.update(eq(teacherId), any())).thenReturn(new Responsedto<>(true, "Updated Successfully", updatedTeacher));
+        when(teacherService.update(teacherId, requestDTO)).thenReturn(responseDTO);
 
-        ResponseEntity<Responsedto<Teacher>> responseEntity = teacherController.update(teacherRequestDTO, teacherId);
-
-        assertEquals(200, responseEntity.getStatusCodeValue());
-        assertEquals(updatedTeacher, responseEntity.getBody().getResult());
+        mockMvc.perform(put("/teacher/update/{id}", teacherId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Updated Successfully"));
     }
 
     @Test
-    void testDeleteTeacher() {
+    void deleteTeacherTest() throws Exception {
         long teacherId = 1L;
+        Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Deleted Successfully", null);
 
-        when(teacherService.delete(eq(teacherId))).thenReturn(new Responsedto<>(true, "Deleted Successfully", null));
+        when(teacherService.delete(teacherId)).thenReturn(responseDTO);
 
-        ResponseEntity<Responsedto<Teacher>> responseEntity = teacherController.delete(teacherId);
+        mockMvc.perform(delete("/teacher/delete/{id}", teacherId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Deleted Successfully"));
+    }
 
-        assertEquals(200, responseEntity.getStatusCodeValue());
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
