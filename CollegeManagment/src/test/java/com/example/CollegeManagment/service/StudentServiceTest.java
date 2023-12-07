@@ -151,9 +151,7 @@ public class StudentServiceTest {
         );
 
         when(studentRepo.findAll()).thenReturn(mockedStudents);
-
-
-        Responsedto<List<Student>> response = studentService.listStudent();
+          Responsedto<List<Student>> response = studentService.listStudent();
 
 
         assertNotNull(response);
