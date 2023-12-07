@@ -1,18 +1,13 @@
 
 {
-java:S2293:"YReplace the type specification in this constructor call with the diamond operator ("<>").(êòÅÀúÿÿÿÿ8­µ¨ËÃ1
+java:S22937"YReplace the type specification in this constructor call with the diamond operator ("<>").(êòÅÀúÿÿÿÿ8­µ¨ËÃ1
 v
-java:S2293@"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ğëúá8®µ¨ËÃ1
+java:S2293="YReplace the type specification in this constructor call with the diamond operator ("<>").(Ğëúá8®µ¨ËÃ1
 {	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8¯µ¨ËÃ1
 _
 java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8…—ş”Ä1
 _
 java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8‡—ş”Ä1
-]	java:S125!"<This block of commented-out lines of code should be removed.(à±•‡øÿÿÿÿ8óìõÎÃ1
-C
-java:S1905$"&Remove this unnecessary cast to "Set".(Õÿª—8–—ş”Ä1
-C
-java:S19057"&Remove this unnecessary cast to "Set".(Õÿª—8 —ş”Ä1
 d
 java:S1128"BRemove this unused import 'org.apache.coyote.BadRequestException'.(£¯¬ÿûÿÿÿÿ8¥—ş”Ä1
 J
