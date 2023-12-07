@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
@@ -30,22 +31,57 @@ public class DepartmentServiceTest {
     private DepartmentServiceImpl departmentService;
 
 
+
     @Test
-    public void testAddDepartment() {
+    void createOrUpdate_NewDepartment_ShouldReturnSuccessResponse() {
         DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setName("Test Department");
+        departmentDto.setName("New Department");
 
-        Department savedDepartment = new Department();
-        savedDepartment.setId(1L);
-        savedDepartment.setName("Test Department");
+        when(departmentRepo.findByNameIgnoreCase("New Department")).thenReturn(null);
 
-        when(departmentRepo.save(any(Department.class))).thenReturn(savedDepartment);
-
-        Responsedto response = departmentService.addDepartment(departmentDto);
+        Responsedto response = departmentService.createOrUpdate(departmentDto);
 
         assertTrue(response.getSuccess());
         assertEquals("Department added", response.getMessage());
-//        assertEquals(savedDepartment, response.getResult());
+        assertNotNull(response.getResult());
+    }
+
+    @Test
+    void createOrUpdate_ExistingDepartment_ShouldThrowBadRequestException() {
+        DepartmentDto departmentDto = new DepartmentDto();
+        departmentDto.setName("Existing Department");
+
+        Department existingDepartment = new Department();
+        existingDepartment.setId(1L);
+        existingDepartment.setName("Existing Department");
+
+        when(departmentRepo.findByNameIgnoreCase("Existing Department")).thenReturn(existingDepartment);
+
+        BadRequest exception = assertThrows(BadRequest.class, () -> {
+            departmentService.createOrUpdate(departmentDto);
+        });
+
+        assertEquals("Department name already exists", exception.getMessage());
+    }
+
+    @Test
+    void createOrUpdate_UpdateExistingDepartment_ShouldReturnSuccessResponse() {
+        DepartmentDto departmentDto = new DepartmentDto();
+        departmentDto.setId(1L);
+        departmentDto.setName("Updated Department");
+
+        Department existingDepartment = new Department();
+        existingDepartment.setId(1L);
+        existingDepartment.setName("Existing Department");
+
+        when(departmentRepo.findByNameIgnoreCase("Updated Department")).thenReturn(null);
+        when(departmentRepo.findById(1L)).thenReturn(Optional.of(existingDepartment));
+
+        Responsedto response = departmentService.createOrUpdate(departmentDto);
+
+        assertTrue(response.getSuccess());
+        assertEquals("Updated Successfully", response.getMessage());
+        assertNotNull(response.getResult());
     }
 
     @Test
@@ -71,33 +107,13 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void testUpdateDepartment() {
-        long departmentId = 1L;
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setName("Updated Department");
-
-        Department existingDepartment = new Department();
-        existingDepartment.setId(departmentId);
-        existingDepartment.setName("Old Department");
-
-        when(departmentRepo.findById(departmentId)).thenReturn(Optional.of(existingDepartment));
-        when(departmentRepo.save(any(Department.class))).thenReturn(existingDepartment);
-
-        Responsedto<Department> response = departmentService.updateDepartment(departmentId, departmentDto);
-
-        assertTrue(response.getSuccess());
-        assertEquals("Updated Successfully", response.getMessage());
-        assertEquals(existingDepartment, response.getResult());
-    }
-
-    @Test
     public void testDelete() {
         long departmentId = 1L;
 
         Responsedto<Department> response = departmentService.delete(departmentId);
 
         assertNull(response.getResult());
-        assertTrue(response.getSuccess()); // Assuming success even if data is null
+        assertTrue(response.getSuccess());
     }
 }
 
