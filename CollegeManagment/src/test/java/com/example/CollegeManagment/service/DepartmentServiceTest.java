@@ -33,7 +33,7 @@ public class DepartmentServiceTest {
 
 
     @Test
-    void createOrUpdate_NewDepartment_ShouldReturnSuccessResponse() {
+    void createOrUpdate_NewDepartment() {
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setName("New Department");
 
@@ -47,7 +47,7 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    void createOrUpdate_ExistingDepartment_ShouldThrowBadRequestException() {
+    void createOrUpdate_ThrowBadRequestException() {
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setName("Existing Department");
 
@@ -65,7 +65,7 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    void createOrUpdate_UpdateExistingDepartment_ShouldReturnSuccessResponse() {
+    void createOrUpdate_UpdateExistingDepartment() {
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setId(1L);
         departmentDto.setName("Updated Department");
