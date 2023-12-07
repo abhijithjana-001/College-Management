@@ -1,15 +1,10 @@
 package com.example.CollegeManagment.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Objects;
 
 @Entity
 @Data
@@ -24,6 +19,8 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long student_id;
     private String  sname;
+
+    private Long phoneNum;
 
 
 

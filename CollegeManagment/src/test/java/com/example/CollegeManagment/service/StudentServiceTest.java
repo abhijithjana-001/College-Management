@@ -33,7 +33,7 @@ public class StudentServiceTest {
 
     @Test
     public void testAddStudent() {
-        Studentdto studentdto = new Studentdto("John Doe", new Department(1L, "Computer Science"));
+        Studentdto studentdto = new Studentdto("John Doe", new Department(1L, "Computer Science"),1234567890L);
 
         Department mockedDepartment = new Department(1L, "Computer Science");
         mockedDepartment.setStudents(new ArrayList<>());
@@ -41,21 +41,48 @@ public class StudentServiceTest {
         Student mockedStudent = new Student();
         mockedStudent.setSname("John Doe");
         mockedStudent.setDepartment(mockedDepartment);
+        mockedStudent.setPhoneNum(1234567890L);
 
         when(departmentRepo.findById(anyLong())).thenReturn(Optional.of(mockedDepartment));
         when(studentRepo.save(any(Student.class))).thenReturn(mockedStudent);
 
 
-        Responsedto<Student> response = studentService.addorupdateStudent(studentdto,1L);
+        Responsedto<Student> response = studentService.addorupdateStudent(studentdto,null);
 
 
         assertNotNull(response);
         assertTrue(response.getSuccess());
-        assertEquals("student added successful", response.getMessage());
+        assertEquals("student added or updated successful", response.getMessage());
         assertNotNull(response.getResult());
         assertEquals("John Doe", response.getResult().getSname());
 
 
+
+
+
+
+        Long studentId = 1L;
+        Studentdto updatedStudentDto = new Studentdto("Updated John Doe", new Department(1L, "Computer Science"),1234567890L);
+
+        Student existingStudent = new Student();
+        existingStudent.setStudent_id(studentId);
+        existingStudent.setSname("John Doe");
+        existingStudent.setDepartment(new Department(1L, "Computer Science"));
+        existingStudent.setPhoneNum(123456785590L);
+
+        when(studentRepo.findById(anyLong())).thenReturn(Optional.of(existingStudent));
+        when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
+
+        response = studentService.addorupdateStudent(updatedStudentDto, studentId);
+
+        assertNotNull(response);
+        assertTrue(response.getSuccess());
+        assertEquals("student added or updated successful", response.getMessage());
+        assertNotNull(response.getResult());
+        assertEquals("Updated John Doe", response.getResult().getSname());
+
+
+        verify(studentRepo, times(1)).findById(studentId);
         verify(studentRepo, times(1)).save(any(Student.class));
     }
 
@@ -119,8 +146,8 @@ public class StudentServiceTest {
     public void testListStudent() {
 
         List<Student> mockedStudents = Arrays.asList(
-                new Student(1L, "John Doe",new Department(1L, "Computer Science")),
-                new Student(2L, "Jane Doe", new Department(2L, "Physics"))
+                new Student(1L, "John Doe",1234567890L,new Department(1L, "Computer Science")),
+                new Student(2L, "Jane Doe",1234567890L, new Department(2L, "Physics"))
         );
 
         when(studentRepo.findAll()).thenReturn(mockedStudents);
@@ -139,32 +166,7 @@ public class StudentServiceTest {
         verify(studentRepo, times(1)).findAll();
     }
 
-    @Test
-    public void testUpdateStudent() {
 
-        Long studentId = 1L;
-        Studentdto updatedStudentDto = new Studentdto("Updated John Doe", new Department(1L, "Computer Science"));
-
-        Student existingStudent = new Student();
-        existingStudent.setStudent_id(studentId);
-        existingStudent.setSname("John Doe");
-        existingStudent.setDepartment(new Department(1L, "Computer Science"));
-
-        when(studentRepo.findById(anyLong())).thenReturn(Optional.of(existingStudent));
-        when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
-
-        Responsedto<Student> response = studentService.addorupdateStudent(updatedStudentDto, studentId);
-
-        assertNotNull(response);
-        assertTrue(response.getSuccess());
-        assertEquals("student updated successful", response.getMessage());
-        assertNotNull(response.getResult());
-        assertEquals("Updated John Doe", response.getResult().getSname());
-
-
-        verify(studentRepo, times(1)).findById(studentId);
-        verify(studentRepo, times(1)).save(any(Student.class));
-    }
 
 
 }

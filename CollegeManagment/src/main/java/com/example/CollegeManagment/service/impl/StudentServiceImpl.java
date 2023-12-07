@@ -22,6 +22,7 @@ public class StudentServiceImpl implements Studentservice {
     @Autowired
     private DepartmentRepo departmentRepo;
     public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id) {
+
         Student student=
                           id==null?
                                   new Student()
@@ -29,8 +30,18 @@ public class StudentServiceImpl implements Studentservice {
                                    studentRepo.findById(id).orElseThrow(()->new ItemNotFound("Student with id "+id +" is not found"));
         student.setSname(studentdto.getName());
         student.setDepartment(studentdto.getDepartment());
-        studentRepo.save(student);
-        return new Responsedto<>(true,"student added successful",student);
+        student.setPhoneNum(studentdto.getPhoneNum());
+        if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
+                ||
+                (studentRepo.findByPhoneNum(student.getPhoneNum()).get()
+                                .getStudent_id() == student.getStudent_id())) {
+
+                studentRepo.save(student);
+        }
+        else
+        throw new ItemNotFound("phone number already exist");
+
+        return new Responsedto<>(true,"student added or updated successful",student);
     }
     public  Responsedto<Student> viewdetails(Long id){
         Student student=studentRepo.findById(id)
