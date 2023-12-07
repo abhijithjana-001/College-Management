@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class Studentdto {
     private String  name;
     private Department department;
+    private Long phoneNum;
 }

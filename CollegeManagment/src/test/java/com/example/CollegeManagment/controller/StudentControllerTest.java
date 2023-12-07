@@ -37,10 +37,10 @@ public class StudentControllerTest {
     @Test
     public void testAddStudent() throws Exception {
         // Mocking data
-        Studentdto studentdto = new Studentdto("John Doe", null);
+        Studentdto studentdto = new Studentdto("John Doe", null,null);
         Responsedto<Student> mockedResponse = new Responsedto<>(true, "student added successful", new Student());
 
-        when(studentservice.addStudent(studentdto)).thenReturn(mockedResponse);
+        when(studentservice.addorupdateStudent(studentdto,null)).thenReturn(mockedResponse);
 
 
         mockMvc.perform(MockMvcRequestBuilders.post("/student/add")
@@ -113,12 +113,11 @@ public class StudentControllerTest {
 
     @Test
     public void testUpdateStudent() throws Exception {
-
         Long studentId = 1L;
-        Studentdto updatedStudentDto = new Studentdto("Updated John Doe", null);
+        Studentdto updatedStudentDto = new Studentdto("Updated John Doe", null,null);
         Responsedto<Student> mockedResponse = new Responsedto<>(true, "student updated successful", new Student());
 
-        when(studentservice.updateStudent(updatedStudentDto, studentId)).thenReturn(mockedResponse);
+        when(studentservice.addorupdateStudent(updatedStudentDto, studentId)).thenReturn(mockedResponse);
 
 
         mockMvc.perform(MockMvcRequestBuilders.put("/student/update/{id}", studentId)
