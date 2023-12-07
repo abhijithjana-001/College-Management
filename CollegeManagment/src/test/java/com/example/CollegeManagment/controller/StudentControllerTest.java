@@ -113,7 +113,6 @@ public class StudentControllerTest {
 
     @Test
     public void testUpdateStudent() throws Exception {
-
         Long studentId = 1L;
         Studentdto updatedStudentDto = new Studentdto("Updated John Doe", null);
         Responsedto<Student> mockedResponse = new Responsedto<>(true, "student updated successful", new Student());

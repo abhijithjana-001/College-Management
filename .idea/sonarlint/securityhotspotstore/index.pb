@@ -61,3 +61,11 @@ Q.idea/sonarlint/securityhotspotstore/9/5/9597ff94838e03b13db2854c79462a0f8cbc72
 Q.idea/sonarlint/securityhotspotstore/2/d/2d8ce7f4428519b2d7659ee61859542319811e50,f\d\fd49b803e462f3771026d043d2109160b7cc78d1
 K
 CollegeManagment/.gitignore,4\a\4a8a0d5971d4c9a9326bc318f1cf6d2401907904
+Œ
+\CollegeManagment/src/main/java/com/example/CollegeManagment/CollegeManagmentApplication.java,8\5\85cf2eee45a6722e4579648e0e3139beafc3c26d
+Š
+ZCollegeManagment/src/main/java/com/example/CollegeManagment/Exception/EmailNotValidEx.java,e\1\e1568ff08cac3a95b96073903a594297fcb3c06a
+…
+UCollegeManagment/src/main/java/com/example/CollegeManagment/Exception/BadRequest.java,8\b\8bd3ee95dffcb8f8dd6218f1c8314daff5b7de20
+Ž
+^CollegeManagment/src/main/java/com/example/CollegeManagment/Exception/AppExceptionHandler.java,e\f\efd031217d476305d43b4fc7dfa41d720c799de0
