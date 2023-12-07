@@ -21,13 +21,15 @@ public class StudentServiceImpl implements Studentservice {
 
     @Autowired
     private DepartmentRepo departmentRepo;
+    @Override
     public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id) {
 
         Student student=
-                          id==null?
-                                  new Student()
-                                   :
-                                   studentRepo.findById(id).orElseThrow(()->new ItemNotFound("Student with id "+id +" is not found"));
+                id==null?
+                        new Student()
+                        :
+                        studentRepo.findById(id).orElseThrow(()->new ItemNotFound("Student with id "+id +" is not found"));
+
         student.setSname(studentdto.getName());
         student.setDepartment(studentdto.getDepartment());
         student.setPhoneNum(studentdto.getPhoneNum());
@@ -43,18 +45,21 @@ public class StudentServiceImpl implements Studentservice {
 
         return new Responsedto<>(true,"student added or updated successful",student);
     }
+    @Override
     public  Responsedto<Student> viewdetails(Long id){
         Student student=studentRepo.findById(id)
                 .orElseThrow(()->  new ItemNotFound("Student with id "+id +" is not found"));
         return new Responsedto<>(true,"student added successful",student);
     }
 
+    @Override
     public Responsedto deletebyid(Long id)
     {
         studentRepo.deleteById(id);
         return new Responsedto<>(true,"student delete successful",null);
     }
 
+    @Override
     public Responsedto<List<Student>> listStudent(){
        List<Student> students =studentRepo.findAll();
 

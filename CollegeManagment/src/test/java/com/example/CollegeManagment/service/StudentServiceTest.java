@@ -43,7 +43,7 @@ public class StudentServiceTest {
         mockedStudent.setDepartment(mockedDepartment);
         mockedStudent.setPhoneNum(1234567890L);
 
-        when(departmentRepo.findById(anyLong())).thenReturn(Optional.of(mockedDepartment));
+
         when(studentRepo.save(any(Student.class))).thenReturn(mockedStudent);
 
 
@@ -57,7 +57,7 @@ public class StudentServiceTest {
         assertEquals("John Doe", response.getResult().getSname());
 
 
-
+        verify(studentRepo, times(1)).save(any(Student.class));
 
 
 
@@ -83,7 +83,7 @@ public class StudentServiceTest {
 
 
         verify(studentRepo, times(1)).findById(studentId);
-        verify(studentRepo, times(1)).save(any(Student.class));
+        verify(studentRepo, times(2)).save(any(Student.class));
     }
 
     @Test
