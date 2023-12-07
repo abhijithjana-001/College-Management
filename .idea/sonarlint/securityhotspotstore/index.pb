@@ -81,3 +81,9 @@ ZCollegeManagment/src/main/java/com/example/CollegeManagment/repository/Departme
 kCollegeManagment/src/main/java/com/example/CollegeManagment/Exception/DuplicateDepartmentNameException.java,f\a\fa9d4c5de75ee8f36fce74c959409f3fa6227520
 ’
 bCollegeManagment/src/main/java/com/example/CollegeManagment/Exception/DuplicateDepartmentName.java,1\2\12bda5efb6ac1f7cfc54f6992909df2bcf12159c
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Teacherservice.java,b\8\b899400721612333d1233462c4158484197a9327
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentservice.java,f\7\f717455ac5778e00954cf14a5acb50aff5d4c8a3
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/repository/StudentRepo.java,a\b\ab127474f7b3cd3ffa1d06e4558de7f6e5432171

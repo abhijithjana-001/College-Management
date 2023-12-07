@@ -1,6 +1,8 @@
 package com.example.CollegeManagment.service;
 
+import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
+import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
@@ -33,7 +36,7 @@ public class StudentServiceTest {
 
     @Test
     public void testAddStudent() {
-        Studentdto studentdto = new Studentdto("John Doe", new Department(1L, "Computer Science"),1234567890L);
+        Studentdto studentdto = new Studentdto("John Doe", new Department(1L, "Computer Science"), 1234567890L);
 
         Department mockedDepartment = new Department(1L, "Computer Science");
         mockedDepartment.setStudents(new HashSet<>());
@@ -45,7 +48,7 @@ public class StudentServiceTest {
 
         when(studentRepo.save(any(Student.class))).thenReturn(mockedStudent);
 
-        Responsedto<Student> response = studentService.addorupdateStudent(studentdto,null);
+        Responsedto<Student> response = studentService.addorupdateStudent(studentdto, null);
 
         assertNotNull(response);
         assertTrue(response.getSuccess());
@@ -57,7 +60,7 @@ public class StudentServiceTest {
 
 //     update
         Long studentId = 1L;
-        Studentdto updatedStudentDto = new Studentdto("Updated John Doe", new Department(1L, "Computer Science"),1234567890L);
+        Studentdto updatedStudentDto = new Studentdto("Updated John Doe", new Department(1L, "Computer Science"), 1234567890L);
 
         Student existingStudent = new Student();
         existingStudent.setStudent_id(studentId);
@@ -140,8 +143,8 @@ public class StudentServiceTest {
     public void testListStudent() {
 
         List<Student> mockedStudents = Arrays.asList(
-                new Student(1L, "John Doe",1234567890L,new Department(1L, "Computer Science")),
-                new Student(2L, "Jane Doe",1234567890L, new Department(2L, "Physics"))
+                new Student(1L, "John Doe", 1234567890L, new Department(1L, "Computer Science")),
+                new Student(2L, "Jane Doe", 1234567890L, new Department(2L, "Physics"))
         );
 
         when(studentRepo.findAll()).thenReturn(mockedStudents);
@@ -161,7 +164,23 @@ public class StudentServiceTest {
     }
 
 
-    public void exceptiontesting(){
+    @Test
+    public void exceptiontesting() {
+        Studentdto studentdto = new Studentdto("John Doe", new Department(),1234567890L);
+        Long studentId = 1L;
 
+        // Mocking the behavior of findByPhoneNum to return a non-null result
+        when(studentRepo.findByPhoneNum(studentdto.getPhoneNum()))
+                .thenReturn(Optional.of(new Student()));
+
+        // Act and Assert
+        ItemNotFound exception = assertThrows(ItemNotFound.class,
+                () -> studentService.addorupdateStudent(studentdto, studentId));
+
+        assertEquals("phone number already exist", exception.getMessage());
+
+        // Verify that save method is not called
+        verify(studentRepo, never()).save(any());
+//
     }
 }
