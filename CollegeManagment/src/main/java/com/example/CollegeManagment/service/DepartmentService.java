@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface DepartmentService {
 
+    Responsedto createOrUpdate(DepartmentDto departmentDto);
+
     Responsedto addDepartment(DepartmentDto departmentDto);
 
     Responsedto<List<Department>> findAllDepartments();

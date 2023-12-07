@@ -17,9 +17,9 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
-    @PostMapping(value = "/createDepartment")
+    @PostMapping(value = "/create")
     public ResponseEntity<Responsedto<Department>> addDepartment(@RequestBody DepartmentDto departmentRequestDto) {
-        Responsedto responsedto = departmentService.addDepartment(departmentRequestDto);
+        Responsedto responsedto = departmentService.createOrUpdate(departmentRequestDto);
         return ResponseEntity.ok(responsedto);
     }
 
@@ -32,7 +32,8 @@ public class DepartmentController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Responsedto<Department>> update(@RequestBody DepartmentDto departmentDto,@PathVariable long id) {
-        Responsedto<Department> Responsedto = departmentService.updateDepartment(id, departmentDto);
+        departmentDto.setId(id);
+        Responsedto<Department> Responsedto = departmentService.createOrUpdate(departmentDto);
         return ResponseEntity.ok(Responsedto);
     }
 

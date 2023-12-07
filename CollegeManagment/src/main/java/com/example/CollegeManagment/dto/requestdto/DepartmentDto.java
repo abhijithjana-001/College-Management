@@ -15,6 +15,8 @@ import java.util.Set;
 @Builder
 public class DepartmentDto {
 
+    private Long Id;
+
     private String name;
 
 }
