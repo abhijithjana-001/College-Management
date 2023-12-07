@@ -21,7 +21,7 @@ public class StudentServiceImpl implements Studentservice {
 
     @Autowired
     private DepartmentRepo departmentRepo;
-    public Responsedto<Student> addStudent(Studentdto studentdto,Long id) {
+    public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id) {
         Student student=
                           id==null?
                                   new Student()

@@ -8,12 +8,10 @@ import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.impl.StudentServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
@@ -48,7 +46,7 @@ public class StudentServiceTest {
         when(studentRepo.save(any(Student.class))).thenReturn(mockedStudent);
 
 
-        Responsedto<Student> response = studentService.addStudent(studentdto,1L);
+        Responsedto<Student> response = studentService.addorupdateStudent(studentdto,1L);
 
 
         assertNotNull(response);
@@ -155,7 +153,7 @@ public class StudentServiceTest {
         when(studentRepo.findById(anyLong())).thenReturn(Optional.of(existingStudent));
         when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
 
-        Responsedto<Student> response = studentService.updateStudent(updatedStudentDto, studentId);
+        Responsedto<Student> response = studentService.addorupdateStudent(updatedStudentDto, studentId);
 
         assertNotNull(response);
         assertTrue(response.getSuccess());

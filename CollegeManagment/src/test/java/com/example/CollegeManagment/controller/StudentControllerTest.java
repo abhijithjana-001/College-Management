@@ -40,7 +40,7 @@ public class StudentControllerTest {
         Studentdto studentdto = new Studentdto("John Doe", null);
         Responsedto<Student> mockedResponse = new Responsedto<>(true, "student added successful", new Student());
 
-        when(studentservice.addStudent(studentdto,1l)).thenReturn(mockedResponse);
+        when(studentservice.addorupdateStudent(studentdto,null)).thenReturn(mockedResponse);
 
 
         mockMvc.perform(MockMvcRequestBuilders.post("/student/add")
@@ -117,7 +117,7 @@ public class StudentControllerTest {
         Studentdto updatedStudentDto = new Studentdto("Updated John Doe", null);
         Responsedto<Student> mockedResponse = new Responsedto<>(true, "student updated successful", new Student());
 
-        when(studentservice.updateStudent(updatedStudentDto, studentId)).thenReturn(mockedResponse);
+        when(studentservice.addorupdateStudent(updatedStudentDto, studentId)).thenReturn(mockedResponse);
 
 
         mockMvc.perform(MockMvcRequestBuilders.put("/student/update/{id}", studentId)
