@@ -43,12 +43,9 @@ public class StudentServiceTest {
         mockedStudent.setDepartment(mockedDepartment);
         mockedStudent.setPhoneNum(1234567890L);
 
-
         when(studentRepo.save(any(Student.class))).thenReturn(mockedStudent);
 
-
         Responsedto<Student> response = studentService.addorupdateStudent(studentdto,null);
-
 
         assertNotNull(response);
         assertTrue(response.getSuccess());
@@ -56,11 +53,9 @@ public class StudentServiceTest {
         assertNotNull(response.getResult());
         assertEquals("John Doe", response.getResult().getSname());
 
+        verify(studentRepo, times(2)).save(any(Student.class));
 
-        verify(studentRepo, times(1)).save(any(Student.class));
-
-
-
+//     update
         Long studentId = 1L;
         Studentdto updatedStudentDto = new Studentdto("Updated John Doe", new Department(1L, "Computer Science"),1234567890L);
 
@@ -80,7 +75,6 @@ public class StudentServiceTest {
         assertEquals("student added or updated successful", response.getMessage());
         assertNotNull(response.getResult());
         assertEquals("Updated John Doe", response.getResult().getSname());
-
 
         verify(studentRepo, times(1)).findById(studentId);
         verify(studentRepo, times(2)).save(any(Student.class));
@@ -167,6 +161,7 @@ public class StudentServiceTest {
     }
 
 
+    public void exceptiontesting(){
 
-
+    }
 }
