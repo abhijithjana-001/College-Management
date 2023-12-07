@@ -25,7 +25,7 @@ public class Teacher {
     @JoinTable(
             name = "teacher_department", // Specify the name of the join table
             joinColumns = @JoinColumn(name = "tid"), // Specify the column in the join table for Teacher
-            inverseJoinColumns = @JoinColumn(name = "department_id") // Specify the column in the join table for Department
+            inverseJoinColumns = @JoinColumn(name = "department_id",referencedColumnName = "id") // Specify the column in the join table for Department
     )
     private Set<Department> departments=new HashSet<>();
 }

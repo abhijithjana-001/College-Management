@@ -21,52 +21,49 @@ public class StudentServiceImpl implements Studentservice {
 
     @Autowired
     private DepartmentRepo departmentRepo;
-    public Responsedto<Student> addStudent(Studentdto studentdto) {
-      Student student=new Student();
-      student.setSname(studentdto.getName());
-      student.setDepartment(studentdto.getDepartment());
+    @Override
+    public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id) {
 
+        Student student=
+                id==null?
+                        new Student()
+                        :
+                        studentRepo.findById(id).orElseThrow(()->new ItemNotFound("Student with id "+id +" is not found"));
 
-        Department department=departmentRepo.findById(studentdto.getDepartment().getId()).orElseThrow(()->new ItemNotFound("Department not exit"));
+        student.setSname(studentdto.getName());
+        student.setDepartment(studentdto.getDepartment());
+        student.setPhoneNum(studentdto.getPhoneNum());
+        if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
+                ||
+                (studentRepo.findByPhoneNum(student.getPhoneNum()).get()
+                                .getStudent_id() == student.getStudent_id())) {
 
-        Set<Student> students = department.getStudents();
-        students.add(student);
-        department.setStudents(students);
+                studentRepo.save(student);
+        }
+        else
+        throw new ItemNotFound("phone number already exist");
 
-
-        student.setDepartment(department);
-//        departmentRepo.save(department);
-       studentRepo.save(student);
-      return new Responsedto<>(true,"student added successful",student);
+        return new Responsedto<>(true,"student added or updated successful",student);
     }
+    @Override
     public  Responsedto<Student> viewdetails(Long id){
         Student student=studentRepo.findById(id)
                 .orElseThrow(()->  new ItemNotFound("Student with id "+id +" is not found"));
         return new Responsedto<>(true,"student added successful",student);
     }
 
+    @Override
     public Responsedto deletebyid(Long id)
     {
         studentRepo.deleteById(id);
         return new Responsedto<>(true,"student delete successful",null);
     }
 
+    @Override
     public Responsedto<List<Student>> listStudent(){
        List<Student> students =studentRepo.findAll();
 
         return new Responsedto(true,"student list : "+students.size()+" students" ,students);
     }
-
-
-    public Responsedto<Student> updateStudent(Studentdto studentdto,Long id) {
-
-        Student student=studentRepo.findById(id).orElseThrow(()->new ItemNotFound("Student with id "+id +" is not found"));
-        student.setSname(studentdto.getName());
-        student.setDepartment(studentdto.getDepartment());
-        studentRepo.save(student);
-        return new Responsedto<>(true,"student updated successful",student);
-    }
-
-
 
 }

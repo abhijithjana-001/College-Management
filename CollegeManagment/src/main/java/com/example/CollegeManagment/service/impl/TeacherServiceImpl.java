@@ -30,10 +30,7 @@ public class TeacherServiceImpl implements Teacherservice {
 
             Teacher teacher=new Teacher();
             teacher.setName(teacherRequestDTO.getName());
-//            teacher.setTid(teacherRequestDTO.getId());
-//            Department department=departmentRepo.findById(teacherRequestDTO.getDepartment().getId()).get();
-//            teacher.setDepartment(department);
-            teacher.setDepartments((Set<Department>) teacherRequestDTO.getDepartment());
+            teacher.setDepartments(teacherRequestDTO.getDepartment());
             teacherRepo.save(teacher);
             return new Responsedto<>(true,"Added Successfully",teacher);
         }
@@ -52,7 +49,7 @@ public class TeacherServiceImpl implements Teacherservice {
 
 
             teacher.setName(teacherRequestDTO.getName());
-            teacher.setDepartments((Set<Department>) teacherRequestDTO.getDepartment());
+            teacher.setDepartments(teacherRequestDTO.getDepartment());
 
             teacherRepo.save(teacher);
             return new Responsedto<Teacher>(true, "Updated Successfully", teacher);
