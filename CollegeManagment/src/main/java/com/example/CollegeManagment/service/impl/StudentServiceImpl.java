@@ -21,23 +21,16 @@ public class StudentServiceImpl implements Studentservice {
 
     @Autowired
     private DepartmentRepo departmentRepo;
-    public Responsedto<Student> addStudent(Studentdto studentdto) {
-      Student student=new Student();
-      student.setSname(studentdto.getName());
-      student.setDepartment(studentdto.getDepartment());
-
-
-        Department department=departmentRepo.findById(studentdto.getDepartment().getId()).orElseThrow(()->new ItemNotFound("Department not exit"));
-
-        List<Student> students = department.getStudents();
-        students.add(student);
-        department.setStudents(students);
-
-
-        student.setDepartment(department);
-//        departmentRepo.save(department);
-       studentRepo.save(student);
-      return new Responsedto<>(true,"student added successful",student);
+    public Responsedto<Student> addStudent(Studentdto studentdto,Long id) {
+        Student student=
+                          id==null?
+                                  new Student()
+                                   :
+                                   studentRepo.findById(id).orElseThrow(()->new ItemNotFound("Student with id "+id +" is not found"));
+        student.setSname(studentdto.getName());
+        student.setDepartment(studentdto.getDepartment());
+        studentRepo.save(student);
+        return new Responsedto<>(true,"student added successful",student);
     }
     public  Responsedto<Student> viewdetails(Long id){
         Student student=studentRepo.findById(id)
@@ -56,17 +49,5 @@ public class StudentServiceImpl implements Studentservice {
 
         return new Responsedto(true,"student list : "+students.size()+" students" ,students);
     }
-
-
-    public Responsedto<Student> updateStudent(Studentdto studentdto,Long id) {
-
-        Student student=studentRepo.findById(id).orElseThrow(()->new ItemNotFound("Student with id "+id +" is not found"));
-        student.setSname(studentdto.getName());
-        student.setDepartment(studentdto.getDepartment());
-        studentRepo.save(student);
-        return new Responsedto<>(true,"student updated successful",student);
-    }
-
-
 
 }

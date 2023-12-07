@@ -27,7 +27,7 @@ public class Student {
 
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 

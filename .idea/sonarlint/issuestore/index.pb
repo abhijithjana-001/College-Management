@@ -71,3 +71,11 @@ ZCollegeManagment/src/main/java/com/example/CollegeManagment/Exception/EmailNotV
 UCollegeManagment/src/main/java/com/example/CollegeManagment/Exception/BadRequest.java,8\b\8bd3ee95dffcb8f8dd6218f1c8314daff5b7de20
 Ž
 ^CollegeManagment/src/main/java/com/example/CollegeManagment/Exception/AppExceptionHandler.java,e\f\efd031217d476305d43b4fc7dfa41d720c799de0
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/Exception/ItemNotFound.java,a\2\a24ac650aa7248e22f0ff68151b697a2c869b79c
+Š
+ZCollegeManagment/src/main/java/com/example/CollegeManagment/service/DepartmentService.java,7\d\7dbcb1e6ff7027b19cf67208bfec6301dc7769b0
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Teacherservice.java,b\8\b899400721612333d1233462c4158484197a9327
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentservice.java,f\7\f717455ac5778e00954cf14a5acb50aff5d4c8a3

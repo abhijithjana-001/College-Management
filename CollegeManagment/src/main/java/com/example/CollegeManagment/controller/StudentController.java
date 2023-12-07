@@ -18,7 +18,7 @@ public class StudentController {
 
     @PostMapping("/add")
     public ResponseEntity<Responsedto<Student>> addstudent(@RequestBody Studentdto studentdto){
-                 Responsedto responsedto=studentservice.addStudent(studentdto);
+                 Responsedto responsedto=studentservice.addStudent(studentdto,null);
                  return ResponseEntity.ok(responsedto);
     }
     @GetMapping("/list")
@@ -41,7 +41,7 @@ public class StudentController {
 
      @PutMapping("/update/{id}")
      public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id,@RequestBody Studentdto studentdto){
-         Responsedto responsedto=studentservice.updateStudent(studentdto,id);
+         Responsedto responsedto=studentservice.addStudent(studentdto,id);
          return ResponseEntity.ok(responsedto);
      }
 

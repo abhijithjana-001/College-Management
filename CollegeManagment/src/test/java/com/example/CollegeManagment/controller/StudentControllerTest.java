@@ -40,7 +40,7 @@ public class StudentControllerTest {
         Studentdto studentdto = new Studentdto("John Doe", null);
         Responsedto<Student> mockedResponse = new Responsedto<>(true, "student added successful", new Student());
 
-        when(studentservice.addStudent(studentdto)).thenReturn(mockedResponse);
+        when(studentservice.addStudent(studentdto,1l)).thenReturn(mockedResponse);
 
 
         mockMvc.perform(MockMvcRequestBuilders.post("/student/add")
