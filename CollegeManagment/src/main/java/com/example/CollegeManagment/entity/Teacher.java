@@ -21,11 +21,13 @@ public class Teacher {
 
     private String name;
 
+    private String phno;
+
     @ManyToMany
     @JoinTable(
             name = "teacher_department",
             joinColumns = @JoinColumn(name = "tid"),
-            inverseJoinColumns = @JoinColumn(name = "department_id")
+            inverseJoinColumns = @JoinColumn(name = "department_id",referencedColumnName = "id")
     )
     private Set<Department> departments=new HashSet<>();
 }

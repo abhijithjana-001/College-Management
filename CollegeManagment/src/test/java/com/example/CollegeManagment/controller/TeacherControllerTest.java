@@ -38,7 +38,7 @@ class TeacherControllerTest{
 
         Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Added Successfully", new Teacher());
 
-        when(teacherService.addTeacher(requestDTO)).thenReturn(responseDTO);
+        when(teacherService.createorupdate(null,requestDTO)).thenReturn(responseDTO);
 
         mockMvc.perform(post("/teacher/addTeacher")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -70,7 +70,7 @@ class TeacherControllerTest{
 
         Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Updated Successfully", new Teacher());
 
-        when(teacherService.update(teacherId, requestDTO)).thenReturn(responseDTO);
+        when(teacherService.createorupdate(teacherId, requestDTO)).thenReturn(responseDTO);
 
         mockMvc.perform(put("/teacher/update/{id}", teacherId)
                         .contentType(MediaType.APPLICATION_JSON)
