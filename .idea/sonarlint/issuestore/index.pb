@@ -83,3 +83,15 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Teacherserv
 WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentservice.java,f\7\f717455ac5778e00954cf14a5acb50aff5d4c8a3
 ‡
 WCollegeManagment/src/main/java/com/example/CollegeManagment/repository/StudentRepo.java,a\b\ab127474f7b3cd3ffa1d06e4558de7f6e5432171
+Ž
+^CollegeManagment/src/main/java/com/example/CollegeManagment/dto/responsedto/ErrorResponse.java,6\6\669d7d1a09c7f2180bf8b21f5e3791871baee6a1
+E
+CollegeManagment/mvnw,1\f\1f99b675c8804ba8374e1fdd88f9d91b68222305
+j
+:CollegeManagment/src/main/resources/application.properties,9\d\9de4cd3f0d70e53655172f2c5d0970f7cd67d859
+I
+CollegeManagment/mvnw.cmd,c\7\c78307f8dd2c914753ccb0827b23e29c547bef6f
+f
+6CollegeManagment/.mvn/wrapper/maven-wrapper.properties,8\3\837c163cdfec885d9ff7ed0ea705dccf2a665ed3
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/repository/TeacherRepo.java,e\3\e3231bc589b4408c68649d0310af02c5689a9be5

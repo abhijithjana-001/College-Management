@@ -10,9 +10,11 @@ import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-public class StudentServiceTest {
+@ExtendWith(MockitoExtension.class)
+ class StudentServiceTest {
 
     @Mock
     private StudentRepo studentRepo;
@@ -34,13 +37,10 @@ public class StudentServiceTest {
     @InjectMocks
     private StudentServiceImpl studentService;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
+
 
     @Test
-    public void testAddOrUpdateStudent_AddNewStudent() {
+     void testAddOrUpdateStudent_AddNewStudent() {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
 
@@ -62,7 +62,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testAddOrUpdateStudent_UpdateExistingStudent() {
+    void testAddOrUpdateStudent_UpdateExistingStudent() {
         // Arrange
         Long studentId = 1L;
         Studentdto studentdto = new Studentdto("Updated John Doe", new Department(), "1234567890");
@@ -96,7 +96,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testAddOrUpdateStudent_DuplicatePhoneNumber() {
+     void testAddOrUpdateStudent_DuplicatePhoneNumber() {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
 
@@ -117,7 +117,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testViewDetails_ExistingStudent() {
+     void testViewDetails_ExistingStudent() {
         // Arrange
         Long studentId = 1L;
         Student existingStudent = new Student();
@@ -141,7 +141,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testViewDetails_NonExistingStudent() {
+    void testViewDetails_NonExistingStudent() {
         // Arrange
         Long studentId = 1L;
 
@@ -155,7 +155,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testDeleteById() {
+     void testDeleteById() {
         // Arrange
         Long studentId = 1L;
 
@@ -172,7 +172,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testListStudent() {
+     void testListStudent() {
         // Arrange
         List<Student> students = new ArrayList<>();
         students.add(new Student());
