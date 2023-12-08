@@ -165,22 +165,34 @@ public class StudentServiceTest {
 
 
     @Test
-    public void exceptiontesting() {
+    public void exceptiontesting_add() {
         Studentdto studentdto = new Studentdto("John Doe", new Department(),1234567890L);
         Long studentId = 1L;
 
-        // Mocking the behavior of findByPhoneNum to return a non-null result
-        when(studentRepo.findByPhoneNum(studentdto.getPhoneNum()))
-                .thenReturn(Optional.of(new Student()));
+        Student mockedStudent = new Student();
+        mockedStudent.setStudent_id(studentId);
+        mockedStudent.setSname("John Doe");
+        mockedStudent.setDepartment(new Department(1L, "Computer Science"));
+        mockedStudent.setPhoneNum(012355654565L);
 
-        // Act and Assert
+
+        when(studentRepo.findByPhoneNum(studentdto.getPhoneNum()))
+                .thenReturn(Optional.of(mockedStudent));
+
+        when(studentRepo.existsByPhoneNum(studentdto.getPhoneNum()))
+                .thenReturn(true);
+
+
         ItemNotFound exception = assertThrows(ItemNotFound.class,
                 () -> studentService.addorupdateStudent(studentdto, studentId));
+        ItemNotFound exception1 = assertThrows(ItemNotFound.class,
+                () -> studentService.addorupdateStudent(studentdto,null));
 
-        assertEquals("phone number already exist", exception.getMessage());
+        assertEquals("phone number already exist", exception1.getMessage());
 
-        // Verify that save method is not called
+        assertEquals("Student with id "+studentId+" is not found", exception.getMessage());
+
+
         verify(studentRepo, never()).save(any());
-//
     }
 }

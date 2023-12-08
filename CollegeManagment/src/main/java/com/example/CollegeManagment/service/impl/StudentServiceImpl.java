@@ -35,7 +35,7 @@ public class StudentServiceImpl implements Studentservice {
         student.setPhoneNum(studentdto.getPhoneNum());
         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
                 ||
-                (studentRepo.findByPhoneNum(student.getPhoneNum()).get()
+                (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
                                 .getStudent_id() == student.getStudent_id())) {
 
                 studentRepo.save(student);

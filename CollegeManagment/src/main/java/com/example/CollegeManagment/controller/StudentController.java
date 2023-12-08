@@ -21,6 +21,11 @@ public class StudentController {
                  Responsedto responsedto=studentservice.addorupdateStudent(studentdto,null);
                  return ResponseEntity.ok(responsedto);
     }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id,@RequestBody Studentdto studentdto){
+        Responsedto responsedto=studentservice.addorupdateStudent(studentdto,id);
+        return ResponseEntity.ok(responsedto);
+    }
     @GetMapping("/list")
     public ResponseEntity<Responsedto<List<Student>>> listStudent(){
         Responsedto responsedto=studentservice.listStudent();
@@ -39,10 +44,6 @@ public class StudentController {
      }
 
 
-     @PutMapping("/update/{id}")
-     public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id,@RequestBody Studentdto studentdto){
-         Responsedto responsedto=studentservice.addorupdateStudent(studentdto,id);
-         return ResponseEntity.ok(responsedto);
-     }
+
 
 }
