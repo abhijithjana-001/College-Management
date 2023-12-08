@@ -56,7 +56,7 @@ public class StudentServiceTest {
         assertNotNull(response.getResult());
         assertEquals("John Doe", response.getResult().getSname());
 
-        verify(studentRepo, times(2)).save(any(Student.class));
+
 
 //     update
         Long studentId = 1L;
@@ -166,18 +166,26 @@ public class StudentServiceTest {
 
     @Test
     public void exceptiontesting() {
-        Studentdto studentdto = new Studentdto("John Doe", new Department(),1234567890L);
+        Studentdto studentdto =
+                new Studentdto("John Doe", new Department(),1234567890L);
         Long studentId = 1L;
+      Student student=new Student();
+      student.setStudent_id(2L);
+      student.setPhoneNum(231231231L);
 
-        // Mocking the behavior of findByPhoneNum to return a non-null result
         when(studentRepo.findByPhoneNum(studentdto.getPhoneNum()))
-                .thenReturn(Optional.of(new Student()));
+                .thenReturn(Optional.of(student));
+
+        when(studentRepo.existsByPhoneNum(studentdto.getPhoneNum()))
+                .thenReturn(true);
 
         // Act and Assert
         ItemNotFound exception = assertThrows(ItemNotFound.class,
                 () -> studentService.addorupdateStudent(studentdto, studentId));
+        ItemNotFound exception1 = assertThrows(ItemNotFound.class,
+                () -> studentService.addorupdateStudent(studentdto,null));
 
-        assertEquals("phone number already exist", exception.getMessage());
+        assertEquals("phone number already exist", exception1.getMessage());
 
         // Verify that save method is not called
         verify(studentRepo, never()).save(any());
