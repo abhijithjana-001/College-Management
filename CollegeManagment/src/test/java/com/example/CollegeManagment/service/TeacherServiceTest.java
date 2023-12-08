@@ -87,6 +87,72 @@ public class TeacherServiceTest {
         assertEquals(existingTeacher, response.getResult());
     }
 
+    @Test
+    void createOrUpdate_NewTeacher() {
+        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
+        teacherRequestDTO.setName("New Teacher");
+        teacherRequestDTO.setPhno("1234567890");
+        teacherRequestDTO.setDepartment(new HashSet<>());
+
+        when(teacherRepo.existsByPhno(any())).thenReturn(false);
+
+        Responsedto response = teacherService.createorupdate(null, teacherRequestDTO);
+
+        assertTrue(response.getSuccess());
+        assertEquals("Updated Successfully", response.getMessage());
+        assertNotNull(response.getResult());
+    }
+
+    @Test
+    void createOrUpdate_ThrowException() {
+        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
+        teacherRequestDTO.setName("Existing Teacher");
+        teacherRequestDTO.setPhno("1234567890");
+        teacherRequestDTO.setDepartment(new HashSet<>());
+
+        Teacher existingTeacher = new Teacher();
+        existingTeacher.setTid(1L);
+        existingTeacher.setName("Existing Teacher");
+        existingTeacher.setPhno("1234567890");
+
+        when(teacherRepo.existsByPhno(any())).thenReturn(true);
+        when(teacherRepo.findByPhno(any())).thenReturn(Optional.of(existingTeacher));
+
+        ItemNotFound exception = assertThrows(ItemNotFound.class, () -> {
+            teacherService.createorupdate(1L, teacherRequestDTO);
+        });
+
+        assertEquals("Teacher not found with ID : 1", exception.getMessage());
+
+        BadRequest badException = assertThrows(BadRequest.class, () -> {
+            teacherService.createorupdate(null, teacherRequestDTO);
+        });
+
+        assertEquals("Phone number already exists",badException.getMessage());
+    }
+
+    @Test
+    void createOrUpdate_UpdateExistingTeacher() {
+        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
+        teacherRequestDTO.setPhno("9876543210");
+        teacherRequestDTO.setName("Updated Teacher");
+        teacherRequestDTO.setDepartment(new HashSet<>());
+
+        Teacher existingTeacher = new Teacher();
+        existingTeacher.setTid(1L);
+        existingTeacher.setName("Existing Teacher");
+        existingTeacher.setPhno("1234567890");
+
+        when(teacherRepo.existsByPhno(any())).thenReturn(false);
+        when(teacherRepo.findById(1L)).thenReturn(Optional.of(existingTeacher));
+
+        Responsedto response = teacherService.createorupdate(1L, teacherRequestDTO);
+
+        assertTrue(response.getSuccess());
+        assertEquals("Updated Successfully", response.getMessage());
+        assertNotNull(response.getResult());
+    }
+
 
 //    @Test
 //    void createOrUpdate_ThrowBadRequestException() {

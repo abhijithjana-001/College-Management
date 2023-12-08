@@ -36,7 +36,7 @@ public class DepartmentControllerTest {
 
 
     @Test
-    public void testAddDepartment() throws Exception {
+     void testAddDepartment() throws Exception {
         DepartmentDto departmentDto = new DepartmentDto(1L, "Test Department");
         Department mockedDepartment = new Department(1L, "Test Department");
         Responsedto<Department> mockedResponse = new Responsedto<>(true, "Department added successfully", mockedDepartment);
@@ -56,7 +56,7 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void testUpdateDepartment() throws Exception {
+    protected void testUpdateDepartment() throws Exception {
         long departmentId = 1L;
         DepartmentDto departmentDto = new DepartmentDto(1L, "Updated Department");
         departmentDto.setId(departmentId);
@@ -79,7 +79,7 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void testFindAllDepartments() throws Exception {
+    protected void testFindAllDepartments() throws Exception {
         Department department1 = new Department(1L, "Computer Science");
         Department department2 = new Department(2L, "Physics");
         List<Department> mockedDepartments = Arrays.asList(department1, department2);
@@ -99,7 +99,7 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void testDeleteDepartment() throws Exception {
+    protected void testDeleteDepartment() throws Exception {
         long departmentId = 1L;
         Responsedto<Department> mockedResponse = new Responsedto<>(true, "Department deleted successfully", null);
 
@@ -114,7 +114,7 @@ public class DepartmentControllerTest {
         verify(departmentService, times(1)).delete(anyLong());
     }
 
-    private String asJsonString(final Object obj) {
+    protected String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
         } catch (Exception e) {

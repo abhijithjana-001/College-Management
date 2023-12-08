@@ -47,7 +47,7 @@ public class TeacherServiceImpl implements Teacherservice {
                     teacherRepo.findByPhno(teacherRequestDTO.getPhno()).get().getTid()==teacher.getTid())  {
                 teacherRepo.save(teacher);
             }else{
-                throw new BadRequest("Phone number already exists : ");
+                throw new BadRequest("Phone number already exists");
             }
 
             return new Responsedto<Teacher>(true, "Updated Successfully", teacher);
