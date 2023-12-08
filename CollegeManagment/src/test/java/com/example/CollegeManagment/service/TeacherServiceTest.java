@@ -3,6 +3,7 @@ package com.example.CollegeManagment.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
@@ -33,33 +34,6 @@ public class TeacherServiceTest {
     @InjectMocks
     private TeacherServiceImpl teacherService;
 
-//    @Test
-//    public void testAddTeacher() {
-//        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
-//        teacherRequestDTO.setName("Test Teacher");
-//        Department department = new Department();
-//        department.setId(1L);
-//        department.setName("Test Department");
-//        HashSet<Department> set=new HashSet();
-//        set.add(department);
-//        teacherRequestDTO.setDepartment(set);
-//
-//        Teacher savedTeacher = new Teacher();
-//
-//        savedTeacher.setName("Test Teacher");
-//        savedTeacher.setDepartments(set);
-//
-//
-//        when(teacherRepo.save(any(Teacher.class))).thenReturn(savedTeacher);
-//
-//        Responsedto<Teacher> response = teacherService.createorupdate(teacherRequestDTO);
-//
-//
-//        assertTrue(response.getSuccess());
-//        assertEquals("Added Successfully", response.getMessage());
-//
-//        assertEquals(savedTeacher.getTid(), response.getResult().getTid());
-//    }
 
     @Test
     public void testFindAllTeachers() {
@@ -87,10 +61,11 @@ public class TeacherServiceTest {
     public void testAddorUpdateTeacher() {
         long teacherId = 1L;
         TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
-        teacherRequestDTO.setName("Updated Teacher");
+        teacherRequestDTO.setName("TeacherOne");
+        teacherRequestDTO.setPhno("8075505822");
         Department department = new Department();
         department.setId(1L);
-        department.setName("Updated Department");
+        department.setName("DepartmentOne");
         HashSet<Department> set=new HashSet();
         set.add(department);
 
@@ -98,7 +73,8 @@ public class TeacherServiceTest {
 
         Teacher existingTeacher = new Teacher();
         existingTeacher.setTid(teacherId);
-        existingTeacher.setName("Old Teacher");
+        existingTeacher.setName("TeacherTwo");
+        existingTeacher.setPhno("9446920711");
         existingTeacher.setDepartments(new HashSet<>());
 
         when(teacherRepo.findById(teacherId)).thenReturn(Optional.of(existingTeacher));
@@ -110,6 +86,30 @@ public class TeacherServiceTest {
         assertEquals("Updated Successfully", response.getMessage());
         assertEquals(existingTeacher, response.getResult());
     }
+
+
+//    @Test
+//    void createOrUpdate_ThrowBadRequestException() {
+//        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
+//        teacherRequestDTO.setName("Existing Teacher");
+//        teacherRequestDTO.setPhno("1234567890");
+//        teacherRequestDTO.setDepartment(new HashSet<>());
+//
+//        Teacher existingTeacher = new Teacher();
+//        existingTeacher.setTid(1L);
+//        existingTeacher.setName("Existing Teacher");
+//        existingTeacher.setPhno("1234567890");
+//
+//        // Adjust the mock setup to return the existing teacher when findById is called
+//        when(teacherRepo.existsByPhno(any())).thenReturn(true);
+//        when(teacherRepo.findById(anyLong())).thenReturn(Optional.of(existingTeacher));
+//
+//        BadRequest exception = assertThrows(BadRequest.class, () -> {
+//            teacherService.createorupdate(1L, teacherRequestDTO);
+//        });
+//
+//        assertEquals("Phone number already exists : ", exception.getMessage());
+//    }
 
     @Test
     public void testDeleteTeacher() {
