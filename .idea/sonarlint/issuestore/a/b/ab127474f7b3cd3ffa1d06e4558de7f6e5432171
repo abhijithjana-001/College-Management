@@ -1,5 +1,5 @@
 
-r	java:S117
-"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÙÂÊâþÿÿÿÿ8­ö³˜Ä1
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÍíâ8ÞÊµ˜Ä1
+l	java:S117
+"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àœÞu8­ö³˜Ä1
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òí’ìýÿÿÿÿ8ÞÊµ˜Ä1
 v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¤¬žÆ8®ö³˜Ä1
