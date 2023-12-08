@@ -1,18 +1,19 @@
 
 Q
-java:S3740B"/Provide the parametrized type for this generic.(­ñù»øÿÿÿÿ8˜‘–¿Ä1
+java:S3740E"/Provide the parametrized type for this generic.(­ñù»øÿÿÿÿ8ãÀ˜ÊÄ1
 Y
-java:S4973'"<Strings and Boxed types should be compared using "equals()".(Úÿÿñ8š‘–¿Ä1
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8š‘–¿Ä1
+java:S4973*"<Strings and Boxed types should be compared using "equals()".(Úÿÿñ8éÚªÊÄ1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8ñ×½ÉÄ1
 k
-java:S3973+"IUse indentation to denote the code conditionally executed by this "else".(„¶áìøÿÿÿÿ8›‘–¿Ä1
+java:S3973."IUse indentation to denote the code conditionally executed by this "else".(„¶áìøÿÿÿÿ8ò×½ÉÄ1
 m
-java:S3655&"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8±‘–¿Ä1
+java:S3655)"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8“ÛªÊÄ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8²‘–¿Ä1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8õ×½ÉÄ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8²‘–¿Ä1
-h
-java:S1128"KRemove this unused import 'com.example.CollegeManagment.entity.Department'.(‘ÇÃÌ8½‘–¿Ä1
-L
-java:S1128"*Remove this unused import 'java.util.Set'.(ö²„¤þÿÿÿÿ8½‘–¿Ä1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8õ×½ÉÄ1
+_
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8õ×½ÉÄ1
+X
+java:S1854";Remove this useless assignment to local variable "student".(Ðå‰¾8ù×½ÉÄ1
+]	java:S125#"<This block of commented-out lines of code should be removed.(õ†„ßüÿÿÿÿ8°è˜ÊÄ1

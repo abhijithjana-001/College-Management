@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Studentdto {
-    private String  name;
+
+    private String sname;
     private Department department;
 
     @Size(min = 10,max = 12)

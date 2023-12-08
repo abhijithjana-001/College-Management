@@ -24,8 +24,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
-public class StudentServiceTest {
+ class StudentServiceTest {
 
     @Mock
     private StudentRepo studentRepo;
@@ -37,12 +38,13 @@ public class StudentServiceTest {
     private StudentServiceImpl studentService;
 
 
+
     @Test
-    void testAddOrUpdateStudent_AddNewStudent() {
+     void testAddOrUpdateStudent_AddNewStudent() {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
 
-
+        when(studentRepo.findById(anyLong())).thenReturn(Optional.empty());
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(false);
         when(studentRepo.save(any(Student.class))).thenReturn(new Student());
 
@@ -60,7 +62,7 @@ public class StudentServiceTest {
     }
 
     @Test
-     void testAddOrUpdateStudent_UpdateExistingStudent() {
+    void testAddOrUpdateStudent_UpdateExistingStudent() {
         // Arrange
         Long studentId = 1L;
         Studentdto studentdto = new Studentdto("Updated John Doe", new Department(), "1234567890");
@@ -73,6 +75,9 @@ public class StudentServiceTest {
         when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true    );
         when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
+//        studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
+//                .getStudent_id() == student.getStudent_id()
+
         when(studentRepo.findByPhoneNum(studentdto.getPhoneNum())).thenReturn(Optional.of(existingStudent));
 
         // Act
@@ -99,7 +104,7 @@ public class StudentServiceTest {
         existingStudent.setStudent_id(1L);
         existingStudent.setPhoneNum("1234567890");
 
-
+        when(studentRepo.findById(anyLong())).thenReturn(Optional.empty());
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
         when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(existingStudent));
 
@@ -112,7 +117,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    void testViewDetails_ExistingStudent() {
+     void testViewDetails_ExistingStudent() {
         // Arrange
         Long studentId = 1L;
         Student existingStudent = new Student();
@@ -150,7 +155,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testDeleteById() {
+     void testDeleteById() {
         // Arrange
         Long studentId = 1L;
 
@@ -167,7 +172,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testListStudent() {
+     void testListStudent() {
         // Arrange
         List<Student> students = new ArrayList<>();
         students.add(new Student());
