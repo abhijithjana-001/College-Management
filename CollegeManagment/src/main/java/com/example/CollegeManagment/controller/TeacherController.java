@@ -4,6 +4,7 @@ import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.service.Teacherservice;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class TeacherController {
     Teacherservice teacherService;
 
     @PostMapping("/addTeacher")
-    public ResponseEntity<Responsedto<Teacher>> addTeacher(@RequestBody TeacherRequestDTO teacherRequestDTO) {
+    public ResponseEntity<Responsedto<Teacher>> addTeacher(@Valid @RequestBody TeacherRequestDTO teacherRequestDTO) {
         Responsedto<Teacher> Responsedto= teacherService.createorupdate(null,teacherRequestDTO);
         return ResponseEntity.ok(Responsedto);
     }
@@ -29,7 +30,7 @@ public class TeacherController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Responsedto<Teacher>> update(@RequestBody TeacherRequestDTO teacherRequestDTO,
+    public ResponseEntity<Responsedto<Teacher>> update(@Valid @RequestBody TeacherRequestDTO teacherRequestDTO,
                                                                 @PathVariable long id) {
         Responsedto<Teacher> Responsedto = teacherService.createorupdate(id, teacherRequestDTO);
         return ResponseEntity.ok(Responsedto);
