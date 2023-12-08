@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,7 +38,7 @@ class TeacherControllerTest{
 
         Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Added Successfully", new Teacher());
 
-        when(teacherService.addTeacher(requestDTO)).thenReturn(responseDTO);
+        when(teacherService.createorupdate(null,requestDTO)).thenReturn(responseDTO);
 
         mockMvc.perform(post("/teacher/addTeacher")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -55,7 +55,7 @@ class TeacherControllerTest{
 
         when(teacherService.findAll()).thenReturn(responseDTO);
 
-        mockMvc.perform(get("/teacher/teachers")
+        this.mockMvc.perform(get("/teacher/teachers")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -70,7 +70,7 @@ class TeacherControllerTest{
 
         Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Updated Successfully", new Teacher());
 
-        when(teacherService.update(teacherId, requestDTO)).thenReturn(responseDTO);
+        when(teacherService.createorupdate(teacherId, requestDTO)).thenReturn(responseDTO);
 
         mockMvc.perform(put("/teacher/update/{id}", teacherId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -92,6 +92,7 @@ class TeacherControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Deleted Successfully"));
+        verify(teacherService, times(1)).delete(teacherId);
     }
 
     private static String asJsonString(final Object obj) {

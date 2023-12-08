@@ -18,7 +18,7 @@ public class TeacherController {
 
     @PostMapping("/addTeacher")
     public ResponseEntity<Responsedto<Teacher>> addTeacher(@RequestBody TeacherRequestDTO teacherRequestDTO) {
-        Responsedto<Teacher> Responsedto= teacherService.addTeacher(teacherRequestDTO);
+        Responsedto<Teacher> Responsedto= teacherService.createorupdate(null,teacherRequestDTO);
         return ResponseEntity.ok(Responsedto);
     }
 
@@ -31,7 +31,7 @@ public class TeacherController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Responsedto<Teacher>> update(@RequestBody TeacherRequestDTO teacherRequestDTO,
                                                                 @PathVariable long id) {
-        Responsedto<Teacher> Responsedto = teacherService.update(id, teacherRequestDTO);
+        Responsedto<Teacher> Responsedto = teacherService.createorupdate(id, teacherRequestDTO);
         return ResponseEntity.ok(Responsedto);
     }
 

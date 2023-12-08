@@ -17,5 +17,6 @@ import java.util.Set;
 public class TeacherRequestDTO {
 
     private String name;
+    private String phno;
     private Set<Department> department;
 }
