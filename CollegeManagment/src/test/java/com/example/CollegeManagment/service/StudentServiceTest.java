@@ -42,7 +42,7 @@ public class StudentServiceTest {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
 
-        when(studentRepo.findById(anyLong())).thenReturn(Optional.empty());
+
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(false);
         when(studentRepo.save(any(Student.class))).thenReturn(new Student());
 
@@ -99,7 +99,7 @@ public class StudentServiceTest {
         existingStudent.setStudent_id(1L);
         existingStudent.setPhoneNum("1234567890");
 
-        when(studentRepo.findById(anyLong())).thenReturn(Optional.empty());
+
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
         when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(existingStudent));
 
@@ -112,7 +112,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testViewDetails_ExistingStudent() {
+    void testViewDetails_ExistingStudent() {
         // Arrange
         Long studentId = 1L;
         Student existingStudent = new Student();
@@ -136,7 +136,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testViewDetails_NonExistingStudent() {
+    void testViewDetails_NonExistingStudent() {
         // Arrange
         Long studentId = 1L;
 
