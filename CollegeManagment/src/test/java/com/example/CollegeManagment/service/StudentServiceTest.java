@@ -10,9 +10,11 @@ import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-
+@ExtendWith(MockitoExtension.class)
 public class StudentServiceTest {
 
     @Mock
@@ -34,13 +36,9 @@ public class StudentServiceTest {
     @InjectMocks
     private StudentServiceImpl studentService;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
-    public void testAddOrUpdateStudent_AddNewStudent() {
+    void testAddOrUpdateStudent_AddNewStudent() {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
 
@@ -62,7 +60,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testAddOrUpdateStudent_UpdateExistingStudent() {
+     void testAddOrUpdateStudent_UpdateExistingStudent() {
         // Arrange
         Long studentId = 1L;
         Studentdto studentdto = new Studentdto("Updated John Doe", new Department(), "1234567890");
@@ -75,9 +73,6 @@ public class StudentServiceTest {
         when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true    );
         when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
-//        studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
-//                .getStudent_id() == student.getStudent_id()
-
         when(studentRepo.findByPhoneNum(studentdto.getPhoneNum())).thenReturn(Optional.of(existingStudent));
 
         // Act
@@ -96,7 +91,7 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void testAddOrUpdateStudent_DuplicatePhoneNumber() {
+     void testAddOrUpdateStudent_DuplicatePhoneNumber() {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
 
