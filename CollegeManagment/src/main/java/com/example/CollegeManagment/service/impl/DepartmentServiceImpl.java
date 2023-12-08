@@ -28,41 +28,25 @@ public class DepartmentServiceImpl implements DepartmentService {
             throw new BadRequest("Department name already exists");
         }
 
+        Department department = new Department();
+
         if(departmentDto.getId() == null) {
-            Department department = new Department();
             department.setName(departmentDto.getName());
             departmentRepo.save(department);
             return new Responsedto(true, "Department added", department);
         }else {
-            Department department = departmentRepo.findById(departmentDto.getId()).orElseThrow(() -> new
+            department = departmentRepo.findById(departmentDto.getId()).orElseThrow(() -> new
                     ItemNotFound("Department not found with ID : " + departmentDto.getId()));
             department.setName(departmentDto.getName());
             departmentRepo.save(department);
-            return new Responsedto<Department>(true, "Updated Successfully", department);
+            return new Responsedto(true, "Updated Successfully", department);
         }
-    }
-    @Override
-    public Responsedto addDepartment(DepartmentDto departmentDto) {
-            Department department = new Department();
-            department.setName(departmentDto.getName());
-            departmentRepo.save(department);
-            return new Responsedto(true, "Department added", department);
     }
 
     @Override
     public Responsedto<List<Department>> findAllDepartments() {
         List<Department> departments = departmentRepo.findAll();
         return new Responsedto<>(true, "Department List", departments);
-    }
-
-    @Override
-    public Responsedto<Department> updateDepartment(long id, DepartmentDto departmentDto) {
-        Department department = departmentRepo.findById(id).orElseThrow(()->new
-                ItemNotFound("Department not found with ID : "+id));
-
-        department.setName(department.getName());
-        departmentRepo.save(department);
-        return new Responsedto<Department>(true, "Updated Successfully", department);
     }
 
     @Override
