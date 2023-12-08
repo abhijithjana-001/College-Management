@@ -8,20 +8,23 @@ import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.impl.StudentServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-@ExtendWith(MockitoExtension.class)
+
 public class StudentServiceTest {
+
     @Mock
     private StudentRepo studentRepo;
 
@@ -31,142 +34,163 @@ public class StudentServiceTest {
     @InjectMocks
     private StudentServiceImpl studentService;
 
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
-    public void testAddStudent() {
-        Studentdto studentdto = new Studentdto("John Doe", new Department(1L, "Computer Science"),1234567890L);
+    public void testAddOrUpdateStudent_AddNewStudent() {
+        // Arrange
+        Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
 
-        Department mockedDepartment = new Department(1L, "Computer Science");
-        mockedDepartment.setStudents(new HashSet<>());
+        when(studentRepo.findById(anyLong())).thenReturn(Optional.empty());
+        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(false);
+        when(studentRepo.save(any(Student.class))).thenReturn(new Student());
 
-        Student mockedStudent = new Student();
-        mockedStudent.setSname("John Doe");
-        mockedStudent.setDepartment(mockedDepartment);
-        mockedStudent.setPhoneNum(1234567890L);
+        // Act
+        Responsedto<Student> response = studentService.addorupdateStudent(studentdto, null);
 
-
-        when(studentRepo.save(any(Student.class))).thenReturn(mockedStudent);
-
-
-        Responsedto<Student> response = studentService.addorupdateStudent(studentdto,null);
-
-
+        // Assert
         assertNotNull(response);
         assertTrue(response.getSuccess());
         assertEquals("student added or updated successful", response.getMessage());
         assertNotNull(response.getResult());
-        assertEquals("John Doe", response.getResult().getSname());
 
-
+        // Verify that save method was called
         verify(studentRepo, times(1)).save(any(Student.class));
+    }
 
-
-
+    @Test
+    public void testAddOrUpdateStudent_UpdateExistingStudent() {
+        // Arrange
         Long studentId = 1L;
-        Studentdto updatedStudentDto = new Studentdto("Updated John Doe", new Department(1L, "Computer Science"),1234567890L);
+        Studentdto studentdto = new Studentdto("Updated John Doe", new Department(), "1234567890");
 
         Student existingStudent = new Student();
         existingStudent.setStudent_id(studentId);
         existingStudent.setSname("John Doe");
-        existingStudent.setDepartment(new Department(1L, "Computer Science"));
-        existingStudent.setPhoneNum(123456785590L);
+        existingStudent.setPhoneNum("1234567890");
 
-        when(studentRepo.findById(anyLong())).thenReturn(Optional.of(existingStudent));
+        when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
+        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true    );
         when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
+//        studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
+//                .getStudent_id() == student.getStudent_id()
 
-        response = studentService.addorupdateStudent(updatedStudentDto, studentId);
+        when(studentRepo.findByPhoneNum(studentdto.getPhoneNum())).thenReturn(Optional.of(existingStudent));
 
+        // Act
+        Responsedto<Student> response = studentService.addorupdateStudent(studentdto, studentId);
+
+        // Assert
         assertNotNull(response);
         assertTrue(response.getSuccess());
         assertEquals("student added or updated successful", response.getMessage());
         assertNotNull(response.getResult());
         assertEquals("Updated John Doe", response.getResult().getSname());
 
-
+        // Verify that findById and save methods were called
         verify(studentRepo, times(1)).findById(studentId);
-        verify(studentRepo, times(2)).save(any(Student.class));
+        verify(studentRepo, times(1)).save(any(Student.class));
     }
 
     @Test
-    public void testViewDetails() {
+    public void testAddOrUpdateStudent_DuplicatePhoneNumber() {
+        // Arrange
+        Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
 
+        Student existingStudent = new Student();
+        existingStudent.setStudent_id(1L);
+        existingStudent.setPhoneNum("1234567890");
+
+        when(studentRepo.findById(anyLong())).thenReturn(Optional.empty());
+        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
+        when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(existingStudent));
+
+        // Act and Assert
+        assertThrows(ItemNotFound.class, () -> studentService.addorupdateStudent(studentdto, null));
+
+        // Verify that findById and save methods were not called
+        verify(studentRepo, never()).findById(anyLong());
+        verify(studentRepo, never()).save(any(Student.class));
+    }
+
+    @Test
+    public void testViewDetails_ExistingStudent() {
+        // Arrange
         Long studentId = 1L;
+        Student existingStudent = new Student();
+        existingStudent.setStudent_id(studentId);
+        existingStudent.setSname("John Doe");
 
-        Student mockedStudent = new Student();
-        mockedStudent.setStudent_id(studentId);
-        mockedStudent.setSname("John Doe");
-        mockedStudent.setDepartment(new Department(1L, "Computer Science"));
-        when(studentRepo.findById(anyLong())).thenReturn(Optional.of(mockedStudent));
+        when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
 
-
+        // Act
         Responsedto<Student> response = studentService.viewdetails(studentId);
 
-
+        // Assert
         assertNotNull(response);
         assertTrue(response.getSuccess());
         assertEquals("student added successful", response.getMessage());
         assertNotNull(response.getResult());
         assertEquals(studentId, response.getResult().getStudent_id());
 
-
-        verify(studentRepo, times(1)).findById(anyLong());
+        // Verify that findById method was called
+        verify(studentRepo, times(1)).findById(studentId);
     }
 
     @Test
-    public void testViewDetailsWithNonExistingStudent() {
-
+    public void testViewDetails_NonExistingStudent() {
+        // Arrange
         Long studentId = 1L;
 
-        when(studentRepo.findById(anyLong())).thenReturn(Optional.empty());
+        when(studentRepo.findById(studentId)).thenReturn(Optional.empty());
 
-
+        // Act and Assert
         assertThrows(ItemNotFound.class, () -> studentService.viewdetails(studentId));
 
-
-        verify(studentRepo, times(1)).findById(anyLong());
+        // Verify that findById method was called
+        verify(studentRepo, times(1)).findById(studentId);
     }
 
     @Test
     public void testDeleteById() {
-
+        // Arrange
         Long studentId = 1L;
 
-        // Perform the test
+        // Act
         Responsedto response = studentService.deletebyid(studentId);
 
-
+        // Assert
         assertNotNull(response);
         assertTrue(response.getSuccess());
         assertEquals("student delete successful", response.getMessage());
 
-
+        // Verify that deleteById method was called
         verify(studentRepo, times(1)).deleteById(anyLong());
     }
 
     @Test
     public void testListStudent() {
+        // Arrange
+        List<Student> students = new ArrayList<>();
+        students.add(new Student());
+        students.add(new Student());
 
-        List<Student> mockedStudents = Arrays.asList(
-                new Student(1L, "John Doe",1234567890L,new Department(1L, "Computer Science")),
-                new Student(2L, "Jane Doe",1234567890L, new Department(2L, "Physics"))
-        );
+        when(studentRepo.findAll()).thenReturn(students);
 
-        when(studentRepo.findAll()).thenReturn(mockedStudents);
-
-
+        // Act
         Responsedto<List<Student>> response = studentService.listStudent();
 
-
+        // Assert
         assertNotNull(response);
         assertTrue(response.getSuccess());
         assertEquals("student list : 2 students", response.getMessage());
         assertNotNull(response.getResult());
         assertEquals(2, response.getResult().size());
 
-
+        // Verify that findAll method was called
         verify(studentRepo, times(1)).findAll();
     }
-
-
-
-
 }

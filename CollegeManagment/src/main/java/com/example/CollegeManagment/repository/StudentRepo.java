@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface  StudentRepo extends JpaRepository<Student,Long> {
 
-    Optional<Student> findByPhoneNum(Long phone_num);
+    Optional<Student> findByPhoneNum(String phone_num);
 
 
-    boolean existsByPhoneNum(Long phone_num);
+    boolean existsByPhoneNum(String phone_num);
 }
 

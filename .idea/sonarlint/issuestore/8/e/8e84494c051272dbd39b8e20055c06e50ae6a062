@@ -1,3 +1,5 @@
 
 {	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÔËéÿÿÿÿÿ8”ƒÑÉÃ1
-q	java:S116"URename this field "student_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ê£×®8šƒÑÉÃ1
+q	java:S116"URename this field "student_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ê£×®8šƒÑÉÃ1
+]
+java:S1128"@Remove this unused import 'jakarta.validation.constraints.Size'.(çÀ…Í8óèˆ¾Ä1

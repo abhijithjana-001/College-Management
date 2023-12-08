@@ -77,3 +77,9 @@ ZCollegeManagment/src/main/java/com/example/CollegeManagment/service/DepartmentS
 \CollegeManagment/src/main/java/com/example/CollegeManagment/CollegeManagmentApplication.java,8\5\85cf2eee45a6722e4579648e0e3139beafc3c26d
 Š
 ZCollegeManagment/src/main/java/com/example/CollegeManagment/repository/DepartmentRepo.java,e\6\e65052af0092ec755809d4420f33e0d24c9f1798
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Teacherservice.java,b\8\b899400721612333d1233462c4158484197a9327
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentservice.java,f\7\f717455ac5778e00954cf14a5acb50aff5d4c8a3
+‡
+WCollegeManagment/src/main/java/com/example/CollegeManagment/repository/StudentRepo.java,a\b\ab127474f7b3cd3ffa1d06e4558de7f6e5432171
