@@ -1,6 +1,4 @@
 
-L
-java:S3740"/Provide the parametrized type for this generic.(å«²8…ÄÏ˜Ä1
 m	java:S117$"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Šì“8†ÄÏ˜Ä1
 r	java:S117*"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ÓŒ³üÿÿÿÿ8†ÄÏ˜Ä1
 {	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÏåÔùÿÿÿÿÿ8‡ÄÏ˜Ä1
