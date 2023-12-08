@@ -1,13 +1,12 @@
 package com.example.CollegeManagment.dto.requestdto;
 
-import com.example.CollegeManagment.entity.Department;
-import com.example.CollegeManagment.entity.Student;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -17,6 +16,8 @@ public class DepartmentDto {
 
     private Long Id;
 
+    @NotEmpty
+    @Size(min = 8, message = "department name should have at least 2 characters")
     private String name;
 
 }

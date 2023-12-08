@@ -70,10 +70,15 @@ public class StudentServiceTest {
         Student existingStudent = new Student();
         existingStudent.setStudent_id(studentId);
         existingStudent.setSname("John Doe");
+        existingStudent.setPhoneNum("1234567890");
 
         when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
-        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(false);
+        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true    );
         when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
+//        studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
+//                .getStudent_id() == student.getStudent_id()
+
+        when(studentRepo.findByPhoneNum(studentdto.getPhoneNum())).thenReturn(Optional.of(existingStudent));
 
         // Act
         Responsedto<Student> response = studentService.addorupdateStudent(studentdto, studentId);

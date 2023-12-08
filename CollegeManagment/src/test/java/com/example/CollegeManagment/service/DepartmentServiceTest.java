@@ -13,11 +13,10 @@ import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.service.impl.DepartmentServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -33,6 +32,7 @@ public class DepartmentServiceTest {
 
 
     @Test
+    @DisplayName("Test for creating a new department")
     void createOrUpdate_NewDepartment() {
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setName("New Department");
@@ -47,6 +47,7 @@ public class DepartmentServiceTest {
     }
 
     @Test
+    @DisplayName("Test for bad request exception ")
     void createOrUpdate_ThrowBadRequestException() {
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setName("Existing Department");
@@ -65,6 +66,7 @@ public class DepartmentServiceTest {
     }
 
     @Test
+    @DisplayName("Test for updating existing department")
     void createOrUpdate_UpdateExistingDepartment() {
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setId(1L);
@@ -85,7 +87,8 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void testFindAllDepartments() {
+    @DisplayName("Test for finding all the departmens ")
+    void testFindAllDepartments() {
         List<Department> departments = new ArrayList<>();
         Department department1 = new Department();
         department1.setId(1L);
@@ -107,7 +110,8 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void testDelete() {
+    @DisplayName("Test for deleting a department")
+    void testDelete() {
         long departmentId = 1L;
 
         Responsedto<Department> response = departmentService.delete(departmentId);
