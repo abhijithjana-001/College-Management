@@ -4,8 +4,10 @@ import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.service.Studentservice;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,14 +19,9 @@ public class StudentController {
     private Studentservice studentservice;
 
     @PostMapping("/add")
-    public ResponseEntity<Responsedto<Student>> addstudent(@RequestBody Studentdto studentdto){
+    public ResponseEntity<Responsedto<Student>> addstudent(@Valid @RequestBody Studentdto studentdto){
                  Responsedto responsedto=studentservice.addorupdateStudent(studentdto,null);
                  return ResponseEntity.ok(responsedto);
-    }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id,@RequestBody Studentdto studentdto){
-        Responsedto responsedto=studentservice.addorupdateStudent(studentdto,id);
-        return ResponseEntity.ok(responsedto);
     }
     @GetMapping("/list")
     public ResponseEntity<Responsedto<List<Student>>> listStudent(){
@@ -44,6 +41,10 @@ public class StudentController {
      }
 
 
-
+     @PutMapping("/update/{id}")
+     public ResponseEntity<Responsedto<Student>> updateStudent(@Valid @PathVariable Long id, @RequestBody Studentdto studentdto){
+         Responsedto responsedto=studentservice.addorupdateStudent(studentdto,id);
+         return ResponseEntity.ok(responsedto);
+     }
 
 }
