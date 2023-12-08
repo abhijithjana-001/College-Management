@@ -10,11 +10,9 @@ public interface DepartmentService {
 
     Responsedto createOrUpdate(DepartmentDto departmentDto);
 
-    Responsedto addDepartment(DepartmentDto departmentDto);
 
     Responsedto<List<Department>> findAllDepartments();
 
-    Responsedto<Department> updateDepartment(long id, DepartmentDto departmentDto);
 
     Responsedto<Department> delete(Long id);
 }

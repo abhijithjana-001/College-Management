@@ -1,6 +1,7 @@
 package com.example.CollegeManagment.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class Student {
     private Long student_id;
     private String  sname;
 
-    private Long phoneNum;
+    private String phoneNum;
 
 
 

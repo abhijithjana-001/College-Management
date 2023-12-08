@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,8 +35,48 @@ public class DepartmentControllerTest {
     private DepartmentController departmentController;
 
 
+    @Test
+    public void testAddDepartment() throws Exception {
+        DepartmentDto departmentDto = new DepartmentDto(1L, "Test Department");
+        Department mockedDepartment = new Department(1L, "Test Department");
+        Responsedto<Department> mockedResponse = new Responsedto<>(true, "Department added successfully", mockedDepartment);
 
+        when(departmentService.createOrUpdate(any(DepartmentDto.class))).thenReturn(mockedResponse);
 
+        ResultActions resultActions = mockMvc.perform(post("/api/department/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(departmentDto)));
+
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Department added successfully"))
+                .andExpect(jsonPath("$.result.id").value(1L))
+                .andExpect(jsonPath("$.result.name").value("Test Department"));
+    }
+
+    @Test
+    public void testUpdateDepartment() throws Exception {
+        long departmentId = 1L;
+        DepartmentDto departmentDto = new DepartmentDto(1L, "Updated Department");
+        departmentDto.setId(departmentId);
+
+        Department mockedDepartment = new Department(departmentId, "Updated Department");
+        Responsedto<Department> mockedResponse = new Responsedto<>(true, "Department updated successfully", mockedDepartment);
+
+        when(departmentService.createOrUpdate(any(DepartmentDto.class))).thenReturn(mockedResponse);
+
+        ResultActions resultActions = mockMvc.perform(put("/api/department/update/{id}", departmentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(departmentDto)));
+
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Department updated successfully"))
+                .andExpect(jsonPath("$.result.id").value(departmentId))
+                .andExpect(jsonPath("$.result.name").value("Updated Department"));
+    }
 
     @Test
     public void testFindAllDepartments() throws Exception {
