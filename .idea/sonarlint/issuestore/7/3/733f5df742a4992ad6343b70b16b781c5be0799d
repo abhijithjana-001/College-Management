@@ -4,8 +4,8 @@ java:S4973,"<Strings and Boxed types should be compared using "equals()".(Úÿÿñ
 {	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8×ˆ»Å1
 k
 java:S39730"IUse indentation to denote the code conditionally executed by this "else".(„¶áìøÿÿÿÿ8Øˆ»Å1
-m
-java:S3655+"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8‰Ÿˆ»Å1
+T
+java:S3655+"7Call "Optional#isPresent()" before accessing the value.(â›î8‰Ÿˆ»Å1
 _
 java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ŠŸˆ»Å1
 _

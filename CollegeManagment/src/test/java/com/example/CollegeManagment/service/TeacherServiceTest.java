@@ -62,7 +62,7 @@ public class TeacherServiceTest {
         teacherRequestDTO.setName("TeacherOne");
         teacherRequestDTO.setPhno("8075505822");
         Department department = new Department();
-        department.setDepartment_id(1L);
+        department.setId(1L);
         department.setName("DepartmentOne");
         HashSet<Department> set=new HashSet();
         set.add(department);

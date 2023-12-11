@@ -25,12 +25,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Responsedto createOrUpdate(DepartmentDto departmentDto){
 
-        Department existingDepartment = departmentRepo.findByNameIgnoreCase(departmentDto.getName());
-
-        if (existingDepartment != null) {
-            throw new BadRequest("Department name already exists");
-        }
-
         Department department;
 
         if (departmentDto.getId() == null) {
@@ -39,10 +33,17 @@ public class DepartmentServiceImpl implements DepartmentService {
             department = departmentRepo.findById(departmentDto.getId())
                     .orElseThrow(() -> new ItemNotFound("Department not found with ID: " + departmentDto.getId()));
         }
-        department=departmentMapper.toEntity(departmentDto);
-        departmentRepo.save(department);
-        return new Responsedto<>(true, "added Successfully", department);
 
+        Department existingDepartment = departmentRepo.findByNameIgnoreCase(departmentDto.getName());
+
+        if (existingDepartment != null) {
+            throw new BadRequest("Department name already exists");
+        }
+
+        department = departmentMapper.toEntity(departmentDto);
+        departmentRepo.save(department);
+
+        return new Responsedto<>(true, "Department added", department);
     }
 
     @Override
