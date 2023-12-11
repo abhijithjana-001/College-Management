@@ -35,6 +35,8 @@ public class TeacherServiceTest {
     private TeacherServiceImpl teacherService;
 
 
+
+
     @Test
     public void testFindAllTeachers() {
         List<Teacher> teachers = new ArrayList<>();
@@ -154,28 +156,6 @@ public class TeacherServiceTest {
     }
 
 
-//    @Test
-//    void createOrUpdate_ThrowBadRequestException() {
-//        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
-//        teacherRequestDTO.setName("Existing Teacher");
-//        teacherRequestDTO.setPhno("1234567890");
-//        teacherRequestDTO.setDepartment(new HashSet<>());
-//
-//        Teacher existingTeacher = new Teacher();
-//        existingTeacher.setTid(1L);
-//        existingTeacher.setName("Existing Teacher");
-//        existingTeacher.setPhno("1234567890");
-//
-//        // Adjust the mock setup to return the existing teacher when findById is called
-//        when(teacherRepo.existsByPhno(any())).thenReturn(true);
-//        when(teacherRepo.findById(anyLong())).thenReturn(Optional.of(existingTeacher));
-//
-//        BadRequest exception = assertThrows(BadRequest.class, () -> {
-//            teacherService.createorupdate(1L, teacherRequestDTO);
-//        });
-//
-//        assertEquals("Phone number already exists : ", exception.getMessage());
-//    }
 
     @Test
     public void testDeleteTeacher() {

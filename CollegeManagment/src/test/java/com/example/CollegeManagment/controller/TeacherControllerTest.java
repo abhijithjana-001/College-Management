@@ -31,6 +31,9 @@ class TeacherControllerTest{
     @MockBean
     private Teacherservice teacherService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     void addTeacherTest() throws Exception {
         TeacherRequestDTO requestDTO = new TeacherRequestDTO();
@@ -42,7 +45,7 @@ class TeacherControllerTest{
 
         mockMvc.perform(post("/teacher/addTeacher")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(requestDTO)))
+                        .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Added Successfully"));
@@ -74,7 +77,7 @@ class TeacherControllerTest{
 
         mockMvc.perform(put("/teacher/update/{id}", teacherId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(requestDTO)))
+                        .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Updated Successfully"));
@@ -95,11 +98,11 @@ class TeacherControllerTest{
         verify(teacherService, times(1)).delete(teacherId);
     }
 
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    private static String asJsonString(final Object obj) {
+//        try {
+//            return new ObjectMapper().writeValueAsString(obj);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

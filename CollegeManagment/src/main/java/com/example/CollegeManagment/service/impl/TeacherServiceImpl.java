@@ -39,11 +39,13 @@ public class TeacherServiceImpl implements Teacherservice {
         //demo
         @Override
         public Responsedto<Teacher>createorupdate(Long id, TeacherRequestDTO teacherRequestDTO) {
-            Teacher teacher= id==null? new Teacher():
-                     teacherRepo.findById(id).orElseThrow(()->new
-                    ItemNotFound("Teacher not found with ID : "+id));
-
-
+            Teacher teacher;
+            if(id==null){
+                teacher=new Teacher();
+            }else{
+                teacher=teacherRepo.findById(id).orElseThrow(()->
+                        new ItemNotFound("Teacher not found with ID : "+id));
+            }
 //            teacher.setName(teacherRequestDTO.getName());
 //            teacher.setPhno(teacherRequestDTO.getPhno());
 //            teacher.setDepartments(teacherRequestDTO.getDepartment());
