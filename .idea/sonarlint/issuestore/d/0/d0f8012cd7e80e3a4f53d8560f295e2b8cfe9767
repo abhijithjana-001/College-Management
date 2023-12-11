@@ -4,7 +4,17 @@ java:S22935"YReplace the type specification in this constructor call with the d
 v
 java:S2293<"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ğëúá8ğ€ŞÇÄ1
 {	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8©×Ô•Ä1
+l
+java:S3655/"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ÎÈØ8 ÔÙÊÄ1
 _
 java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÿ€ŞÇÄ1
 _
 java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8€ŞÇÄ1
+h
+java:S1128"KRemove this unused import 'com.example.CollegeManagment.entity.Department'.(‘ÇÃÌ8ñÔÙÊÄ1
+d
+java:S1128"BRemove this unused import 'org.apache.coyote.BadRequestException'.(£¯¬ÿûÿÿÿÿ8ñÔÙÊÄ1
+J
+java:S1128".Remove this unused import 'java.util.HashSet'.(Ê‚êX8ñÔÙÊÄ1
+L
+java:S1128"*Remove this unused import 'java.util.Set'.(ö²„¤şÿÿÿÿ8ñÔÙÊÄ1

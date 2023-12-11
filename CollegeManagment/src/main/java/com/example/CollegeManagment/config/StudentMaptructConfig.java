@@ -9,22 +9,9 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface StudentMaptructConfig {
-    StudentMaptructConfig studentmapper= Mappers.getMapper(StudentMaptructConfig.class);
 
-    @Mappings(
-            {
-                    @Mapping(source = "sname", target = "sname"),
-                    @Mapping(source = "department",target = "department"),
-                    @Mapping(source = "phoneNum" ,target = "phoneNum")
-            }
-    )
+
+    @Mapping(target = "student_id", ignore = true)
     Student toEntity(Studentdto studentdto);
-    @Mappings(
-            {
-                    @Mapping(source = "sname" , target = "sname"),
-                    @Mapping(source = "department",target = "department"),
-                    @Mapping(source = "phoneNum" ,target = "phoneNum")
-            }
-    )
-    Studentdto toDto(Student student);
+
 }
