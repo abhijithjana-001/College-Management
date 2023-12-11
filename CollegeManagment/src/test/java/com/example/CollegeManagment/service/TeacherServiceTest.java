@@ -5,6 +5,8 @@ import static org.mockito.Mockito.*;
 
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
+import com.example.CollegeManagment.config.TeacherMapStruct;
+import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -33,6 +36,9 @@ public class TeacherServiceTest {
 
     @InjectMocks
     private TeacherServiceImpl teacherService;
+
+    @Mock
+    private TeacherMapStruct teacherMapStruct;
 
 
     @Test
@@ -116,7 +122,8 @@ public class TeacherServiceTest {
         existingTeacher.setPhno("1234567890");
 
         when(teacherRepo.existsByPhno(any())).thenReturn(true);
-        when(teacherRepo.findByPhno(any())).thenReturn(Optional.of(existingTeacher));
+        when(teacherRepo.findByPhno(any())).thenReturn(Optional.of(new Teacher()));
+        when(teacherMapStruct.toEntity(Mockito.any(TeacherRequestDTO.class))).thenReturn(existingTeacher);
 
         ItemNotFound exception = assertThrows(ItemNotFound.class, () -> {
             teacherService.createorupdate(1L, teacherRequestDTO);

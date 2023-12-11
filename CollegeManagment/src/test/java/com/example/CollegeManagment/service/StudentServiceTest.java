@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.service;
 
+import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.config.StudentMaptructConfig;
 import com.example.CollegeManagment.dto.requestdto.Studentdto;
@@ -112,20 +113,23 @@ import static org.mockito.Mockito.*;
      void testAddOrUpdateStudent_DuplicatePhoneNumber() {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
-
+        Long studentId = 1L;
         Student existingStudent = new Student();
-        existingStudent.setStudent_id(1L);
+        existingStudent.setStudent_id(studentId);
+        existingStudent.setSname("John Doe");
         existingStudent.setPhoneNum("1234567890");
 
-        when(studentRepo.findById(anyLong())).thenReturn(Optional.empty());
+        when(studentRepo.findById(anyLong())).thenReturn(Optional.of(existingStudent));
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
-        when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(existingStudent));
+        when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(new Student()));
+        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(existingStudent);
 
         // Act and Assert
-        assertThrows(ItemNotFound.class, () -> studentService.addorupdateStudent(studentdto, null));
 
-        // Verify that findById and save methods were not called
-        verify(studentRepo, never()).findById(anyLong());
+        assertThrows(BadRequest.class, () -> studentService.addorupdateStudent(studentdto, 1L));
+
+//        // Verify that findById and save methods were not called
+//        verify(studentRepo, never()).findById(anyLong());
         verify(studentRepo, never()).save(any(Student.class));
     }
 

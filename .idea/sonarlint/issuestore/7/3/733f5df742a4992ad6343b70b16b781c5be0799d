@@ -1,19 +1,18 @@
 
 Y
-java:S4973,"<Strings and Boxed types should be compared using "equals()".(Úÿÿñ8Õˆ»Å1
+java:S4973+"<Strings and Boxed types should be compared using "equals()".(Úÿÿñ8Õˆ»Å1
 {	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8×ˆ»Å1
 k
-java:S39730"IUse indentation to denote the code conditionally executed by this "else".(„¶áìøÿÿÿÿ8Øˆ»Å1
+java:S3973/"IUse indentation to denote the code conditionally executed by this "else".(„¶áìøÿÿÿÿ8Øˆ»Å1
 m
-java:S3655+"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8‰Ÿˆ»Å1
+java:S3655*"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8ú‘€¾Å1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ŠŸˆ»Å1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ŠŸˆ»Å1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8‹Ÿˆ»Å1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8‹Ÿˆ»Å1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8‹Ÿˆ»Å1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8‹Ÿˆ»Å1
 ]
-java:S1854";Remove this useless assignment to local variable "student".(ÛˆÆúÿÿÿÿ8©§Û»Å1
+java:S1854";Remove this useless assignment to local variable "student".(ÛˆÆúÿÿÿÿ8©§Û»Å1
 ]
-java:S1854 ";Remove this useless assignment to local variable "student".(€’•äÿÿÿÿÿ8©§Û»Å1
-]	java:S125$"<This block of commented-out lines of code should be removed.(õ†„ßüÿÿÿÿ8—Ÿˆ»Å1
+java:S1854!";Remove this useless assignment to local variable "student".(€’•äÿÿÿÿÿ8©§Û»Å1

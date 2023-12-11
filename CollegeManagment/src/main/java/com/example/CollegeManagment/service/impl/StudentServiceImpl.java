@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.service.impl;
 
+import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.config.StudentMaptructConfig;
 import com.example.CollegeManagment.dto.requestdto.Studentdto;
@@ -33,10 +34,8 @@ public class StudentServiceImpl implements Studentservice {
                      () -> new ItemNotFound("Student with id " + id + " is not found")
              );
         }
-//        student.setSname(studentdto.getSname());
-//        student.setDepartment(studentdto.getDepartment());
-//        student.setPhoneNum(studentdto.getPhoneNum());
-        student= studentMaptructConfig. toEntity(studentdto);
+
+        student= studentMaptructConfig.toEntity(studentdto);
 
         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
                 ||
@@ -46,7 +45,7 @@ public class StudentServiceImpl implements Studentservice {
                 studentRepo.save(student);
         }
         else
-        throw new ItemNotFound("phone number already exist");
+        throw new BadRequest("phone number already exist");
 
         return new Responsedto<>(true,"student added or updated successful",student);
     }
