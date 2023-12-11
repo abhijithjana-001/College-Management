@@ -1,20 +1,15 @@
 
 {
-java:S22935"YReplace the type specification in this constructor call with the diamond operator ("<>").(êòÅÀúÿÿÿÿ8§×Ô•Ä1
+java:S2293;"YReplace the type specification in this constructor call with the diamond operator ("<>").(êòÅÀúÿÿÿÿ8§×Ô•Ä1
 v
-java:S2293<"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ğëúá8ğ€ŞÇÄ1
+java:S2293B"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ğëúá8ğ€ŞÇÄ1
 {	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8©×Ô•Ä1
-l
-java:S3655/"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ÎÈØ8 ÔÙÊÄ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÿ€ŞÇÄ1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8†ªè¸Å1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8€ŞÇÄ1
-h
-java:S1128"KRemove this unused import 'com.example.CollegeManagment.entity.Department'.(‘ÇÃÌ8ñÔÙÊÄ1
-d
-java:S1128"BRemove this unused import 'org.apache.coyote.BadRequestException'.(£¯¬ÿûÿÿÿÿ8ñÔÙÊÄ1
-J
-java:S1128".Remove this unused import 'java.util.HashSet'.(Ê‚êX8ñÔÙÊÄ1
-L
-java:S1128"*Remove this unused import 'java.util.Set'.(ö²„¤şÿÿÿÿ8ñÔÙÊÄ1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8‡ªè¸Å1
+_
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8‡ªè¸Å1
+]
+java:S1854*";Remove this useless assignment to local variable "teacher".(ƒ†»ıÿÿÿÿ8”ªè¸Å1
+]	java:S125/"<This block of commented-out lines of code should be removed.(”ıóùÿÿÿÿÿ8ªè¸Å1

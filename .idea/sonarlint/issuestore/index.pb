@@ -99,3 +99,5 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/repository/TeacherR
 ]CollegeManagment/src/main/java/com/example/CollegeManagment/config/StudentMaptructConfig.java,0\8\0832e6db46827e655cd51dd635d4ec942ae464d6
 ˆ
 XCollegeManagment/src/main/java/com/example/CollegeManagment/config/DepartmentMapper.java,2\f\2f1207208301bbbb67ff9a69a9e389755abd3d4c
+ˆ
+XCollegeManagment/src/main/java/com/example/CollegeManagment/config/TeacherMapStruct.java,8\4\84eeade3a4ccbcb418f4bae297eac67ef3e48182
