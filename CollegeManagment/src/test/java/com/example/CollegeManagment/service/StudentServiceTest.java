@@ -106,22 +106,28 @@ class StudentServiceTest {
     @Test
     void testAddOrUpdateStudent_DuplicatePhoneNumber() {
         // Arrange
-        Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
+        Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567891");
+
         Long studentId = 1L;
         Student existingStudent = new Student();
         existingStudent.setStudent_id(studentId);
         existingStudent.setSname("John Doe");
         existingStudent.setPhoneNum("1234567890");
 
+        Student student = new Student();
+       student.setSname("John Doe");
+       student.setPhoneNum("1234567891");
+       student.setDepartment(new Department());
+
         when(studentRepo.findById(anyLong())).thenReturn(Optional.of(existingStudent));
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
-        when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(new Student()));
-        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(existingStudent);
+        when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(existingStudent));
+        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(student);
 
         // Act and Assert
 
-        assertThrows(BadRequest.class, () -> studentService.addorupdateStudent(studentdto, 1L));
-
+       BadRequest ex= assertThrows(BadRequest.class, () -> studentService.addorupdateStudent(studentdto, 1L));
+        assertEquals(ex.getMessage(),"phone number already exist");
 //       // Verify that findById and save methods were not called
            verify(studentRepo,times(1)).findById(anyLong());
         verify(studentRepo, never()).save(any(Student.class));

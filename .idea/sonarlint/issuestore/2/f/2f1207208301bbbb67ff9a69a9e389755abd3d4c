@@ -1,6 +1,0 @@
-
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(òúìˆşÿÿÿÿ
-T
-java:S1128"2Remove this unused import 'org.mapstruct.Mapping'.(•Š–øûÿÿÿÿ8¯È¯ÁÅ1
-M
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8¯È¯ÁÅ1
