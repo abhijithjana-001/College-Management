@@ -23,21 +23,20 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
     @Override
-    public Responsedto createOrUpdate(DepartmentDto departmentDto){
-
-        Department department;
-
-        if (departmentDto.getId() == null) {
-            department = new Department();
-        }else {
-            department = departmentRepo.findById(departmentDto.getId())
-                    .orElseThrow(() -> new ItemNotFound("Department not found with ID: " + departmentDto.getId()));
-        }
-
+    public Responsedto createOrUpdate(DepartmentDto departmentDto, Long id){
         Department existingDepartment = departmentRepo.findByNameIgnoreCase(departmentDto.getName());
 
         if (existingDepartment != null) {
             throw new BadRequest("Department name already exists");
+        }
+
+        Department department;
+
+        if (id == null) {
+            department = new Department();
+        }else {
+            department = departmentRepo.findById(id)
+                    .orElseThrow(() -> new ItemNotFound("Department not found with ID: " + id));
         }
 
         department = departmentMapper.toEntity(departmentDto);

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DepartmentService {
 
-    Responsedto createOrUpdate(DepartmentDto departmentDto);
+    Responsedto createOrUpdate(DepartmentDto departmentDto, Long id);
 
 
     Responsedto<List<Department>> findAllDepartments();

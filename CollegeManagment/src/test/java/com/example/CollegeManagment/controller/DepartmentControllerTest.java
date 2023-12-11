@@ -37,16 +37,21 @@ public class DepartmentControllerTest {
 
     @Test
     void testAddDepartment() throws Exception {
-        DepartmentDto departmentDto = new DepartmentDto(1L, "Test Department");
+        // Given
+        DepartmentDto departmentDto = new DepartmentDto("Test Department");
         Department mockedDepartment = new Department(1L, "Test Department");
         Responsedto<Department> mockedResponse = new Responsedto<>(true, "Department added successfully", mockedDepartment);
 
-        when(departmentService.createOrUpdate(any(DepartmentDto.class))).thenReturn(mockedResponse);
+        // Mock the behavior of departmentService.createOrUpdate
+        when(departmentService.createOrUpdate(any(DepartmentDto.class), any()))
+                .thenReturn(mockedResponse);
 
+        // When
         ResultActions resultActions = mockMvc.perform(post("/api/department/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(departmentDto)));
 
+        // Then
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -58,13 +63,12 @@ public class DepartmentControllerTest {
     @Test
     void testUpdateDepartment() throws Exception {
         long departmentId = 1L;
-        DepartmentDto departmentDto = new DepartmentDto(1L, "Updated Department");
-        departmentDto.setId(departmentId);
+        DepartmentDto departmentDto = new DepartmentDto("Updated Department");
 
         Department mockedDepartment = new Department(departmentId, "Updated Department");
         Responsedto<Department> mockedResponse = new Responsedto<>(true, "Department updated successfully", mockedDepartment);
 
-        when(departmentService.createOrUpdate(any(DepartmentDto.class))).thenReturn(mockedResponse);
+        when(departmentService.createOrUpdate(any(DepartmentDto.class), anyLong())).thenReturn(mockedResponse);
 
         ResultActions resultActions = mockMvc.perform(put("/api/department/update/{id}", departmentId)
                 .contentType(MediaType.APPLICATION_JSON)

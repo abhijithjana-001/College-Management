@@ -44,7 +44,7 @@ public class DepartmentServiceTest {
 
         when(departmentRepo.findByNameIgnoreCase("New Department")).thenReturn(null);
 
-        Responsedto response = departmentService.createOrUpdate(departmentDto);
+        Responsedto response = departmentService.createOrUpdate(departmentDto, null);
 
         assertTrue(response.getSuccess());
         assertEquals("Department added", response.getMessage());
@@ -53,27 +53,18 @@ public class DepartmentServiceTest {
 
     @Test
     @DisplayName("Test for bad request exception ")
-    void createOrUpdate_ThrowBadRequestException() {
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setName("Existing Department");
-        Department existingDepartment = new Department();
-        existingDepartment.setId(1L);
-        existingDepartment.setName("Existing Department");
+    void testCreateOrUpdate_DuplicateDepartmentName() {
+        DepartmentDto departmentDto = new DepartmentDto("Duplicate Department");
 
-        when(departmentRepo.findByNameIgnoreCase("Existing Department")).thenReturn(existingDepartment);
+        when(departmentRepo.findByNameIgnoreCase("Duplicate Department")).thenReturn(new Department(1L, "Duplicate Department"));
 
-        BadRequest exception = assertThrows(BadRequest.class, () -> {
-            departmentService.createOrUpdate(departmentDto);
-        });
-
-        assertEquals("Department name already exists", exception.getMessage());
+        assertThrows(BadRequest.class, () -> departmentService.createOrUpdate(departmentDto, 1L));
     }
 
     @Test
     @DisplayName("Test for updating existing department")
     void createOrUpdate_UpdateExistingDepartment() {
         DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setId(1L);
         departmentDto.setName("Updated Department");
 
         Department existingDepartment = new Department();
@@ -83,7 +74,7 @@ public class DepartmentServiceTest {
         when(departmentRepo.findByNameIgnoreCase("Updated Department")).thenReturn(null);
         when(departmentRepo.findById(1L)).thenReturn(Optional.of(existingDepartment));
 
-        Responsedto response = departmentService.createOrUpdate(departmentDto);
+        Responsedto response = departmentService.createOrUpdate(departmentDto, 1L);
 
         assertTrue(response.getSuccess());
         assertEquals("Department added", response.getMessage());

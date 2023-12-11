@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DepartmentDto {
 
-    private Long Id;
-
     @NotEmpty
     @Size(min = 8, message = "department name should have at least 2 characters")
     private String name;

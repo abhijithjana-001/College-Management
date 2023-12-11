@@ -1,8 +1,8 @@
 
-L
-java:S3740"/Provide the parametrized type for this generic.(å«²8‘ë‰¸Å1
-m	java:S117$"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Šì“8†ÄÏ˜Ä1
-r	java:S117*"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ÓŒ³üÿÿÿÿ8†ÄÏ˜Ä1
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÏåÔùÿÿÿÿÿ8‡ÄÏ˜Ä1
+Q
+java:S3740"/Provide the parametrized type for this generic.(ƒñö±üÿÿÿÿ8ôŸˆÂÅ1
+r	java:S117#"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆôĞâøÿÿÿÿ8õŸˆÂÅ1
+r	java:S117)"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ÓŒ³üÿÿÿÿ8õŸˆÂÅ1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÏåÔùÿÿÿÿÿ8÷ŸˆÂÅ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8šÄÏ˜Ä1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8‰ ˆÂÅ1
