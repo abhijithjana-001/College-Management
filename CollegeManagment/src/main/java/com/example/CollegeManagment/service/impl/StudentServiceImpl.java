@@ -28,15 +28,17 @@ public class StudentServiceImpl implements Studentservice {
         Student student;
         if (id == null) {
           student=  new Student();
+
         } else {
-             student=  studentRepo.findById(id).orElseThrow(() -> new ItemNotFound("Student with id " + id + " is not found"));
+             student=  studentRepo.findById(id).orElseThrow(
+                     () -> new ItemNotFound("Student with id " + id + " is not found")
+             );
         }
-
-
 //        student.setSname(studentdto.getSname());
 //        student.setDepartment(studentdto.getDepartment());
 //        student.setPhoneNum(studentdto.getPhoneNum());
-         student= studentMaptructConfig. toEntity(studentdto);
+        student= studentMaptructConfig. toEntity(studentdto);
+
         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
                 ||
                 (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
@@ -67,7 +69,7 @@ public class StudentServiceImpl implements Studentservice {
     public Responsedto<List<Student>> listStudent(){
        List<Student> students =studentRepo.findAll();
 
-        return new Responsedto(true,"student list : "+students.size()+" students" ,students);
+        return new Responsedto<>(true,"student list : "+students.size()+" students" ,students);
     }
 
 }

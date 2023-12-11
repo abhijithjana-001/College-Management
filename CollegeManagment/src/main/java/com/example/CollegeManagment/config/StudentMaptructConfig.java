@@ -9,9 +9,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface StudentMaptructConfig {
-
-
     @Mapping(target = "student_id", ignore = true)
     Student toEntity(Studentdto studentdto);
-
 }
