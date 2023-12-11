@@ -95,7 +95,7 @@ f
 6CollegeManagment/.mvn/wrapper/maven-wrapper.properties,8\3\837c163cdfec885d9ff7ed0ea705dccf2a665ed3
 á
 WCollegeManagment/src/main/java/com/example/CollegeManagment/repository/TeacherRepo.java,e\3\e3231bc589b4408c68649d0310af02c5689a9be5
-Ü
-VCollegeManagment/src/main/java/com/example/CollegeManagment/config/MaptructConfig.java,f\a\fa2d752a1d5145fccd87ac388d5ba7b6b3217ad9
 ç
 ]CollegeManagment/src/main/java/com/example/CollegeManagment/config/StudentMaptructConfig.java,0\8\0832e6db46827e655cd51dd635d4ec942ae464d6
+à
+XCollegeManagment/src/main/java/com/example/CollegeManagment/config/DepartmentMapper.java,2\f\2f1207208301bbbb67ff9a69a9e389755abd3d4c

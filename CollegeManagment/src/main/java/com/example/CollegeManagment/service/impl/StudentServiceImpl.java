@@ -25,12 +25,13 @@ public class StudentServiceImpl implements Studentservice {
     private  StudentMaptructConfig studentMaptructConfig;
     @Override
     public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id) {
+        Student student;
+        if (id == null) {
+          student=  new Student();
+        } else {
+             student=  studentRepo.findById(id).orElseThrow(() -> new ItemNotFound("Student with id " + id + " is not found"));
+        }
 
-        Student student=
-                id==null?
-                        new Student()
-                        :
-                        studentRepo.findById(id).orElseThrow(()->new ItemNotFound("Student with id "+id +" is not found"));
 
 //        student.setSname(studentdto.getSname());
 //        student.setDepartment(studentdto.getDepartment());
