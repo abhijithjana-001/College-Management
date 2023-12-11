@@ -2,6 +2,7 @@ package com.example.CollegeManagment.service.impl;
 
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
+import com.example.CollegeManagment.config.TeacherMapStruct;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
@@ -25,6 +26,9 @@ public class TeacherServiceImpl implements Teacherservice {
         @Autowired
         DepartmentRepo departmentRepo;
 
+        @Autowired
+        TeacherMapStruct teacherMapStruct;
+
 
         @Override
         public Responsedto<List<Teacher>> findAll() {
@@ -40,9 +44,11 @@ public class TeacherServiceImpl implements Teacherservice {
                     ItemNotFound("Teacher not found with ID : "+id));
 
 
-            teacher.setName(teacherRequestDTO.getName());
-            teacher.setPhno(teacherRequestDTO.getPhno());
-            teacher.setDepartments(teacherRequestDTO.getDepartment());
+//            teacher.setName(teacherRequestDTO.getName());
+//            teacher.setPhno(teacherRequestDTO.getPhno());
+//            teacher.setDepartments(teacherRequestDTO.getDepartment());
+            teacher=teacherMapStruct.toEntity(teacherRequestDTO);
+
             if(!teacherRepo.existsByPhno(teacher.getPhno()) ||
                     teacherRepo.findByPhno(teacherRequestDTO.getPhno()).get().getTid()==teacher.getTid())  {
                 teacherRepo.save(teacher);
