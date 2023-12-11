@@ -1,18 +1,11 @@
 
-Y
-java:S4973+"<Strings and Boxed types should be compared using "equals()".(Úÿÿñ8Ç®òÁÅ1
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8×ˆ»Å1
-k
-java:S3973/"IUse indentation to denote the code conditionally executed by this "else".(„¶áìøÿÿÿÿ8È®òÁÅ1
-T
-java:S3655*"7Call "Optional#isPresent()" before accessing the value.(â›î8ê®òÁÅ1
-_
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ë®òÁÅ1
-_
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ì®òÁÅ1
-_
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ì®òÁÅ1
-]
-java:S1854";Remove this useless assignment to local variable "student".(ÛˆÆúÿÿÿÿ8ğ®òÁÅ1
-]
-java:S1854!";Remove this useless assignment to local variable "student".(€’•äÿÿÿÿÿ8ğ®òÁÅ1
+·
+AYxH-9T9iSYhIjfSCrK1	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8ˆğªÂ1J$cd3d80b0-fe18-4e6c-8d1e-6b2007200096
+“
+java:S3655)"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8øãÛÂÅ1J$d8f57525-1643-481b-8b35-771b2d11262d
+x
+java:S1172"5Remove this unused method parameter "departmentRepo".(Ÿ áÅ8õÌŞÂÅ1J$cd1d389b-6e09-4221-9f19-e8ab43787c66
+ƒ
+java:S1854";Remove this useless assignment to local variable "student".(ÛˆÆúÿÿÿÿ8ÿãÛÂÅ1J$0b992c9d-6326-4db2-a18a-3d0c2d4a07be
+ƒ
+java:S1854 ";Remove this useless assignment to local variable "student".(Ò¶›¡ûÿÿÿÿ8€äÛÂÅ1J$cebc00ae-bca0-43cd-ac66-c54d969056b3

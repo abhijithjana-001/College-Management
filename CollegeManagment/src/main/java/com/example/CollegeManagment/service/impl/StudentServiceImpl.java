@@ -9,44 +9,43 @@ import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.Studentservice;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class StudentServiceImpl implements Studentservice {
-    @Autowired
-    private StudentRepo studentRepo;
+    private final StudentRepo studentRepo;
+    private final StudentMaptructConfig studentMaptructConfig;
 
-    @Autowired
-    private DepartmentRepo departmentRepo;
+     public StudentServiceImpl(StudentRepo studentRepo,DepartmentRepo departmentRepo,StudentMaptructConfig studentMaptructConfig){
+                this.studentRepo=studentRepo;
 
-    @Autowired
-    private  StudentMaptructConfig studentMaptructConfig;
+                this.studentMaptructConfig=studentMaptructConfig;
+     }
     @Override
     public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id) {
-        Student student;
+        Student student=null;
         if (id == null) {
           student=  new Student();
         } else {
-             student=  studentRepo.findById(id).orElseThrow(
+             student=  studentRepo.findById(id).
+                     orElseThrow(
                      () -> new ItemNotFound("Student with id " + id + " is not found")
              );
         }
-
         student= studentMaptructConfig.toEntity(studentdto);
 
         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
                 ||
                 (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
-                                .getStudent_id() == student.getStudent_id())) {
+                                .getStudent_id().equals( student.getStudent_id()))) {
 
                 studentRepo.save(student);
         }
-        else
-        throw new BadRequest("phone number already exist");
-
+        else {
+            throw new BadRequest("phone number already exist");
+        }
         return new Responsedto<>(true,"student added or updated successful",student);
     }
     @Override
