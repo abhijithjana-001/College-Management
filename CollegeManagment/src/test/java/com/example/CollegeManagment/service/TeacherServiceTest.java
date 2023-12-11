@@ -12,12 +12,10 @@ import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.TeacherRepo;
 import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
@@ -64,7 +62,7 @@ public class TeacherServiceTest {
         teacherRequestDTO.setName("TeacherOne");
         teacherRequestDTO.setPhno("8075505822");
         Department department = new Department();
-        department.setId(1L);
+        department.setDepartment_id(1L);
         department.setName("DepartmentOne");
         HashSet<Department> set=new HashSet();
         set.add(department);

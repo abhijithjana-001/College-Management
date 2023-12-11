@@ -35,16 +35,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         if (departmentDto.getId() == null) {
             department = new Department();
-            department=departmentMapper.toEntity(departmentDto);
-            departmentRepo.save(department);
-            return new Responsedto<>(true, "Department added", department);
         }else {
             department = departmentRepo.findById(departmentDto.getId())
                     .orElseThrow(() -> new ItemNotFound("Department not found with ID: " + departmentDto.getId()));
-            department=departmentMapper.toEntity(departmentDto);
-            departmentRepo.save(department);
-            return new Responsedto<>(true, "Updated Successfully", department);
         }
+        department=departmentMapper.toEntity(departmentDto);
+        departmentRepo.save(department);
+        return new Responsedto<>(true, "added Successfully", department);
+
     }
 
     @Override
