@@ -5,8 +5,6 @@ import static org.mockito.Mockito.*;
 
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
-import com.example.CollegeManagment.config.TeacherMapStruct;
-import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
@@ -14,13 +12,10 @@ import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.TeacherRepo;
 import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
@@ -36,9 +31,6 @@ public class TeacherServiceTest {
 
     @InjectMocks
     private TeacherServiceImpl teacherService;
-
-    @Mock
-    private TeacherMapStruct teacherMapStruct;
 
 
     @Test
@@ -70,7 +62,7 @@ public class TeacherServiceTest {
         teacherRequestDTO.setName("TeacherOne");
         teacherRequestDTO.setPhno("8075505822");
         Department department = new Department();
-        department.setId(1L);
+        department.setDepartment_id(1L);
         department.setName("DepartmentOne");
         HashSet<Department> set=new HashSet();
         set.add(department);
@@ -122,8 +114,7 @@ public class TeacherServiceTest {
         existingTeacher.setPhno("1234567890");
 
         when(teacherRepo.existsByPhno(any())).thenReturn(true);
-        when(teacherRepo.findByPhno(any())).thenReturn(Optional.of(new Teacher()));
-        when(teacherMapStruct.toEntity(Mockito.any(TeacherRequestDTO.class))).thenReturn(existingTeacher);
+        when(teacherRepo.findByPhno(any())).thenReturn(Optional.of(existingTeacher));
 
         ItemNotFound exception = assertThrows(ItemNotFound.class, () -> {
             teacherService.createorupdate(1L, teacherRequestDTO);
