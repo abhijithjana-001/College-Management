@@ -5,6 +5,7 @@ import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.service.Studentservice;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,8 @@ public class StudentControllerTest {
 @Autowired
     private MockMvc mockMvc;
 
-
+@Autowired
+private ObjectMapper objectMapper;
 
     @Test
     public void testAddStudent() throws Exception {
@@ -44,7 +46,7 @@ public class StudentControllerTest {
 
 
         mockMvc.perform(MockMvcRequestBuilders.post("/student/add")
-                        .content("{\"name\":\"John Doe\",\"department\":null}")
+                        .content(objectMapper.writeValueAsString(studentdto))
                         .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -121,7 +123,7 @@ public class StudentControllerTest {
 
 
         mockMvc.perform(MockMvcRequestBuilders.put("/student/update/{id}", studentId)
-                        .content("{\"name\":\"Updated John Doe\",\"department\":null}")
+                        .content(objectMapper.writeValueAsString(updatedStudentDto))
                         .contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
