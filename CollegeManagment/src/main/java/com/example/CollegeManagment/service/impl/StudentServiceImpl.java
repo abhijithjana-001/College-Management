@@ -28,7 +28,6 @@ public class StudentServiceImpl implements Studentservice {
         Student student;
         if (id == null) {
           student=  new Student();
-
         } else {
              student=  studentRepo.findById(id).orElseThrow(
                      () -> new ItemNotFound("Student with id " + id + " is not found")

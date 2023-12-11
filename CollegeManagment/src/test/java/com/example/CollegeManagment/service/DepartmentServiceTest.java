@@ -53,7 +53,7 @@ public class DepartmentServiceTest {
         departmentDto.setName("Existing Department");
 
         Department existingDepartment = new Department();
-        existingDepartment.setId(1L);
+        existingDepartment.setDepartment_id(1L);
         existingDepartment.setName("Existing Department");
 
         when(departmentRepo.findByNameIgnoreCase("Existing Department")).thenReturn(existingDepartment);
@@ -73,7 +73,7 @@ public class DepartmentServiceTest {
         departmentDto.setName("Updated Department");
 
         Department existingDepartment = new Department();
-        existingDepartment.setId(1L);
+        existingDepartment.setDepartment_id(1L);
         existingDepartment.setName("Existing Department");
 
         when(departmentRepo.findByNameIgnoreCase("Updated Department")).thenReturn(null);
@@ -91,12 +91,12 @@ public class DepartmentServiceTest {
     void testFindAllDepartments() {
         List<Department> departments = new ArrayList<>();
         Department department1 = new Department();
-        department1.setId(1L);
+        department1.setDepartment_id(1L);
         department1.setName("Department 1");
         departments.add(department1);
 
         Department department2 = new Department();
-        department2.setId(2L);
+        department2.setDepartment_id(2L);
         department2.setName("Department 2");
         departments.add(department2);
 

@@ -2,6 +2,7 @@ package com.example.CollegeManagment.service.impl;
 
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
+import com.example.CollegeManagment.config.DepartmentMapper;
 import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
@@ -17,6 +18,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private DepartmentRepo departmentRepo;
+    @Autowired
+    private DepartmentMapper departmentMapper;
 
 
     @Override
@@ -32,16 +35,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         if (departmentDto.getId() == null) {
             department = new Department();
-            department.setName(departmentDto.getName());
-            departmentRepo.save(department);
-            return new Responsedto<>(true, "Department added", department);
         }else {
             department = departmentRepo.findById(departmentDto.getId())
                     .orElseThrow(() -> new ItemNotFound("Department not found with ID: " + departmentDto.getId()));
-            department.setName(departmentDto.getName());
-            departmentRepo.save(department);
-            return new Responsedto<>(true, "Updated Successfully", department);
         }
+        department=departmentMapper.toEntity(departmentDto);
+        departmentRepo.save(department);
+        return new Responsedto<>(true, "added Successfully", department);
+
     }
 
     @Override
