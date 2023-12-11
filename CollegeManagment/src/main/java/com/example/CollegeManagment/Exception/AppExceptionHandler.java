@@ -1,7 +1,5 @@
 package com.example.CollegeManagment.Exception;
 
-
-
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +10,6 @@ import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class AppExceptionHandler {
-
-
     @ExceptionHandler({ItemNotFound.class, BadRequest.class})
     public ResponseEntity<Responsedto<Object>> handlecustomexception(
             RuntimeException e,

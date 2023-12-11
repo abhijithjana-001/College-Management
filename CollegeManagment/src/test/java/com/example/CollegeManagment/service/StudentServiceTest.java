@@ -10,15 +10,12 @@ import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.impl.StudentServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +27,9 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
- class StudentServiceTest {
-
+class StudentServiceTest {
     @Mock
     private StudentRepo studentRepo;
-
     @Mock
     private DepartmentRepo departmentRepo;
     @Mock
@@ -44,12 +39,11 @@ import static org.mockito.Mockito.*;
     private StudentServiceImpl studentService;
 
 
-
     @Test
-     void testAddOrUpdateStudent_AddNewStudent() {
+    void testAddOrUpdateStudent_AddNewStudent() {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
-        Student student=new Student();
+        Student student = new Student();
 
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(false);
         when(studentRepo.save(any(Student.class))).thenReturn(student);
@@ -86,7 +80,7 @@ import static org.mockito.Mockito.*;
         updatedStudent.setPhoneNum("1234567890");
 
         when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
-        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true    );
+        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
         when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
         when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(updatedStudent);
 //        studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
@@ -110,7 +104,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-     void testAddOrUpdateStudent_DuplicatePhoneNumber() {
+    void testAddOrUpdateStudent_DuplicatePhoneNumber() {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
         Long studentId = 1L;
@@ -128,13 +122,13 @@ import static org.mockito.Mockito.*;
 
         assertThrows(BadRequest.class, () -> studentService.addorupdateStudent(studentdto, 1L));
 
-//        // Verify that findById and save methods were not called
-//        verify(studentRepo, never()).findById(anyLong());
+//       // Verify that findById and save methods were not called
+           verify(studentRepo,times(1)).findById(anyLong());
         verify(studentRepo, never()).save(any(Student.class));
     }
 
     @Test
-     void testViewDetails_ExistingStudent() {
+    void testViewDetails_ExistingStudent() {
         // Arrange
         Long studentId = 1L;
         Student existingStudent = new Student();
@@ -172,7 +166,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-     void testDeleteById() {
+    void testDeleteById() {
         // Arrange
         Long studentId = 1L;
 
@@ -189,7 +183,7 @@ import static org.mockito.Mockito.*;
     }
 
     @Test
-     void testListStudent() {
+    void testListStudent() {
         // Arrange
         List<Student> students = new ArrayList<>();
         students.add(new Student());
