@@ -101,3 +101,13 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/repository/TeacherR
 XCollegeManagment/src/main/java/com/example/CollegeManagment/config/DepartmentMapper.java,2\f\2f1207208301bbbb67ff9a69a9e389755abd3d4c
 à
 XCollegeManagment/src/main/java/com/example/CollegeManagment/config/TeacherMapStruct.java,8\4\84eeade3a4ccbcb418f4bae297eac67ef3e48182
+;
+qodana.yaml,8\5\85c3a901608a6b9adf48d245fa84828b66304e51
+Å
+Q.idea/sonarlint/securityhotspotstore/8/4/84eeade3a4ccbcb418f4bae297eac67ef3e48182,8\c\8cdbbbe252d87e82c42790ab0d8c3a7cd490e6fb
+Å
+Q.idea/sonarlint/securityhotspotstore/2/f/2f1207208301bbbb67ff9a69a9e389755abd3d4c,b\5\b518dd2d614c85db6bee7e1fb8251acb6ac4afcf
+Å
+Q.idea/sonarlint/securityhotspotstore/9/d/9de4cd3f0d70e53655172f2c5d0970f7cd67d859,1\d\1d32ebf8edf022c899e6593f53c78146d555df51
+Å
+Q.idea/sonarlint/securityhotspotstore/0/8/0832e6db46827e655cd51dd635d4ec942ae464d6,c\3\c39dac419aab9b2184dd2aecbf074f852c6d4889

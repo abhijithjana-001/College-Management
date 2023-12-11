@@ -1,6 +1,7 @@
 package com.example.CollegeManagment.service;
 
 import com.example.CollegeManagment.Exception.ItemNotFound;
+import com.example.CollegeManagment.config.StudentMaptructConfig;
 import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
@@ -13,8 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,8 @@ import static org.mockito.Mockito.*;
 
     @Mock
     private DepartmentRepo departmentRepo;
+    @Mock
+    private StudentMaptructConfig studentMaptructConfig;
 
     @InjectMocks
     private StudentServiceImpl studentService;
@@ -43,10 +48,12 @@ import static org.mockito.Mockito.*;
      void testAddOrUpdateStudent_AddNewStudent() {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
+        Student student=new Student();
 
-        when(studentRepo.findById(anyLong())).thenReturn(Optional.empty());
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(false);
-        when(studentRepo.save(any(Student.class))).thenReturn(new Student());
+        when(studentRepo.save(any(Student.class))).thenReturn(student);
+
+        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(student);
 
         // Act
         Responsedto<Student> response = studentService.addorupdateStudent(studentdto, null);
@@ -72,9 +79,15 @@ import static org.mockito.Mockito.*;
         existingStudent.setSname("John Doe");
         existingStudent.setPhoneNum("1234567890");
 
+        Student updatedStudent = new Student();
+        updatedStudent.setStudent_id(studentId);
+        updatedStudent.setSname("Updated John Doe");
+        updatedStudent.setPhoneNum("1234567890");
+
         when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true    );
         when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
+        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(updatedStudent);
 //        studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
 //                .getStudent_id() == student.getStudent_id()
 

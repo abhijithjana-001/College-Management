@@ -24,10 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @WebMvcTest(StudentController.class)
 public class StudentControllerTest {
-
     @MockBean
     private Studentservice studentservice;
-
     @InjectMocks
     private StudentController studentController;
 @Autowired
@@ -51,8 +49,6 @@ private ObjectMapper objectMapper;
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("student added successful"));
-
-
     }
 
     @Test
@@ -63,14 +59,11 @@ private ObjectMapper objectMapper;
 
         when(studentservice.listStudent()).thenReturn(mockedResponse);
 
-
         mockMvc.perform(MockMvcRequestBuilders.get("/student/list"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("student list : 2 students"))
                 .andExpect(jsonPath("$.result").isArray());
-
-
     }
 
     @Test
@@ -91,8 +84,6 @@ private ObjectMapper objectMapper;
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("student added successful"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.result.student_id").value(studentId));
 
-
-
     }
 
     @Test
@@ -103,12 +94,10 @@ private ObjectMapper objectMapper;
 
         when(studentservice.deletebyid(studentId)).thenReturn(mockedResponse);
 
-
         mockMvc.perform(MockMvcRequestBuilders.delete("/student/delete/{id}", studentId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("student delete successful"));
-
 
         verify(studentservice, times(1)).deletebyid(studentId);
     }
@@ -120,7 +109,6 @@ private ObjectMapper objectMapper;
         Responsedto<Student> mockedResponse = new Responsedto<>(true, "student updated successful", new Student());
 
         when(studentservice.addorupdateStudent(updatedStudentDto, studentId)).thenReturn(mockedResponse);
-
 
         mockMvc.perform(MockMvcRequestBuilders.put("/student/update/{id}", studentId)
                         .content(objectMapper.writeValueAsString(updatedStudentDto))

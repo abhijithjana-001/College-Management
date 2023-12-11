@@ -43,7 +43,6 @@ public class TeacherServiceImpl implements Teacherservice {
                      teacherRepo.findById(id).orElseThrow(()->new
                     ItemNotFound("Teacher not found with ID : "+id));
 
-
 //            teacher.setName(teacherRequestDTO.getName());
 //            teacher.setPhno(teacherRequestDTO.getPhno());
 //            teacher.setDepartments(teacherRequestDTO.getDepartment());

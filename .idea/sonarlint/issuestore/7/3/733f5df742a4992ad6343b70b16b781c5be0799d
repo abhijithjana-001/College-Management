@@ -1,21 +1,19 @@
 
-Q
-java:S3740F"/Provide the parametrized type for this generic.(­ñù»øÿÿÿÿ8ãÀ˜ÊÄ1
 Y
-java:S4973+"<Strings and Boxed types should be compared using "equals()".(Úÿÿñ8éÚªÊÄ1
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8ñ×½ÉÄ1
+java:S4973-"<Strings and Boxed types should be compared using "equals()".(Úÿÿñ8Õžˆ»Å1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8×žˆ»Å1
 k
-java:S3973/"IUse indentation to denote the code conditionally executed by this "else".(„¶áìøÿÿÿÿ8ò×½ÉÄ1
+java:S39731"IUse indentation to denote the code conditionally executed by this "else".(„¶áìøÿÿÿÿ8Øžˆ»Å1
 m
-java:S3655*"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8“ÛªÊÄ1
+java:S3655,"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8‰Ÿˆ»Å1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8õ×½ÉÄ1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8ŠŸˆ»Å1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8õ×½ÉÄ1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8‹Ÿˆ»Å1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8õ×½ÉÄ1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8‹Ÿˆ»Å1
 ]
-java:S1854";Remove this useless assignment to local variable "student".(ÛˆÆúÿÿÿÿ8œêÜÊÄ1
+java:S1854";Remove this useless assignment to local variable "student".(ÛˆÆúÿÿÿÿ8©§Û»Å1
 ]
-java:S1854 ";Remove this useless assignment to local variable "student".(øß°óúÿÿÿÿ8Â¿ÝÊÄ1
-]	java:S125$"<This block of commented-out lines of code should be removed.(õ†„ßüÿÿÿÿ8°è˜ÊÄ1
+java:S1854!";Remove this useless assignment to local variable "student".(€’•äÿÿÿÿÿ8©§Û»Å1
+]	java:S125%"<This block of commented-out lines of code should be removed.(õ†„ßüÿÿÿÿ8—Ÿˆ»Å1
