@@ -82,12 +82,11 @@ class StudentServiceTest {
         updatedStudent.setSname("Updated John Doe");
         updatedStudent.setPhoneNum("1234567890");
 
-        when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
+
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
         when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
         when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(updatedStudent);
-//        studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
-//                .getStudent_id() == student.getStudent_id()
+        when(studentRepo.existsById(any(Long.class))).thenReturn(true);
 
         when(studentRepo.findByPhoneNum(studentdto.getPhoneNum())).thenReturn(Optional.of(existingStudent));
 
@@ -101,8 +100,7 @@ class StudentServiceTest {
         assertNotNull(response.getResult());
         assertEquals("Updated John Doe", response.getResult().getSname());
 
-        // Verify that findById and save methods were called
-        verify(studentRepo, times(1)).findById(studentId);
+
         verify(studentRepo, times(1)).save(any(Student.class));
     }
 
@@ -111,28 +109,29 @@ class StudentServiceTest {
         // Arrange
         Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567891");
 
-        Long studentId = 1L;
+        Long studentId =  2L;
         Student existingStudent = new Student();
         existingStudent.setStudent_id(studentId);
         existingStudent.setSname("John Doe");
         existingStudent.setPhoneNum("1234567890");
 
         Student student = new Student();
+        student.setStudent_id(1L);
        student.setSname("John Doe");
-       student.setPhoneNum("1234567891");
+       student.setPhoneNum("1234567890");
        student.setDepartment(new Department());
 
-        when(studentRepo.findById(anyLong())).thenReturn(Optional.of(existingStudent));
+
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
         when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(existingStudent));
         when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(student);
+        when(studentRepo.existsById(any(Long.class))).thenReturn(true);
 
         // Act and Assert
 
        BadRequest ex= assertThrows(BadRequest.class, () -> studentService.addorupdateStudent(studentdto, 1L));
         assertEquals(ex.getMessage(),"phone number already exist");
-//       // Verify that findById and save methods were not called
-           verify(studentRepo,times(1)).findById(anyLong());
+
         verify(studentRepo, never()).save(any(Student.class));
     }
 
