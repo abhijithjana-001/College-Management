@@ -40,14 +40,13 @@ public class StudentServiceImpl implements Studentservice {
 
         }
 
-         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
-                ||
-                (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
-                                .getStudent_id().equals( student.getStudent_id()))) {
+         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())) {
+             studentRepo.save(student);
+        } else if (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
+                 .getStudent_id().equals( student.getStudent_id())) {
 
-                studentRepo.save(student);
-        }
-        else {
+             studentRepo.save(student);
+         } else {
             throw new BadRequest("phone number already exist");
         }
         return new Responsedto<>(true,"student added or updated successful",student);
