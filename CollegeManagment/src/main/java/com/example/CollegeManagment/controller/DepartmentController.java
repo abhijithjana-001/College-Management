@@ -4,7 +4,9 @@ import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.service.DepartmentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,6 @@ public class DepartmentController {
         return ResponseEntity.ok(responsedto);
     }
 
-
     @GetMapping(value = "/listDepartments")
     public ResponseEntity<Responsedto<List<Department>>> findAllDepartments(){
         Responsedto<List<Department>> all=departmentService.findAllDepartments();
@@ -31,9 +32,15 @@ public class DepartmentController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Responsedto<Department>> update(@RequestBody DepartmentDto departmentDto,@PathVariable long id) {
+    public ResponseEntity<Responsedto<Department>> update(@Valid @PathVariable long id, @RequestBody DepartmentDto departmentDto) {
         Responsedto<Department> Responsedto = departmentService.createOrUpdate(departmentDto, id);
         return ResponseEntity.ok(Responsedto);
+    }
+
+    @GetMapping("/pagination/{offset}/{pageSize}")
+    private ResponseEntity<Page<Department>> pagination(@PathVariable int offset, @PathVariable int pageSize) {
+        Page<Department> departmentPagination = departmentService.findDepartmentWithPagination(offset, pageSize);
+        return ResponseEntity.ok(departmentPagination);
     }
 
     @DeleteMapping("/delete/{id}")
