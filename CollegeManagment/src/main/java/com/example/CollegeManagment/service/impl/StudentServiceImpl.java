@@ -33,8 +33,8 @@ public class StudentServiceImpl implements Studentservice {
         if (id==null)
             student.setStudent_id(new Student().getStudent_id());
          else {
-             Boolean exits= studentRepo.existsById(id);
-             if(exits)
+             Boolean exists= studentRepo.existsById(id);
+             if(exists)
                  student.setStudent_id(id);
              else
                  throw new ItemNotFound("Student with id " + id + " is not found");
