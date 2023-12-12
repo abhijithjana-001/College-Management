@@ -29,18 +29,19 @@ public class StudentServiceImpl implements Studentservice {
      }
     @Override
     public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id) {
-        Student student=null;
-        if (id == null) {
-          student=  new Student();
-        } else {
-             student=  studentRepo.findById(id).
-                     orElseThrow(
-                     () -> new ItemNotFound("Student with id " + id + " is not found")
-             );
-        }
-        student= studentMaptructConfig.toEntity(studentdto);
+        Student student=studentMaptructConfig.toEntity(studentdto);
+        if (id==null)
+            student.setStudent_id(new Student().getStudent_id());
+         else {
+             Boolean exits= studentRepo.existsById(id);
+             if(exits)
+                 student.setStudent_id(id);
+             else
+                 throw new ItemNotFound("Student with id " + id + " is not found");
 
-        if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
+        }
+
+         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
                 ||
                 (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
                                 .getStudent_id().equals( student.getStudent_id()))) {

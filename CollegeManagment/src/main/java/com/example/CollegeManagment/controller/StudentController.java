@@ -52,7 +52,7 @@ public class StudentController {
 
 
      @PutMapping("/update/{id}")
-     public ResponseEntity<Responsedto<Student>> updateStudent(@Valid @PathVariable Long id, @RequestBody Studentdto studentdto){
+     public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id,@Valid  @RequestBody Studentdto studentdto){
          Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentdto,id);
          return ResponseEntity.ok(responsedto);
      }
