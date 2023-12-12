@@ -1,10 +1,10 @@
 
-¡	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8òğãÅ1J$7d5f41e6-d082-4ba6-80d8-69b709f758a5
+¡	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ËòŸåÿÿÿÿÿ8ìËÓäÅ1J$c6e12eb4-0a20-4281-b56a-f3944e1e13a2
 “
-java:S3655,"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8£òğãÅ1J$0054ee03-ec8d-43da-841a-26d109d1912c
+java:S3655-"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â›î8ÌÓäÅ1J$0765f109-54eb-4a1c-90a3-613757fe85dd
 x
-java:S1172"5Remove this unused method parameter "departmentRepo".(Ÿ áÅ8©òğãÅ1J$a6c447db-0a80-4625-a6f0-b518205cf77d
+java:S1172"5Remove this unused method parameter "departmentRepo".(Ÿ áÅ8•ÌÓäÅ1J$fc50f1a0-9888-4aeb-9058-0348a66f8356
 ƒ
-java:S1854!";Remove this useless assignment to local variable "student".(ÛˆÆúÿÿÿÿ8«òğãÅ1J$9781d24b-ac7a-4f83-a675-48e6b25e0129
+java:S1854"";Remove this useless assignment to local variable "student".(ÛˆÆúÿÿÿÿ8–ÌÓäÅ1J$6f61ca29-ae40-4c7d-8131-0514fb41c76f
 ƒ
-java:S1854#";Remove this useless assignment to local variable "student".(Ò¶›¡ûÿÿÿÿ8«òğãÅ1J$c0b5cc0d-1721-4cb3-85d5-d68b0e04b2f0
+java:S1854$";Remove this useless assignment to local variable "student".(Ò¶›¡ûÿÿÿÿ8—ÌÓäÅ1J$e374b49d-cbb8-4e8b-8d92-4bbefbe75111

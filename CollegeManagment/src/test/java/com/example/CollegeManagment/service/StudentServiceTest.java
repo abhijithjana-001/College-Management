@@ -16,6 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -194,20 +197,27 @@ class StudentServiceTest {
         List<Student> students = new ArrayList<>();
         students.add(new Student());
         students.add(new Student());
+        students.add(new Student());
+        students.add(new Student());
+        students.add(new Student());
 
-        when(studentRepo.findAll()).thenReturn(students);
+        Page<Student> pagees=new  PageImpl<Student>(
+                students
+        );
+        when(studentRepo.findAll(Mockito.any(Pageable.class))).thenReturn(pagees);
 
         // Act
-        Responsedto<List<Student>> response = studentService.listStudent();
+        Responsedto<List<Student>> response = studentService.listStudent(5,0,"sname");
 
         // Assert
         assertNotNull(response);
         assertTrue(response.getSuccess());
-        assertEquals("student list : 2 students", response.getMessage());
+        assertEquals(response.getResult().size(),5);
+        assertEquals("student list : 5 students", response.getMessage());
         assertNotNull(response.getResult());
-        assertEquals(2, response.getResult().size());
+
 
         // Verify that findAll method was called
-        verify(studentRepo, times(1)).findAll();
+        verify(studentRepo, times(1)).findAll(Mockito.any(Pageable.class));
     }
 }

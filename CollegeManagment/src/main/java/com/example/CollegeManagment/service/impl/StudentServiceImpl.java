@@ -12,6 +12,7 @@ import com.example.CollegeManagment.service.Studentservice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,8 +67,8 @@ public class StudentServiceImpl implements Studentservice {
     }
 
     @Override
-    public Responsedto<List<Student>> listStudent(Integer pagesize,Integer pagenumber){
-        Pageable pageable= PageRequest.of(pagenumber,pagesize);
+    public Responsedto<List<Student>> listStudent(Integer pagesize,Integer pagenumber,String sortby){
+        Pageable pageable= PageRequest.of(pagenumber,pagesize,Sort.by(sortby).ascending());
         Page<Student> pagestudent = studentRepo.findAll(pageable);
         List<Student> students =pagestudent.getContent();
 

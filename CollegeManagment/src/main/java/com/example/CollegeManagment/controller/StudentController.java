@@ -30,10 +30,12 @@ public class StudentController {
     @GetMapping("/list")
     public ResponseEntity<Responsedto<List<Student>>> listStudent(
             @RequestParam(value ="pagenumber",defaultValue = "0",required = false) Integer pagenumber,
-    @RequestParam(value ="pagesize",defaultValue = "5",required = false) Integer pagesize)
+            @RequestParam(value ="pagesize",defaultValue = "5",required = false) Integer pagesize,
+            @RequestParam(value ="sortby",defaultValue = "sname",required = false) String sortby
+        )
     {
 
-        Responsedto<List<Student>> responsedto=studentservice.listStudent( pagesize,pagenumber);
+        Responsedto<List<Student>> responsedto=studentservice.listStudent( pagesize,pagenumber,sortby);
         return ResponseEntity.ok(responsedto);
     }
     @GetMapping("/{id}")

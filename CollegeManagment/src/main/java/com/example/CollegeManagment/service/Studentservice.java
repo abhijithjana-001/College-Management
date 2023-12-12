@@ -10,6 +10,6 @@ public interface Studentservice {
     public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id);
     public  Responsedto<Student> viewdetails(Long id);
     public Responsedto deletebyid(Long id);
-    public Responsedto<List<Student>> listStudent(Integer pagesize,Integer pagenumber);
+    public Responsedto<List<Student>> listStudent(Integer pagesize,Integer pagenumber,String sortby);
 
 }

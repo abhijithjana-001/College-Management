@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
@@ -57,13 +58,14 @@ private ObjectMapper objectMapper;
         List<Student> mockedStudents = Arrays.asList(new Student(), new Student());
         Responsedto<List<Student>> mockedResponse = new Responsedto<>(true, "student list : 2 students", mockedStudents);
 
-        when(studentservice.listStudent()).thenReturn(mockedResponse);
+        when(studentservice.listStudent(5,0,"sname")).thenReturn(mockedResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/student/list"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/list").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.message").value("student list : 2 students"))
-                .andExpect(jsonPath("$.result").isArray());
+                .andDo(MockMvcResultHandlers.print())
+               .andExpect(jsonPath("$.success").value(true))
+              .andExpect(jsonPath("$.message").value("student list : 2 students"))
+               .andExpect(jsonPath("$.result").isArray());
     }
 
     @Test
