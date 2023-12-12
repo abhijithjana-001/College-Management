@@ -19,3 +19,5 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Teacherserv
 `CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentServiceImpl.java,7\3\733f5df742a4992ad6343b70b16b781c5be0799d
 ‡
 WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentservice.java,f\7\f717455ac5778e00954cf14a5acb50aff5d4c8a3
+Š
+ZCollegeManagment/src/main/java/com/example/CollegeManagment/service/DepartmentService.java,7\d\7dbcb1e6ff7027b19cf67208bfec6301dc7769b0

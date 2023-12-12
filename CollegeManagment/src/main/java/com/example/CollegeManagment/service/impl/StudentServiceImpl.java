@@ -9,6 +9,9 @@ import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.Studentservice;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,8 +66,10 @@ public class StudentServiceImpl implements Studentservice {
     }
 
     @Override
-    public Responsedto<List<Student>> listStudent(){
-       List<Student> students =studentRepo.findAll();
+    public Responsedto<List<Student>> listStudent(Integer pagesize,Integer pagenumber){
+        Pageable pageable= PageRequest.of(pagenumber,pagesize);
+        Page<Student> pagestudent = studentRepo.findAll(pageable);
+        List<Student> students =pagestudent.getContent();
 
         return new Responsedto<>(true,"student list : "+students.size()+" students" ,students);
     }
