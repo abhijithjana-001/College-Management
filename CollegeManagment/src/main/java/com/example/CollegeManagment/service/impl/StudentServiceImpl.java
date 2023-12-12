@@ -6,7 +6,6 @@ import com.example.CollegeManagment.config.StudentMaptructConfig;
 import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
-import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.Studentservice;
 import org.springframework.data.domain.Page;
@@ -22,7 +21,7 @@ public class StudentServiceImpl implements Studentservice {
     private final StudentRepo studentRepo;
     private final StudentMaptructConfig studentMaptructConfig;
 
-     public StudentServiceImpl(StudentRepo studentRepo,DepartmentRepo departmentRepo,StudentMaptructConfig studentMaptructConfig){
+     public StudentServiceImpl(StudentRepo studentRepo,StudentMaptructConfig studentMaptructConfig){
                 this.studentRepo=studentRepo;
 
                 this.studentMaptructConfig=studentMaptructConfig;
@@ -33,7 +32,7 @@ public class StudentServiceImpl implements Studentservice {
         if (id==null)
             student.setStudent_id(new Student().getStudent_id());
          else {
-             Boolean exists= studentRepo.existsById(id);
+             boolean exists= studentRepo.existsById(id);
              if(exists)
                  student.setStudent_id(id);
              else
@@ -41,14 +40,13 @@ public class StudentServiceImpl implements Studentservice {
 
         }
 
-         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
-                ||
-                (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
-                                .getStudent_id().equals( student.getStudent_id()))) {
+         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())) {
+             studentRepo.save(student);
+        } else if (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
+                 .getStudent_id().equals( student.getStudent_id())) {
 
-                studentRepo.save(student);
-        }
-        else {
+             studentRepo.save(student);
+         } else {
             throw new BadRequest("phone number already exist");
         }
         return new Responsedto<>(true,"student added or updated successful",student);

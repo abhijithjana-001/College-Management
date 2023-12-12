@@ -29,3 +29,5 @@ aCollegeManagment/src/test/java/com/example/CollegeManagment/controller/StudentC
 cCollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/DepartmentServiceImpl.java,d\c\dc94b0c53de29f6faceae065dff4f01d71358287
 ç
 ]CollegeManagment/src/main/java/com/example/CollegeManagment/controller/TeacherController.java,8\4\843b12c4dbd3eb3ddcf3d1b766cb05ade225a7c1
+å
+\CollegeManagment/src/main/java/com/example/CollegeManagment/CollegeManagmentApplication.java,8\5\85cf2eee45a6722e4579648e0e3139beafc3c26d
