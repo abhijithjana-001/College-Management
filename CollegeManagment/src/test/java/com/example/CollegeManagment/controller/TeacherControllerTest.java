@@ -53,10 +53,11 @@ class TeacherControllerTest{
 
     @Test
     void findAllTeachersTest() throws Exception {
-        List<Teacher> teachers = Arrays.asList(new Teacher(), new Teacher());
+
+        List<Teacher> teachers = Arrays.asList(new Teacher());
         Responsedto<List<Teacher>> responseDTO = new Responsedto<>(true, "Teacher List", teachers);
 
-        when(teacherService.findAll()).thenReturn(responseDTO);
+        when(teacherService.findAll(5,0,"name")).thenReturn(responseDTO);
 
         this.mockMvc.perform(get("/teacher/teachers")
                         .contentType(MediaType.APPLICATION_JSON))

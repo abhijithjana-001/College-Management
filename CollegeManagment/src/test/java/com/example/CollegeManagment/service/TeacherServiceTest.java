@@ -24,6 +24,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 
@@ -77,9 +80,26 @@ public class TeacherServiceTest {
         teacher2.setName("Teacher 2");
         teachers.add(teacher2);
 
-        when(teacherRepo.findAll()).thenReturn(teachers);
+        Teacher teacher3 = new Teacher();
+        teacher3.setTid(3L);
+        teacher3.setName("Teacher 3");
+        teachers.add(teacher3);
 
-        Responsedto<List<Teacher>> response = teacherService.findAll();
+        Teacher teacher4 = new Teacher();
+        teacher4.setTid(4L);
+        teacher4.setName("Teacher 4");
+        teachers.add(teacher4);
+
+        Teacher teacher5 = new Teacher();
+        teacher5.setTid(5L);
+        teacher5.setName("Teacher 5");
+        teachers.add(teacher5);
+
+        Page<Teacher> pages = new PageImpl<>(teachers);
+
+        when(teacherRepo.findAll(Mockito.any(Pageable.class))).thenReturn(pages);
+
+        Responsedto<List<Teacher>> response = teacherService.findAll(5,0,"name");
 
         assertTrue(response.getSuccess());
         assertEquals("Teachers List", response.getMessage());
@@ -111,9 +131,9 @@ public class TeacherServiceTest {
         existingTeacher.setPhno("8075505822");
         existingTeacher.setDepartments(new HashSet<>());
 
-        when(teacherRepo.findById(teacherId)).thenReturn(Optional.of(existingTeacher));
         when(teacherRepo.save(any(Teacher.class))).thenReturn(existingTeacher);
         when(teacherMapStruct.toEntity(Mockito.any(TeacherRequestDTO.class))).thenReturn(updatedTeacher);
+        when(teacherRepo.existsById(any(Long.class))).thenReturn(true);
 
         Responsedto<Teacher> response = teacherService.createorupdate(teacherId, teacherRequestDTO);
 
@@ -132,50 +152,44 @@ public class TeacherServiceTest {
         teacherRequestDTO.setDepartment(new HashSet<>());
 
         Teacher existingTeacher = new Teacher();
-        existingTeacher.setTid(1L);
+        existingTeacher.setTid(2L);
         existingTeacher.setName("Existing Teacher");
         existingTeacher.setPhno("1234567890");
 
         when(teacherRepo.existsByPhno(any())).thenReturn(true);
         when(teacherRepo.findByPhno(any())).thenReturn(Optional.of(new Teacher()));
         when(teacherMapStruct.toEntity(Mockito.any(TeacherRequestDTO.class))).thenReturn(existingTeacher);
+        when(teacherRepo.existsById(any(Long.class))).thenReturn(true);
 
-        ItemNotFound exception = assertThrows(ItemNotFound.class, () -> {
+       BadRequest badException = assertThrows(BadRequest.class, () -> {
             teacherService.createorupdate(1L, teacherRequestDTO);
-        });
-
-        assertEquals("Teacher not found with ID : 1", exception.getMessage());
-
-        BadRequest badException = assertThrows(BadRequest.class, () -> {
-            teacherService.createorupdate(null, teacherRequestDTO);
         });
 
         assertEquals("Phone number already exists",badException.getMessage());
         verify(teacherRepo, never()).save(any(Teacher.class));
     }
 
-//    @Test
-//    void createOrUpdate_UpdateExistingTeacher() {
-//        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
-//        teacherRequestDTO.setPhno("9876543210");
-//        teacherRequestDTO.setName("Updated Teacher");
-//        teacherRequestDTO.setDepartment(new HashSet<>());
-//
-//        Teacher existingTeacher = new Teacher();
-//        existingTeacher.setTid(1L);
-//        existingTeacher.setName("Existing Teacher");
-//        existingTeacher.setPhno("1234567890");
-//
-//        when(teacherRepo.existsByPhno(any())).thenReturn(false);
-//        when(teacherRepo.findById(1L)).thenReturn(Optional.of(existingTeacher));
-//
-//        Responsedto response = teacherService.createorupdate(1L, teacherRequestDTO);
-//
-//        assertTrue(response.getSuccess());
-//        assertEquals("Updated Successfully", response.getMessage());
-//        assertNotNull(response.getResult());
-//    }
+    @Test
+    void createOrUpdate_ThrowItemNotFoundException() {
+        TeacherRequestDTO teacherRequestDTO = new TeacherRequestDTO();
+        teacherRequestDTO.setName("Existing Teacher");
+        teacherRequestDTO.setPhno("9876543210");
+        teacherRequestDTO.setDepartment(new HashSet<>());
 
+        Teacher existingTeacher = new Teacher();
+        existingTeacher.setTid(2L);
+        existingTeacher.setName("Existing Teacher");
+        existingTeacher.setPhno("1234567890");
+
+        when(teacherMapStruct.toEntity(Mockito.any(TeacherRequestDTO.class))).thenReturn(existingTeacher);
+        when(teacherRepo.existsById(any(Long.class))).thenReturn(false);
+
+        ItemNotFound exception = assertThrows(ItemNotFound.class, () -> {
+            teacherService.createorupdate(1L, teacherRequestDTO);
+        });
+
+        assertEquals("Teacher not found with ID : 1", exception.getMessage());
+    }
 
     @Test
     public void testDeleteTeacher() {
