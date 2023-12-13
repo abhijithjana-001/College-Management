@@ -7,13 +7,20 @@ import com.example.CollegeManagment.service.DepartmentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DepartmentControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private DepartmentService departmentService;
@@ -82,6 +92,7 @@ public class DepartmentControllerTest {
                 .andExpect(jsonPath("$.result.name").value("Updated Department"));
     }
 
+
     @Test
     void testFindAllDepartments() throws Exception {
         Department department1 = new Department(1L, "Computer Science");
@@ -100,6 +111,29 @@ public class DepartmentControllerTest {
                 .andExpect(jsonPath("$.result[0].name").value("Computer Science"))
                 .andExpect(jsonPath("$.result[1].id").value(2L))
                 .andExpect(jsonPath("$.result[1].name").value("Physics"));
+    }
+
+    @Test
+    public void pagination_ReturnsPageOfDepartments() throws Exception {
+
+        int offset = 0;
+        int pageSize = 10;
+
+        List<Department> departmentList = new ArrayList<>();
+        departmentList.add(new Department(1L, "Department 1"));
+        departmentList.add(new Department(2L, "Department 2"));
+
+        Page<Department> mockedPage = new PageImpl<>(departmentList);
+
+        when(departmentService.findDepartmentWithPagination(offset, pageSize)).thenReturn(mockedPage);
+
+        mockMvc.perform(get("/pagination/{offset}/{pageSize}", offset, pageSize))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].id").value(1L))
+                .andExpect(jsonPath("$[0].name").value("Department 1"))
+                .andExpect(jsonPath("$[1].id").value(2L))
+                .andExpect(jsonPath("$[1].name").value("Department 2"));
     }
 
     @Test

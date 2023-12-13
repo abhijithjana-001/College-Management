@@ -46,17 +46,18 @@ public class DepartmentServiceTest {
 
         assertTrue(response.getSuccess());
         assertEquals("Department added", response.getMessage());
-//        assertNotNull(response.getResult());
     }
 
     @Test
-    @DisplayName("Test for bad request exception ")
-    void testCreateOrUpdate_DuplicateDepartmentName() {
-        DepartmentDto departmentDto = new DepartmentDto("Duplicate Department");
+    public void createOrUpdate_ExistingDepartmentName_ThrowsBadRequestException() {
+        DepartmentDto departmentDto = new DepartmentDto();
+        departmentDto.setName("ExistingDepartment");
 
-        when(departmentRepo.findByNameIgnoreCase("Duplicate Department")).thenReturn(new Department(1L, "Duplicate Department"));
+        when(departmentRepo.findByNameIgnoreCase(anyString())).thenReturn(new Department());
 
-        assertThrows(BadRequest.class, () -> departmentService.createOrUpdate(departmentDto, 1L));
+        assertThrows(BadRequest.class, () -> departmentService.createOrUpdate(departmentDto, null));
+
+        verify(departmentRepo, never()).save(any());
     }
 
     @Test
@@ -76,7 +77,6 @@ public class DepartmentServiceTest {
 
         assertTrue(response.getSuccess());
         assertEquals("Department added", response.getMessage());
-//        assertNotNull(response.getResult());
     }
 
     @Test
