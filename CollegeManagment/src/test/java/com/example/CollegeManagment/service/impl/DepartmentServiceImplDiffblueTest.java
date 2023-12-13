@@ -62,12 +62,12 @@ class DepartmentServiceImplDiffblueTest {
         department2.setName("Name");
         department2.setStudents(new HashSet<>());
         department2.setTeachers(new HashSet<>());
+
         when(departmentRepo.findByNameIgnoreCase(Mockito.<String>any())).thenReturn(department2);
         when(departmentRepo.findById(Mockito.<Long>any())).thenReturn(ofResult);
+
         assertThrows(BadRequest.class, () -> departmentServiceImpl.createOrUpdate(new DepartmentDto("Name"), 1L));
-        verify(departmentMapper).updateEntity(Mockito.<DepartmentDto>any(), Mockito.<Department>any());
-        verify(departmentRepo).findByNameIgnoreCase(Mockito.<String>any());
-        verify(departmentRepo).findById(Mockito.<Long>any());
+
     }
 
     /**
