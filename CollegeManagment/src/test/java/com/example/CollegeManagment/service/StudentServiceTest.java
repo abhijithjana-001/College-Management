@@ -7,7 +7,6 @@ import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.Student;
-import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
     @Mock
@@ -72,18 +70,18 @@ class StudentServiceTest {
         Studentdto studentdto = new Studentdto("Updated John Doe", new Department(), "1234567890");
 
         Student existingStudent = new Student();
-        existingStudent.setStudent_id(studentId);
+        existingStudent.setStudentId(studentId);
         existingStudent.setSname("John Doe");
         existingStudent.setPhoneNum("1234567890");
 
         Student updatedStudent = new Student();
-        updatedStudent.setStudent_id(studentId);
+        updatedStudent.setStudentId(studentId);
         updatedStudent.setSname("Updated John Doe");
         updatedStudent.setPhoneNum("1234567890");
 
 
         when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
-        when(studentRepo.save(any(Student.class))).thenReturn(existingStudent);
+        when(studentRepo.save(any(Student.class))).thenReturn(updatedStudent);
         when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(updatedStudent);
         when(studentRepo.existsById(any(Long.class))).thenReturn(true);
 
@@ -110,12 +108,12 @@ class StudentServiceTest {
 
         Long studentId =  2L;
         Student existingStudent = new Student();
-        existingStudent.setStudent_id(studentId);
+        existingStudent.setStudentId(studentId);
         existingStudent.setSname("John Doe");
         existingStudent.setPhoneNum("1234567890");
 
         Student student = new Student();
-        student.setStudent_id(1L);
+        student.setStudentId(1L);
        student.setSname("John Doe");
        student.setPhoneNum("1234567890");
        student.setDepartment(new Department());
@@ -139,7 +137,7 @@ class StudentServiceTest {
         // Arrange
         Long studentId = 1L;
         Student existingStudent = new Student();
-        existingStudent.setStudent_id(studentId);
+        existingStudent.setStudentId(studentId);
         existingStudent.setSname("John Doe");
 
         when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
@@ -152,7 +150,7 @@ class StudentServiceTest {
         assertTrue(response.getSuccess());
         assertEquals("student added successful", response.getMessage());
         assertNotNull(response.getResult());
-        assertEquals(studentId, response.getResult().getStudent_id());
+        assertEquals(studentId, response.getResult().getStudentId());
 
         // Verify that findById method was called
         verify(studentRepo, times(1)).findById(studentId);
@@ -178,7 +176,7 @@ class StudentServiceTest {
         Long studentId = 1L;
 
         // Act
-        Responsedto response = studentService.deletebyid(studentId);
+        var response = studentService.deletebyid(studentId);
 
         // Assert
         assertNotNull(response);
@@ -199,7 +197,7 @@ class StudentServiceTest {
         students.add(new Student());
         students.add(new Student());
 
-        Page<Student> pagees=new  PageImpl<Student>(
+        Page<Student> pagees= new PageImpl<>(
                 students
         );
         when(studentRepo.findAll(Mockito.any(Pageable.class))).thenReturn(pagees);
