@@ -33,8 +33,7 @@ import static org.mockito.Mockito.*;
 class StudentServiceTest {
     @Mock
     private StudentRepo studentRepo;
-    @Mock
-    private DepartmentRepo departmentRepo;
+
     @Mock
     private StudentMaptructConfig studentMaptructConfig;
 
