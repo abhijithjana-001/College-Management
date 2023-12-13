@@ -30,11 +30,11 @@ public class StudentServiceImpl implements Studentservice {
     public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id) {
         Student student=studentMaptructConfig.toEntity(studentdto);
         if (id==null)
-            student.setStudent_id(new Student().getStudent_id());
+            student.setStudentId(new Student().getStudentId());
          else {
              boolean exists= studentRepo.existsById(id);
              if(exists)
-                 student.setStudent_id(id);
+                 student.setStudentId(id);
              else
                  throw new ItemNotFound("Student with id " + id + " is not found");
 
@@ -43,7 +43,7 @@ public class StudentServiceImpl implements Studentservice {
          if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())) {
              studentRepo.save(student);
         } else if (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
-                 .getStudent_id().equals( student.getStudent_id())) {
+                 .getStudentId().equals( student.getStudentId())) {
 
              studentRepo.save(student);
          } else {

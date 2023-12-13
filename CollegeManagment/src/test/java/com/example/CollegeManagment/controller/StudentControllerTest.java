@@ -73,7 +73,7 @@ private ObjectMapper objectMapper;
 
         Long studentId = 1L;
         Student mockedStudent = new Student();
-        mockedStudent.setStudent_id(studentId);
+        mockedStudent.setStudentId(studentId);
         Responsedto<Student> mockedResponse = new Responsedto<>(true, "student added successful", mockedStudent);
 
         when(studentservice.viewdetails(studentId)).thenReturn(mockedResponse);
