@@ -14,8 +14,5 @@ public interface DepartmentService {
 
     Responsedto<List<Department>> findAllDepartments();
 
-
-    Page<Department> findDepartmentWithPagination(int offset, int pageSize);
-
     Responsedto<Department> delete(Long id);
 }

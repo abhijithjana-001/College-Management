@@ -6,7 +6,6 @@ import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.service.DepartmentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,11 +36,6 @@ public class DepartmentController {
         return ResponseEntity.ok(Responsedto);
     }
 
-    @GetMapping("/pagination/{offset}/{pageSize}")
-    private ResponseEntity<Page<Department>> pagination(@PathVariable int offset, @PathVariable int pageSize) {
-        Page<Department> departmentPagination = departmentService.findDepartmentWithPagination(offset, pageSize);
-        return ResponseEntity.ok(departmentPagination);
-    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Responsedto<Department>> delete(@PathVariable long id) {

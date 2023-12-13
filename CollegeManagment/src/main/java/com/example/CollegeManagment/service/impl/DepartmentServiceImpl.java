@@ -56,12 +56,6 @@ public Responsedto<Department> createOrUpdate(DepartmentDto departmentDto, Long 
     }
 
     @Override
-    public Page<Department> findDepartmentWithPagination(int offset, int pageSize){
-        Page<Department> departments = departmentRepo.findAll(PageRequest.of(offset, pageSize));
-        return departments;
-    }
-
-    @Override
     public Responsedto<Department> delete(Long id) {
         departmentRepo.deleteById(id);
         return new Responsedto<>(true, "Successfully Deleted", null);
