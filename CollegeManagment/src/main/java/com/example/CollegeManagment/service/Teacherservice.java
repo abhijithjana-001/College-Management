@@ -12,7 +12,7 @@ public interface Teacherservice {
 
     public Responsedto<Teacher>createorupdate(Long id, TeacherRequestDTO teacherRequestDTO);
 
-    public Responsedto<List<Teacher>> findAll();
+    public Responsedto<List<Teacher>> findAll(Integer pageSize,Integer pageNumber,String sort);
 
   //  public Responsedto<Teacher> update(long id, TeacherRequestDTO teacherRequestDTO);
 

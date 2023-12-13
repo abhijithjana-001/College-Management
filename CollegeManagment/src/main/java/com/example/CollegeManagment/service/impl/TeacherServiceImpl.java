@@ -10,8 +10,13 @@ import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.TeacherRepo;
 import com.example.CollegeManagment.service.Teacherservice;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -31,25 +36,26 @@ public class TeacherServiceImpl implements Teacherservice {
 
 
         @Override
-        public Responsedto<List<Teacher>> findAll() {
-            List<Teacher> teachers=teacherRepo.findAll();
+        public Responsedto<List<Teacher>> findAll(Integer pageSize, Integer pageNumber,String sort) {
+            Pageable pageable= PageRequest.of(pageNumber,pageSize, Sort.by(sort));
+            Page<Teacher> pageTeacher=teacherRepo.findAll(pageable);
+            List<Teacher> teachers=pageTeacher.getContent();
             return new Responsedto<>(true,"Teachers List",teachers);
         }
 
         //demo
         @Override
         public Responsedto<Teacher>createorupdate(Long id, TeacherRequestDTO teacherRequestDTO) {
-            Teacher teacher;
+            Teacher teacher=teacherMapStruct.toEntity(teacherRequestDTO);
             if(id==null){
-                teacher=new Teacher();
+                teacher.setTid(new Teacher().getTid());
             }else{
-                teacher=teacherRepo.findById(id).orElseThrow(()->
-                        new ItemNotFound("Teacher not found with ID : "+id));
+                Boolean exist=teacherRepo.existsById(id);
+                if(exist)
+                    teacher.setTid(id);
+                else
+                    throw  new ItemNotFound("Teacher not found with ID : "+id);
             }
-//            teacher.setName(teacherRequestDTO.getName());
-//            teacher.setPhno(teacherRequestDTO.getPhno());
-//            teacher.setDepartments(teacherRequestDTO.getDepartment());
-            teacher=teacherMapStruct.toEntity(teacherRequestDTO);
 
             if(!teacherRepo.existsByPhno(teacher.getPhno()) ||
                     teacherRepo.findByPhno(teacherRequestDTO.getPhno()).get().getTid()==teacher.getTid())  {
