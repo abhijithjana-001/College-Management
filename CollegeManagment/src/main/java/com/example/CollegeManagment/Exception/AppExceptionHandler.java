@@ -24,7 +24,7 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<Responsedto<Object>> handlebildexception(
+    public ResponseEntity<Responsedto<Object>> handlebuildexception(
             BindException e,
             WebRequest webRequest)
     {

@@ -24,10 +24,16 @@ public class TeacherController {
     }
 
     @GetMapping("/teachers")
-    public ResponseEntity<Responsedto<List<Teacher>>> findAll(){
-        Responsedto<List<Teacher>> all= teacherService.findAll();
-        return ResponseEntity.ok(all);
-    }
+    public ResponseEntity<Responsedto<List<Teacher>>> findAll(
+        @RequestParam(value="pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+        @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize,
+        @RequestParam(value = "sort",defaultValue = "name",required = false)String sort)
+        {
+            Responsedto<List<Teacher>> all= teacherService.findAll(pageSize,pageNumber,sort);
+            return ResponseEntity.ok(all);
+        }
+
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Responsedto<Teacher>> update(@Valid @RequestBody TeacherRequestDTO teacherRequestDTO,
