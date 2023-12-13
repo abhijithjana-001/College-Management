@@ -6,9 +6,12 @@ import com.example.CollegeManagment.config.StudentMaptructConfig;
 import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
-import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.Studentservice;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,32 +21,32 @@ public class StudentServiceImpl implements Studentservice {
     private final StudentRepo studentRepo;
     private final StudentMaptructConfig studentMaptructConfig;
 
-     public StudentServiceImpl(StudentRepo studentRepo,DepartmentRepo departmentRepo,StudentMaptructConfig studentMaptructConfig){
+     public StudentServiceImpl(StudentRepo studentRepo,StudentMaptructConfig studentMaptructConfig){
                 this.studentRepo=studentRepo;
 
                 this.studentMaptructConfig=studentMaptructConfig;
      }
     @Override
     public Responsedto<Student> addorupdateStudent(Studentdto studentdto, Long id) {
-        Student student=null;
-        if (id == null) {
-          student=  new Student();
-        } else {
-             student=  studentRepo.findById(id).
-                     orElseThrow(
-                     () -> new ItemNotFound("Student with id " + id + " is not found")
-             );
-        }
-        student= studentMaptructConfig.toEntity(studentdto);
+        Student student=studentMaptructConfig.toEntity(studentdto);
+        if (id==null)
+            student.setStudentId(new Student().getStudentId());
+         else {
+             boolean exists= studentRepo.existsById(id);
+             if(exists)
+                 student.setStudentId(id);
+             else
+                 throw new ItemNotFound("Student with id " + id + " is not found");
 
-        if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())
-                ||
-                (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
-                                .getStudent_id().equals( student.getStudent_id()))) {
-
-                studentRepo.save(student);
         }
-        else {
+
+         if(!studentRepo.existsByPhoneNum(studentdto.getPhoneNum())) {
+             studentRepo.save(student);
+        } else if (studentRepo.findByPhoneNum(studentdto.getPhoneNum()).get()
+                 .getStudentId().equals( student.getStudentId())) {
+
+             studentRepo.save(student);
+         } else {
             throw new BadRequest("phone number already exist");
         }
         return new Responsedto<>(true,"student added or updated successful",student);
@@ -63,8 +66,10 @@ public class StudentServiceImpl implements Studentservice {
     }
 
     @Override
-    public Responsedto<List<Student>> listStudent(){
-       List<Student> students =studentRepo.findAll();
+    public Responsedto<List<Student>> listStudent(Integer pagesize,Integer pagenumber,String sortby){
+        Pageable pageable= PageRequest.of(pagenumber,pagesize,Sort.by(sortby).ascending());
+        Page<Student> pagestudent = studentRepo.findAll(pageable);
+        List<Student> students =pagestudent.getContent();
 
         return new Responsedto<>(true,"student list : "+students.size()+" students" ,students);
     }

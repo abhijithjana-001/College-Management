@@ -9,6 +9,8 @@ import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,37 +20,45 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private DepartmentRepo departmentRepo;
+
     @Autowired
     private DepartmentMapper departmentMapper;
 
+@Override
+public Responsedto<Department> createOrUpdate(DepartmentDto departmentDto, Long id) {
 
-    @Override
-    public Responsedto createOrUpdate(DepartmentDto departmentDto, Long id){
-        Department existingDepartment = departmentRepo.findByNameIgnoreCase(departmentDto.getName());
+    Department department;
 
-        if (existingDepartment != null) {
-            throw new BadRequest("Department name already exists");
-        }
-
-        Department department;
-
-        if (id == null) {
-            department = new Department();
-        }else {
-            department = departmentRepo.findById(id)
-                    .orElseThrow(() -> new ItemNotFound("Department not found with ID: " + id));
-        }
-
+    if (id == null) {
         department = departmentMapper.toEntity(departmentDto);
-        departmentRepo.save(department);
-
-        return new Responsedto<>(true, "Department added", department);
+    } else {
+        department = departmentRepo.findById(id)
+                .orElseThrow(() -> new ItemNotFound("Department not found with ID: " + id));
+        departmentMapper.updateEntity(departmentDto, department);
     }
+
+    Department existingDepartment = departmentRepo.findByNameIgnoreCase(departmentDto.getName());
+
+    if (existingDepartment != null) {
+        throw new BadRequest("Department name already exists");
+    }
+
+    departmentRepo.save(department);
+
+    return new Responsedto<>(true, "Department added", department);
+}
+
 
     @Override
     public Responsedto<List<Department>> findAllDepartments() {
         List<Department> departments = departmentRepo.findAll();
         return new Responsedto<>(true, "Department List", departments);
+    }
+
+    @Override
+    public Page<Department> findDepartmentWithPagination(int offset, int pageSize){
+        Page<Department> departments = departmentRepo.findAll(PageRequest.of(offset, pageSize));
+        return departments;
     }
 
     @Override

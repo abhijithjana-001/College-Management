@@ -19,3 +19,15 @@ WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Teacherserv
 `CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentServiceImpl.java,7\3\733f5df742a4992ad6343b70b16b781c5be0799d
 á
 WCollegeManagment/src/main/java/com/example/CollegeManagment/service/Studentservice.java,f\7\f717455ac5778e00954cf14a5acb50aff5d4c8a3
+ä
+ZCollegeManagment/src/main/java/com/example/CollegeManagment/service/DepartmentService.java,7\d\7dbcb1e6ff7027b19cf67208bfec6301dc7769b0
+ë
+aCollegeManagment/src/test/java/com/example/CollegeManagment/controller/StudentControllerTest.java,7\6\768f6e3c299c0a8f27d78c08d33d329554a9007b
+å
+\CollegeManagment/src/main/java/com/example/CollegeManagment/dto/responsedto/Responsedto.java,e\4\e49cf0aa7afc4f9e41f2cb25d303f49bc14a245e
+ì
+cCollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/DepartmentServiceImpl.java,d\c\dc94b0c53de29f6faceae065dff4f01d71358287
+ç
+]CollegeManagment/src/main/java/com/example/CollegeManagment/controller/TeacherController.java,8\4\843b12c4dbd3eb3ddcf3d1b766cb05ade225a7c1
+å
+\CollegeManagment/src/main/java/com/example/CollegeManagment/CollegeManagmentApplication.java,8\5\85cf2eee45a6722e4579648e0e3139beafc3c26d
