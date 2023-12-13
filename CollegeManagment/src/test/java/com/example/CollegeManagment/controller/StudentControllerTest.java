@@ -84,7 +84,7 @@ private ObjectMapper objectMapper;
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.success").value(true))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("student added successful"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.result.student_id").value(studentId));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.result.studentId").value(studentId));
 
     }
 
