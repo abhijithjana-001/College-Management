@@ -298,7 +298,7 @@ class StudentServiceImplDiffblueTest {
         verify(studentRepo).findByPhoneNum(Mockito.<String>any());
     }
 
-    /**
+    /**0
      * Method under test: {@link StudentServiceImpl#viewdetails(Long)}
      */
     @Test
