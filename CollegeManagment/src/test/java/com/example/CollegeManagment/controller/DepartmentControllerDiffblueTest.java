@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ContextConfiguration(classes = {DepartmentController.class})
 @ExtendWith(SpringExtension.class)
-class DepartmentControllerTest {
+class DepartmentControllerDiffblueTest {
     @Autowired
     private DepartmentController departmentController;
 
