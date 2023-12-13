@@ -8,6 +8,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface StudentMaptructConfig {
-    @Mapping(target = "student_id", ignore = true)
+    @Mapping(target = "studentId", ignore = true)
     Student toEntity(Studentdto studentdto);
 }
