@@ -25,8 +25,13 @@ public class DepartmentController {
     }
 
     @GetMapping(value = "/listDepartments")
-    public ResponseEntity<Responsedto<List<Department>>> findAllDepartments(){
-        Responsedto<List<Department>> all=departmentService.findAllDepartments();
+    public ResponseEntity<Responsedto<List<Department>>> findAllDepartments(
+            @RequestParam(value ="pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+            @RequestParam(value ="pageSize",defaultValue = "5",required = false) Integer pageSize,
+            @RequestParam(value ="sortBy",defaultValue = "name",required = false) String sortBy
+        )
+    {
+        Responsedto<List<Department>> all=departmentService.findAllDepartments(pageSize, pageNumber, sortBy);
         return ResponseEntity.ok(all);
     }
 

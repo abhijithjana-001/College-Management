@@ -11,8 +11,7 @@ public interface DepartmentService {
 
     Responsedto createOrUpdate(DepartmentDto departmentDto, Long id);
 
-
-    Responsedto<List<Department>> findAllDepartments();
+    Responsedto<List<Department>> findAllDepartments(Integer pageSize, Integer pageNumber, String sortBy);
 
     Responsedto<Department> delete(Long id);
 }

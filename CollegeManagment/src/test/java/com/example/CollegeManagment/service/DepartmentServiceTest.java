@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @SpringBootTest
 public class DepartmentServiceTest {
@@ -80,27 +83,27 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    @DisplayName("Test for finding all the departmens ")
-    void testFindAllDepartments() {
-        List<Department> departments = new ArrayList<>();
-        Department department1 = new Department();
-        department1.setId(1L);
-        department1.setName("Department 1");
-        departments.add(department1);
+    @DisplayName("Test for finding all the departments ")
+    void findAllDepartments_ReturnsDepartmentList() {
+        // Arrange
+        int pageSize = 10;
+        int pageNumber = 0;
+        String sortBy = "name";
 
-        Department department2 = new Department();
-        department2.setId(2L);
-        department2.setName("Department 2");
-        departments.add(department2);
+        List<Department> departments = Collections.singletonList(new Department());
+        Page<Department> page = new org.springframework.data.domain.PageImpl<>(departments);
 
-        when(departmentRepo.findAll()).thenReturn(departments);
+        when(departmentRepo.findAll(any(Pageable.class))).thenReturn(page);
 
-        Responsedto<List<Department>> response = departmentService.findAllDepartments();
+        // Act
+        Responsedto<List<Department>> response = departmentService.findAllDepartments(pageSize, pageNumber, sortBy);
 
-        assertTrue(response.getSuccess());
+        // Assert
+        assertEquals(true, response.getSuccess());
         assertEquals("Department List", response.getMessage());
         assertEquals(departments, response.getResult());
     }
+
 
     @Test
     @DisplayName("Test for deleting a department")

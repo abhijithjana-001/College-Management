@@ -29,11 +29,13 @@ class DepartmentControllerDiffblueTest {
     private DepartmentService departmentService;
 
     /**
-     * Method under test: {@link DepartmentController#findAllDepartments()}
+     * Method under test:
+     * {@link DepartmentController#findAllDepartments(Integer, Integer, String)}
      */
     @Test
     void testFindAllDepartments() throws Exception {
-        when(departmentService.findAllDepartments()).thenReturn(new Responsedto<>());
+        when(departmentService.findAllDepartments(Mockito.<Integer>any(), Mockito.<Integer>any(), Mockito.<String>any()))
+                .thenReturn(new Responsedto<>());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/department/listDepartments");
         MockMvcBuilders.standaloneSetup(departmentController)
                 .build()

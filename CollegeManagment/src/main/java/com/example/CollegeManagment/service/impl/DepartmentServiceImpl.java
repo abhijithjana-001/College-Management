@@ -6,9 +6,14 @@ import com.example.CollegeManagment.config.DepartmentMapper;
 import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
+import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,8 +53,11 @@ public Responsedto<Department> createOrUpdate(DepartmentDto departmentDto, Long 
 
 
     @Override
-    public Responsedto<List<Department>> findAllDepartments() {
-        List<Department> departments = departmentRepo.findAll();
+    public Responsedto<List<Department>> findAllDepartments(Integer pageSize, Integer pageNumber, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        Page<Department> pageDepartment = departmentRepo.findAll(pageable);
+        List<Department> departments = pageDepartment.getContent();
+
         return new Responsedto<>(true, "Department List", departments);
     }
 

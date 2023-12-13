@@ -13,8 +13,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -87,23 +90,29 @@ public class DepartmentControllerTest {
 
 
     @Test
-    void testFindAllDepartments() throws Exception {
-        Department department1 = new Department(1L, "Computer Science");
-        Department department2 = new Department(2L, "Physics");
-        List<Department> mockedDepartments = Arrays.asList(department1, department2);
-        Responsedto<List<Department>> mockedResponse = new Responsedto<>(true, "Departments retrieved successfully", mockedDepartments);
+    void findAllDepartments_ReturnsDepartmentList() throws Exception {
+        // Arrange
+        int pageSize = 5;
+        int pageNumber = 0;
+        String sortBy = "name";
 
-        when(departmentService.findAllDepartments()).thenReturn(mockedResponse);
+        List<Department> departments = Collections.singletonList(new Department());
+        Responsedto<List<Department>> response = new Responsedto<>(true, "Department List", departments);
 
-        mockMvc.perform(get("/api/department/listDepartments"))
-                .andExpect(status().isOk())
+        when(departmentService.findAllDepartments(pageSize, pageNumber, sortBy)).thenReturn(response);
+
+        // Act and Assert
+        mockMvc.perform(MockMvcRequestBuilders.get("/listDepartments")
+                        .param("pageSize", String.valueOf(pageSize))
+                        .param("pageNumber", String.valueOf(pageNumber))
+                        .param("sortBy", sortBy))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.message").value("Departments retrieved successfully"))
-                .andExpect(jsonPath("$.result").isArray())
-                .andExpect(jsonPath("$.result[0].id").value(1L))
-                .andExpect(jsonPath("$.result[0].name").value("Computer Science"))
-                .andExpect(jsonPath("$.result[1].id").value(2L))
-                .andExpect(jsonPath("$.result[1].name").value("Physics"));
+                .andExpect(jsonPath("$.message").value("Department List"))
+                .andExpect(jsonPath("$.data").isArray())
+                .andExpect(jsonPath("$.data[0].id").exists()) // Adjust based on your Department class properties
+                .andExpect(jsonPath("$.data[0].name").exists()); // Adjust based on your Department class properties
     }
 
     @Test

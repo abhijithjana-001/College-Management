@@ -27,6 +27,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -62,12 +64,12 @@ class DepartmentServiceImplDiffblueTest {
         department2.setName("Name");
         department2.setStudents(new HashSet<>());
         department2.setTeachers(new HashSet<>());
-
         when(departmentRepo.findByNameIgnoreCase(Mockito.<String>any())).thenReturn(department2);
         when(departmentRepo.findById(Mockito.<Long>any())).thenReturn(ofResult);
-
         assertThrows(BadRequest.class, () -> departmentServiceImpl.createOrUpdate(new DepartmentDto("Name"), 1L));
-
+        verify(departmentMapper).updateEntity(Mockito.<DepartmentDto>any(), Mockito.<Department>any());
+        verify(departmentRepo).findByNameIgnoreCase(Mockito.<String>any());
+        verify(departmentRepo).findById(Mockito.<Long>any());
     }
 
     /**
@@ -129,26 +131,29 @@ class DepartmentServiceImplDiffblueTest {
     }
 
     /**
-     * Method under test: {@link DepartmentServiceImpl#findAllDepartments()}
+     * Method under test:
+     * {@link DepartmentServiceImpl#findAllDepartments(Integer, Integer, String)}
      */
     @Test
     void testFindAllDepartments() {
-        when(departmentRepo.findAll()).thenReturn(new ArrayList<>());
-        Responsedto<List<Department>> actualFindAllDepartmentsResult = departmentServiceImpl.findAllDepartments();
-        verify(departmentRepo).findAll();
+        when(departmentRepo.findAll(Mockito.<Pageable>any())).thenReturn(new PageImpl<>(new ArrayList<>()));
+        Responsedto<List<Department>> actualFindAllDepartmentsResult = departmentServiceImpl.findAllDepartments(3, 10,
+                "Sort By");
+        verify(departmentRepo).findAll(Mockito.<Pageable>any());
         assertEquals("Department List", actualFindAllDepartmentsResult.getMessage());
         assertTrue(actualFindAllDepartmentsResult.getSuccess());
         assertTrue(actualFindAllDepartmentsResult.getResult().isEmpty());
     }
 
     /**
-     * Method under test: {@link DepartmentServiceImpl#findAllDepartments()}
+     * Method under test:
+     * {@link DepartmentServiceImpl#findAllDepartments(Integer, Integer, String)}
      */
     @Test
     void testFindAllDepartments2() {
-        when(departmentRepo.findAll()).thenThrow(new BadRequest("Department List"));
-        assertThrows(BadRequest.class, () -> departmentServiceImpl.findAllDepartments());
-        verify(departmentRepo).findAll();
+        when(departmentRepo.findAll(Mockito.<Pageable>any())).thenThrow(new BadRequest("Msg"));
+        assertThrows(BadRequest.class, () -> departmentServiceImpl.findAllDepartments(3, 10, "Sort By"));
+        verify(departmentRepo).findAll(Mockito.<Pageable>any());
     }
 
     /**
