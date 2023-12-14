@@ -32,58 +32,32 @@ public class StudentFileHandling {
                 file.transferTo(filePath.toFile());
             }
 
-            return ResponseEntity.ok(new Responsedto<>(true, files.length+" File uploaded successfully!",null));
+            return ResponseEntity.ok(new Responsedto<>(true, files.length + " File uploaded successfully!", null));
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body(new Responsedto<>(false,"File uploaded failed!",null));
+            return ResponseEntity.status(500).body(new Responsedto<>(false, "File uploaded failed!", null));
         }
     }
 
     @DeleteMapping("/delete/{filename}")
-    public  ResponseEntity<Responsedto> handleFileDelete(@PathVariable String filename)
-    {
-        File file=new File(uploadDir,filename);
-        if(file.exists() && file.delete()){
+    public ResponseEntity<Responsedto> handleFileDelete(@PathVariable String filename) {
+        File file = new File(uploadDir, filename);
+        if (file.exists() && file.delete()) {
 
-            return ResponseEntity.ok(new Responsedto<>(true,"File delete successfully!",null));
-        }
-        else{
-          return  ResponseEntity.status(404).body(new Responsedto<>(false,"File delete successfully!",null));
+            return ResponseEntity.ok(new Responsedto<>(true, "File delete successfully!", null));
+        } else {
+            return ResponseEntity.status(404).body(new Responsedto<>(false, "File delete successfully!", null));
         }
     }
 
     @GetMapping("/{filename}")
     public ResponseEntity<byte[]> getfile(@PathVariable String filename) throws IOException {
-       Path path=Paths.get(uploadDir,filename);
+        Path path = Paths.get(uploadDir, filename);
         String contentType = Files.probeContentType(path);
         if (contentType == null) {
             contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
-        byte[] image= Files.readAllBytes(path);
+        byte[] image = Files.readAllBytes(path);
         return ResponseEntity.status(200).contentType(MediaType.valueOf(contentType)).body(image);
     }
-
-//    @GetMapping()
-//    public  ResponseEntity<List<Resource>> getallFile(){
-//        List<Resource>  fileList=new ArrayList<>();
-//        try {
-//            Files.walk(Paths.get(uploadDir))
-//                    .filter(file->Files.isRegularFile(file))
-//                    .forEach(
-//                           path ->{
-//                               try {
-////                                   Resource image=Files.readAllBytes(path);
-////                                   Resource resource=new
-////                                   fileList.add(resource);
-//                               } catch (IOException e) {
-//                                   throw new RuntimeException(e);
-//                               }
-//                           }
-//                    );
-//            return ResponseEntity.status(200).body(fileList);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//    }
 }
