@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping("/student/file")
 public class StudentFileHandling {
-    private final String uploadDir = "C://Users//user453//Desktop//college2//files//";
+    private final String uploadDir = "C://Users//user432//Desktop//fileUpload//";
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
