@@ -1,6 +1,7 @@
 package com.example.CollegeManagment.controller.filehandling;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.service.impl.StudentFileService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,22 +33,12 @@ import java.util.zip.ZipOutputStream;
 public class StudentFileHandling {
   @Value("${file.path}")
   private  String uploadDir;
-
-
+@Autowired
+private StudentFileService studentFileService;
     @PostMapping("/upload")
     public ResponseEntity<Responsedto> handleFileUpload(@RequestParam("file") MultipartFile files[]) {
-        try {
-
-            for (MultipartFile file : files) {
-                Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
-                file.transferTo(filePath.toFile());
-            }
-
-            return ResponseEntity.ok(new Responsedto<>(true, files.length + " File uploaded successfully!", null));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(new Responsedto<>(false, "File uploaded failed!", null));
-        }
+        Responsedto upload = studentFileService.upload(files);
+        return ResponseEntity.ok(upload);
     }
 
     @DeleteMapping("/delete/{filename}")

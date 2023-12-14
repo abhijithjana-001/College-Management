@@ -27,4 +27,5 @@ public class Student {
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 
+
 }
