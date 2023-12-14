@@ -4,6 +4,7 @@ import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
@@ -29,7 +30,8 @@ import java.util.zip.ZipOutputStream;
 @RestController
 @RequestMapping("/student/file")
 public class StudentFileHandling {
-    private final String uploadDir = "C://Users//user453//Desktop//college2//files//";
+  @Value("${file.path}")
+  private  String uploadDir;
 
 
     @PostMapping("/upload")
@@ -71,7 +73,7 @@ public class StudentFileHandling {
     }
 
     @GetMapping()
-    public void getallFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void getallFile( HttpServletResponse response) throws IOException {
         List<Path> paths = new ArrayList<>();
         Path dir = Paths.get(uploadDir);
         Files.walk(dir)
