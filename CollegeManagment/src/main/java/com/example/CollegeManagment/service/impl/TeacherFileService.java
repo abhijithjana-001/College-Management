@@ -1,12 +1,15 @@
 package com.example.CollegeManagment.service.impl;
 
+import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.TeacherProfileImg;
 import com.example.CollegeManagment.repository.TeacherFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+@Service
 public class TeacherFileService {
     @Value("$file.path")
     private String uploadDir;
@@ -42,6 +46,23 @@ public class TeacherFileService {
             e.printStackTrace();
             return new Responsedto(false,"File uploaded failed",null);
         }
+    }
 
+    public Path findByName(String fileName) throws IOException{
+        TeacherProfileImg teacherProfileImg=teacherFileRepository.findByName(fileName)
+                .orElseThrow(()-> new ItemNotFound(" "+fileName+"not found"));
+        Path path=Paths.get(teacherProfileImg.getFilePath());
+        return path;
+    }
+
+    public Responsedto deleteFile(String fileName){
+        TeacherProfileImg teacherProfileImg=teacherFileRepository.findByName(fileName)
+                .orElseThrow(()->new ItemNotFound("Image "+fileName+" not found"));
+        File file=new File(teacherProfileImg.getFilePath());
+        if (file.exists() && file.delete()) {
+            return new Responsedto<>(true,"File deleted successfully",null);
+        }else {
+            return new Responsedto<>(false,"File deletion Failed",null);
+        }
     }
 }

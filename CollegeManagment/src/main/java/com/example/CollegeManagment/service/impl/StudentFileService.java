@@ -55,19 +55,21 @@ public class StudentFileService {
     }
 
     public Path findByName(String name) throws  IOException {
-        StudentProfileImg studentprofile= studentProfileRepo.findByName(name).orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));
+        StudentProfileImg studentprofile= studentProfileRepo.findByName(name)
+                .orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));
         Path path = Paths.get(studentprofile.getFilePath());
        return path;
 
     }
     public Responsedto deletefile(String filename){
-        StudentProfileImg studentprofile= studentProfileRepo.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
+        StudentProfileImg studentprofile= studentProfileRepo.findByName(filename)
+                .orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
         File file = new File(studentprofile.getFilePath());
         if (file.exists() && file.delete()) {
 
             return new Responsedto<>(true, "File delete successfully!", null);
         } else {
-            return new Responsedto<>(false, "File delete successfully!", null);
+            return new Responsedto<>(false, "File delete failed", null);
         }
     }
 
