@@ -1,6 +1,7 @@
 package com.example.CollegeManagment.controller.filehandling;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.service.impl.StudentFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,41 +36,11 @@ private StudentFileService studentFileService;
 
     @GetMapping("/{filename}")
     public ResponseEntity<byte[]> getfile(@PathVariable String filename) throws IOException {
-        Path path = studentFileService.findByName(filename);
-        String contentType = Files.probeContentType(path);
-        if (contentType == null) {
-            contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-        }
-        byte[] image = Files.readAllBytes(path);
-        return ResponseEntity.status(200).contentType(MediaType.valueOf(contentType)).body(image);
+        ImageData imagedate=studentFileService.findByName(filename);
+
+        return ResponseEntity.status(200).contentType(MediaType.valueOf(imagedate.contenttype())).body(imagedate.image());
     }
 
-//    @GetMapping()
-//    public void getallFile( HttpServletResponse response) throws IOException {
-//        List<Path> paths = new ArrayList<>();
-//        Path dir = Paths.get(uploadDir);
-//        Files.walk(dir)
-//                .filter(file -> Files.isRegularFile(file))
-//                .forEach(path -> paths.add(path));
-//
-//        response.setContentType("application/zip"); // zip archive format
-//        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment()
-//                .filename("download.zip", StandardCharsets.UTF_8)
-//                .build()
-//                .toString());
-//
-//
-//        // Archiving multiple files and responding to the client
-//        try (ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream())) {
-//            for (Path file : paths) {
-//                try (InputStream inputStream = Files.newInputStream(file)) {
-//                    zipOutputStream.putNextEntry(new ZipEntry(file.getFileName().toString()));
-//                    StreamUtils.copy(inputStream, zipOutputStream);
-//                    zipOutputStream.flush();
-//                }
-//            }
-//
-//        }
-//    }
+
 
 }
