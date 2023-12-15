@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.service.impl;
 
+import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.ImageData;
@@ -49,7 +50,7 @@ public class StudentFileService {
             return new Responsedto<>(true, files.length + " File uploaded successfully!", null);
         } catch (IOException e) {
             e.printStackTrace();
-            return new Responsedto<>(false, "File uploaded failed!", null);
+            throw  new BadRequest("File upload failed \n "+e.getMessage());
         }
     }
 

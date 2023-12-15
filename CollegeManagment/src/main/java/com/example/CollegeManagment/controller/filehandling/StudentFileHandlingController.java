@@ -5,6 +5,7 @@ import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.service.impl.StudentFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,21 +27,18 @@ private StudentFileService studentFileService;
         Responsedto upload = studentFileService.upload(files);
         return ResponseEntity.ok(upload);
     }
-
     @DeleteMapping("/delete/{filename}")
     public ResponseEntity<Responsedto> handleFileDelete(@PathVariable String filename) {
         Responsedto deletefile = studentFileService.deletefile(filename);
         return ResponseEntity.ok(deletefile);
 
     }
-
     @GetMapping("/{filename}")
     public ResponseEntity<byte[]> getfile(@PathVariable String filename) throws IOException {
-        ImageData imagedate=studentFileService.findByName(filename);
-
-        return ResponseEntity.status(200).contentType(MediaType.valueOf(imagedate.contenttype())).body(imagedate.image());
+        ImageData imageData=studentFileService.findByName(filename);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.valueOf(imageData.contenttype()));
+        headers.setContentDispositionFormData("attachment", filename);
+        return ResponseEntity.status(200).headers(headers).contentType(MediaType.valueOf(imageData.contenttype())).body(imageData.image());
     }
-
-
-
 }
