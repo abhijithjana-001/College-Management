@@ -1,6 +1,9 @@
 package com.example.CollegeManagment.controller.filehandling;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.service.impl.TeacherFileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +22,11 @@ import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 @RequestMapping("/teacher/file")
 public class TeacherFileHandling {
 
-    private final String uploadDir = "C://Users//user0101//Desktop//javagroupproject//images//";
+    @Value("${file.path}")
+    private String uploadDir;
+
+    @Autowired
+    private TeacherFileService teacherFileService;
 
     @PostMapping("/upload")
     public ResponseEntity<Responsedto> handleFileUpload(@RequestParam("file") MultipartFile file[]) {
