@@ -43,18 +43,14 @@ private StudentFileService studentFileService;
 
     @DeleteMapping("/delete/{filename}")
     public ResponseEntity<Responsedto> handleFileDelete(@PathVariable String filename) {
-        File file = new File(uploadDir, filename);
-        if (file.exists() && file.delete()) {
+        Responsedto deletefile = studentFileService.deletefile(filename);
+        return ResponseEntity.ok(deletefile);
 
-            return ResponseEntity.ok(new Responsedto<>(true, "File delete successfully!", null));
-        } else {
-            return ResponseEntity.status(404).body(new Responsedto<>(false, "File delete successfully!", null));
-        }
     }
 
     @GetMapping("/{filename}")
     public ResponseEntity<byte[]> getfile(@PathVariable String filename) throws IOException {
-        Path path = Paths.get(uploadDir, filename);
+        Path path = studentFileService.findByName(filename);
         String contentType = Files.probeContentType(path);
         if (contentType == null) {
             contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
