@@ -1,9 +1,12 @@
 package com.example.CollegeManagment.service.impl;
 
+import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -18,10 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class StudentFileService {
@@ -50,21 +50,26 @@ public class StudentFileService {
             return new Responsedto<>(true, files.length + " File uploaded successfully!", null);
         } catch (IOException e) {
             e.printStackTrace();
-            return new Responsedto<>(false, "File uploaded failed!", null);
+            throw  new BadRequest("File upload failed \n "+e.getMessage());
         }
     }
 
-    public Path findByName(String name) throws  IOException {
+    public ImageData findByName(String name) throws  IOException {
         StudentProfileImg studentprofile= studentProfileRepo.findByName(name).orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));
         Path path = Paths.get(studentprofile.getFilePath());
-       return path;
-
+         String contentType = Files.probeContentType(path);
+        if (contentType == null) {
+            contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        }
+        byte[] image = Files.readAllBytes(path);
+        return  new ImageData(contentType,image);
     }
+
     public Responsedto deletefile(String filename){
         StudentProfileImg studentprofile= studentProfileRepo.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
         File file = new File(studentprofile.getFilePath());
         if (file.exists() && file.delete()) {
-
+            studentProfileRepo.delete(studentprofile);
             return new Responsedto<>(true, "File delete successfully!", null);
         } else {
             return new Responsedto<>(false, "File delete successfully!", null);
