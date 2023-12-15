@@ -1,9 +1,11 @@
 package com.example.CollegeManagment.controller.filehandling;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.service.impl.StudentFileService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
@@ -29,39 +31,26 @@ import java.util.zip.ZipOutputStream;
 @RestController
 @RequestMapping("/student/file")
 public class StudentFileHandling {
-    private final String uploadDir = "C://Users//user432//Desktop//fileUpload//";
-
-
+  @Value("${file.path}")
+  private  String uploadDir;
+@Autowired
+private StudentFileService studentFileService;
     @PostMapping("/upload")
     public ResponseEntity<Responsedto> handleFileUpload(@RequestParam("file") MultipartFile files[]) {
-        try {
-
-            for (MultipartFile file : files) {
-                Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
-                file.transferTo(filePath.toFile());
-            }
-
-            return ResponseEntity.ok(new Responsedto<>(true, files.length + " File uploaded successfully!", null));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(new Responsedto<>(false, "File uploaded failed!", null));
-        }
+        Responsedto upload = studentFileService.upload(files);
+        return ResponseEntity.ok(upload);
     }
 
     @DeleteMapping("/delete/{filename}")
     public ResponseEntity<Responsedto> handleFileDelete(@PathVariable String filename) {
-        File file = new File(uploadDir, filename);
-        if (file.exists() && file.delete()) {
+        Responsedto deletefile = studentFileService.deletefile(filename);
+        return ResponseEntity.ok(deletefile);
 
-            return ResponseEntity.ok(new Responsedto<>(true, "File delete successfully!", null));
-        } else {
-            return ResponseEntity.status(404).body(new Responsedto<>(false, "File delete successfully!", null));
-        }
     }
 
     @GetMapping("/{filename}")
     public ResponseEntity<byte[]> getfile(@PathVariable String filename) throws IOException {
-        Path path = Paths.get(uploadDir, filename);
+        Path path = studentFileService.findByName(filename);
         String contentType = Files.probeContentType(path);
         if (contentType == null) {
             contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
@@ -71,7 +60,7 @@ public class StudentFileHandling {
     }
 
     @GetMapping()
-    public void getallFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void getallFile( HttpServletResponse response) throws IOException {
         List<Path> paths = new ArrayList<>();
         Path dir = Paths.get(uploadDir);
         Files.walk(dir)
