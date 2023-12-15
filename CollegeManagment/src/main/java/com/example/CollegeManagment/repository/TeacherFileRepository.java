@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface TeacherFileRepository extends JpaRepository<TeacherProfileImg,Long> {
     Optional<TeacherProfileImg> findByName(String name);
+    boolean existsByName(String name);
 }

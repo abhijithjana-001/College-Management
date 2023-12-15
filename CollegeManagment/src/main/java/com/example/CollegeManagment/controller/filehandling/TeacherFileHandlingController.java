@@ -1,26 +1,22 @@
 package com.example.CollegeManagment.controller.filehandling;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.service.impl.TeacherFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
 @RestController
 @RequestMapping("/teacher/file")
-public class TeacherFileHandling {
+public class TeacherFileHandlingController {
 
     @Value("${file.path}")
     private String uploadDir;
@@ -36,14 +32,12 @@ public class TeacherFileHandling {
 
     @GetMapping("/{fileName}")
     public ResponseEntity<byte[]> downloadImage(@PathVariable String fileName) throws IOException {
-        Path filePath = teacherFileService.findByName(fileName);
-        String contentType=Files.probeContentType(filePath);
-        if(contentType==null){
-            contentType=MediaType.APPLICATION_OCTET_STREAM_VALUE;
-        }
-        byte[] imageData= Files.readAllBytes(filePath);
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf(contentType))
-                .body(imageData);
+        ImageData imageData=teacherFileService.findByName(fileName);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.valueOf(imageData.contenttype()));
+        headers.setContentDispositionFormData("attachment", fileName);
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).contentType(MediaType.valueOf(imageData.contenttype()))
+                .body(imageData.image());
     }
 
     @DeleteMapping("/delete/{filename}")
