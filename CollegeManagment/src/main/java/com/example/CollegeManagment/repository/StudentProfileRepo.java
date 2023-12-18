@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface StudentProfileRepo extends JpaRepository<StudentProfileImg,Long> {
 
     Optional<StudentProfileImg> findByName(String name);
+    boolean existsByName(String name);
 }

@@ -6,11 +6,9 @@ import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,30 +18,41 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 import java.util.*;
 
 @Service
-public class StudentFileService {
+public class StudentFileServiceImpl {
     @Value("${file.path}")
     private  String uploadDir;
+    private final StudentProfileRepo studentProfileRepo;
+    public StudentFileServiceImpl(StudentProfileRepo studentProfileRepo)
+    {
+        this.studentProfileRepo=studentProfileRepo;
+    }
 
-    @Autowired
-    private StudentProfileRepo studentProfileRepo;
     public Responsedto upload(MultipartFile files[]){
         Set<StudentProfileImg> studentProfileImgs=new HashSet<>();
         try {
 
             for (MultipartFile file : files) {
+
                 Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
                 file.transferTo(filePath.toFile());
-                 studentProfileImgs.add(StudentProfileImg.builder()
-                        .name(file.getOriginalFilename())
-                        .type(file.getContentType())
-                        .size(file.getSize())
-                        .filePath(filePath.toString())
-                        .created(LocalDateTime.now())
-                        .build());
+                if(!studentProfileRepo.existsByName(file.getOriginalFilename()))
+                {
+                    studentProfileImgs.add(StudentProfileImg.builder()
+                            .name(file.getOriginalFilename())
+                            .type(file.getContentType())
+                            .size(file.getSize())
+                            .filePath(filePath.toString())
+                            .created(LocalDateTime.now())
+                            .build());
+                }
+                else {
+                    throw  new BadRequest("Duplicate entry , image already exists at location "+filePath);
+                }
+
             }
             studentProfileRepo.saveAll(studentProfileImgs);
 
@@ -62,18 +71,15 @@ public class StudentFileService {
             contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
         byte[] image = Files.readAllBytes(path);
-        return  new ImageData(contentType,image);
+        return new ImageData(contentType,image);
     }
-
     public Responsedto deletefile(String filename){
         StudentProfileImg studentprofile= studentProfileRepo.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
         File file = new File(studentprofile.getFilePath());
         if (file.exists() && file.delete()) {
             studentProfileRepo.delete(studentprofile);
             return new Responsedto<>(true, "File delete successfully!", null);
-        } else {
-            return new Responsedto<>(false, "File delete successfully!", null);
         }
+        else throw new BadRequest("File delete failed!");
     }
-
 }
