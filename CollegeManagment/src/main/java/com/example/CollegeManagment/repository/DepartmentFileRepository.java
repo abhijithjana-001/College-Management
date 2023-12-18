@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.repository;
 
+import com.example.CollegeManagment.entity.DepartmentFileEntity;
 import com.example.CollegeManagment.entity.StudentProfileImg;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -7,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface StudentProfileRepo extends JpaRepository<StudentProfileImg,Long> {
+public interface DepartmentFileRepository extends JpaRepository<DepartmentFileEntity, Long> {
 
-    Optional<StudentProfileImg> findByName(String name);
-    boolean existsByName(String name);
+    Optional<DepartmentFileEntity> findByName(String name);
 }

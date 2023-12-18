@@ -3,14 +3,12 @@ package com.example.CollegeManagment.service.impl;
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.DepartmentFileEntity;
 import com.example.CollegeManagment.entity.ImageData;
-import com.example.CollegeManagment.entity.StudentProfileImg;
-import com.example.CollegeManagment.repository.StudentProfileRepo;
-import lombok.Data;
+import com.example.CollegeManagment.repository.DepartmentFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,24 +18,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 @Service
-public class StudentFileService {
+public class DepartmentFileService{
     @Value("${file.path}")
     private  String uploadDir;
 
     @Autowired
-    private StudentProfileRepo studentProfileRepo;
+    private DepartmentFileRepository departmentFileRepository;
     public Responsedto upload(MultipartFile files[]){
-        Set<StudentProfileImg> studentProfileImgs=new HashSet<>();
+        Set<DepartmentFileEntity> departmentFileEntities = new HashSet<>();
         try {
 
             for (MultipartFile file : files) {
                 Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
                 file.transferTo(filePath.toFile());
-                 studentProfileImgs.add(StudentProfileImg.builder()
+                departmentFileEntities.add(DepartmentFileEntity.builder()
                         .name(file.getOriginalFilename())
                         .type(file.getContentType())
                         .size(file.getSize())
@@ -45,7 +42,7 @@ public class StudentFileService {
                         .created(LocalDateTime.now())
                         .build());
             }
-            studentProfileRepo.saveAll(studentProfileImgs);
+            departmentFileRepository.saveAll(departmentFileEntities);
 
             return new Responsedto<>(true, files.length + " File uploaded successfully!", null);
         } catch (IOException e) {
@@ -55,9 +52,9 @@ public class StudentFileService {
     }
 
     public ImageData findByName(String name) throws  IOException {
-        StudentProfileImg studentprofile= studentProfileRepo.findByName(name).orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));
-        Path path = Paths.get(studentprofile.getFilePath());
-         String contentType = Files.probeContentType(path);
+        DepartmentFileEntity departmentFileEntity = (DepartmentFileEntity) departmentFileRepository.findByName(name).orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));
+        Path path = Paths.get(departmentFileEntity.getFilePath());
+        String contentType = Files.probeContentType(path);
         if (contentType == null) {
             contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
         }
@@ -65,11 +62,11 @@ public class StudentFileService {
         return  new ImageData(contentType,image);
     }
 
-    public Responsedto deletefile(String filename){
-        StudentProfileImg studentprofile= studentProfileRepo.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
-        File file = new File(studentprofile.getFilePath());
+    public Responsedto deleteFile(String filename){
+        DepartmentFileEntity departmentFileEntity = (DepartmentFileEntity) departmentFileRepository.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
+        File file = new File(departmentFileEntity.getFilePath());
         if (file.exists() && file.delete()) {
-            studentProfileRepo.delete(studentprofile);
+            departmentFileRepository.delete(departmentFileEntity);
             return new Responsedto<>(true, "File delete successfully!", null);
         } else {
             return new Responsedto<>(false, "File delete successfully!", null);

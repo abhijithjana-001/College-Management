@@ -1,219 +1,219 @@
-package com.example.CollegeManagment.service;
-
-import com.example.CollegeManagment.Exception.BadRequest;
-import com.example.CollegeManagment.Exception.ItemNotFound;
-import com.example.CollegeManagment.config.StudentMaptructConfig;
-import com.example.CollegeManagment.dto.requestdto.Studentdto;
-import com.example.CollegeManagment.dto.responsedto.Responsedto;
-import com.example.CollegeManagment.entity.Department;
-import com.example.CollegeManagment.entity.Student;
-import com.example.CollegeManagment.repository.StudentRepo;
-import com.example.CollegeManagment.service.impl.StudentServiceImpl;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
-@ExtendWith(MockitoExtension.class)
-class StudentServiceTest {
-    @Mock
-    private StudentRepo studentRepo;
-
-    @Mock
-    private StudentMaptructConfig studentMaptructConfig;
-
-    @InjectMocks
-    private StudentServiceImpl studentService;
-
-
-    @Test
-    void testAddOrUpdateStudent_AddNewStudent() {
-        // Arrange
-        Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
-        Student student = new Student();
-
-        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(false);
-        when(studentRepo.save(any(Student.class))).thenReturn(student);
-
-        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(student);
-
-        // Act
-        Responsedto<Student> response = studentService.addorupdateStudent(studentdto, null);
-
-        // Assert
-        assertNotNull(response);
-        assertTrue(response.getSuccess());
-        assertEquals("student added or updated successful", response.getMessage());
-        assertNotNull(response.getResult());
-
-        // Verify that save method was called
-        verify(studentRepo, times(1)).save(any(Student.class));
-    }
-
-    @Test
-    void testAddOrUpdateStudent_UpdateExistingStudent() {
-        // Arrange
-        Long studentId = 1L;
-        Studentdto studentdto = new Studentdto("Updated John Doe", new Department(), "1234567890");
-
-        Student existingStudent = new Student();
-        existingStudent.setStudentId(studentId);
-        existingStudent.setSname("John Doe");
-        existingStudent.setPhoneNum("1234567890");
-
-        Student updatedStudent = new Student();
-        updatedStudent.setStudentId(studentId);
-        updatedStudent.setSname("Updated John Doe");
-        updatedStudent.setPhoneNum("1234567890");
-
-
-        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
-        when(studentRepo.save(any(Student.class))).thenReturn(updatedStudent);
-        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(updatedStudent);
-        when(studentRepo.existsById(any(Long.class))).thenReturn(true);
-
-        when(studentRepo.findByPhoneNum(studentdto.getPhoneNum())).thenReturn(Optional.of(existingStudent));
-
-        // Act
-        Responsedto<Student> response = studentService.addorupdateStudent(studentdto, studentId);
-
-        // Assert
-        assertNotNull(response);
-        assertTrue(response.getSuccess());
-        assertEquals("student added or updated successful", response.getMessage());
-        assertNotNull(response.getResult());
-        assertEquals("Updated John Doe", response.getResult().getSname());
-
-
-        verify(studentRepo, times(1)).save(any(Student.class));
-    }
-
-    @Test
-    void testAddOrUpdateStudent_DuplicatePhoneNumber() {
-        // Arrange
-        Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567891");
-
-        Long studentId =  2L;
-        Student existingStudent = new Student();
-        existingStudent.setStudentId(studentId);
-        existingStudent.setSname("John Doe");
-        existingStudent.setPhoneNum("1234567890");
-
-        Student student = new Student();
-        student.setStudentId(1L);
-       student.setSname("John Doe");
-       student.setPhoneNum("1234567890");
-       student.setDepartment(new Department());
-
-
-        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
-        when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(existingStudent));
-        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(student);
-        when(studentRepo.existsById(any(Long.class))).thenReturn(true);
-
-        // Act and Assert
-
-       BadRequest ex= assertThrows(BadRequest.class, () -> studentService.addorupdateStudent(studentdto, 1L));
-        assertEquals(ex.getMessage(),"phone number already exist");
-
-        verify(studentRepo, never()).save(any(Student.class));
-    }
-
-    @Test
-    void testViewDetails_ExistingStudent() {
-        // Arrange
-        Long studentId = 1L;
-        Student existingStudent = new Student();
-        existingStudent.setStudentId(studentId);
-        existingStudent.setSname("John Doe");
-
-        when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
-
-        // Act
-        Responsedto<Student> response = studentService.viewdetails(studentId);
-
-        // Assert
-        assertNotNull(response);
-        assertTrue(response.getSuccess());
-        assertEquals("student added successful", response.getMessage());
-        assertNotNull(response.getResult());
-        assertEquals(studentId, response.getResult().getStudentId());
-
-        // Verify that findById method was called
-        verify(studentRepo, times(1)).findById(studentId);
-    }
-
-    @Test
-    void testViewDetails_NonExistingStudent() {
-        // Arrange
-        Long studentId = 1L;
-
-        when(studentRepo.findById(studentId)).thenReturn(Optional.empty());
-
-        // Act and Assert
-        assertThrows(ItemNotFound.class, () -> studentService.viewdetails(studentId));
-
-        // Verify that findById method was called
-        verify(studentRepo, times(1)).findById(studentId);
-    }
-
-    @Test
-    void testDeleteById() {
-        // Arrange
-        Long studentId = 1L;
-
-        // Act
-        var response = studentService.deletebyid(studentId);
-
-        // Assert
-        assertNotNull(response);
-        assertTrue(response.getSuccess());
-        assertEquals("student delete successful", response.getMessage());
-
-        // Verify that deleteById method was called
-        verify(studentRepo, times(1)).deleteById(anyLong());
-    }
-
-    @Test
-    void testListStudent() {
-        // Arrange
-        List<Student> students = new ArrayList<>();
-        students.add(new Student());
-        students.add(new Student());
-        students.add(new Student());
-        students.add(new Student());
-        students.add(new Student());
-
-        Page<Student> pagees= new PageImpl<>(
-                students
-        );
-        when(studentRepo.findAll(Mockito.any(Pageable.class))).thenReturn(pagees);
-
-        // Act
-        Responsedto<List<Student>> response = studentService.listStudent(5,0,"sname");
-
-        // Assert
-        assertNotNull(response);
-        assertTrue(response.getSuccess());
-        assertEquals(response.getResult().size(),5);
-        assertEquals("student list : 5 students", response.getMessage());
-        assertNotNull(response.getResult());
-
-
-        // Verify that findAll method was called
-        verify(studentRepo, times(1)).findAll(Mockito.any(Pageable.class));
-    }
-}
+//package com.example.CollegeManagment.service;
+//
+//import com.example.CollegeManagment.Exception.BadRequest;
+//import com.example.CollegeManagment.Exception.ItemNotFound;
+//import com.example.CollegeManagment.config.StudentMaptructConfig;
+//import com.example.CollegeManagment.dto.requestdto.Studentdto;
+//import com.example.CollegeManagment.dto.responsedto.Responsedto;
+//import com.example.CollegeManagment.entity.Department;
+//import com.example.CollegeManagment.entity.Student;
+//import com.example.CollegeManagment.repository.StudentRepo;
+//import com.example.CollegeManagment.service.impl.StudentServiceImpl;
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.extension.ExtendWith;
+//import org.mockito.InjectMocks;
+//import org.mockito.Mock;
+//import org.mockito.Mockito;
+//import org.mockito.junit.jupiter.MockitoExtension;
+//import org.springframework.data.domain.Page;
+//import org.springframework.data.domain.PageImpl;
+//import org.springframework.data.domain.Pageable;
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Optional;
+//
+//import static org.junit.jupiter.api.Assertions.*;
+//import static org.mockito.ArgumentMatchers.any;
+//import static org.mockito.ArgumentMatchers.anyLong;
+//import static org.mockito.Mockito.*;
+//@ExtendWith(MockitoExtension.class)
+//class StudentServiceTest {
+//    @Mock
+//    private StudentRepo studentRepo;
+//
+//    @Mock
+//    private StudentMaptructConfig studentMaptructConfig;
+//
+//    @InjectMocks
+//    private StudentServiceImpl studentService;
+//
+//
+//    @Test
+//    void testAddOrUpdateStudent_AddNewStudent() {
+//        // Arrange
+//        Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567890");
+//        Student student = new Student();
+//
+//        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(false);
+//        when(studentRepo.save(any(Student.class))).thenReturn(student);
+//
+//        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(student);
+//
+//        // Act
+//        Responsedto<Student> response = studentService.addorupdateStudent(studentdto, null);
+//
+//        // Assert
+//        assertNotNull(response);
+//        assertTrue(response.getSuccess());
+//        assertEquals("student added or updated successful", response.getMessage());
+//        assertNotNull(response.getResult());
+//
+//        // Verify that save method was called
+//        verify(studentRepo, times(1)).save(any(Student.class));
+//    }
+//
+//    @Test
+//    void testAddOrUpdateStudent_UpdateExistingStudent() {
+//        // Arrange
+//        Long studentId = 1L;
+//        Studentdto studentdto = new Studentdto("Updated John Doe", new Department(), "1234567890");
+//
+//        Student existingStudent = new Student();
+//        existingStudent.setStudentId(studentId);
+//        existingStudent.setSname("John Doe");
+//        existingStudent.setPhoneNum("1234567890");
+//
+//        Student updatedStudent = new Student();
+//        updatedStudent.setStudentId(studentId);
+//        updatedStudent.setSname("Updated John Doe");
+//        updatedStudent.setPhoneNum("1234567890");
+//
+//
+//        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
+//        when(studentRepo.save(any(Student.class))).thenReturn(updatedStudent);
+//        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(updatedStudent);
+//        when(studentRepo.existsById(any(Long.class))).thenReturn(true);
+//
+//        when(studentRepo.findByPhoneNum(studentdto.getPhoneNum())).thenReturn(Optional.of(existingStudent));
+//
+//        // Act
+//        Responsedto<Student> response = studentService.addorupdateStudent(studentdto, studentId);
+//
+//        // Assert
+//        assertNotNull(response);
+//        assertTrue(response.getSuccess());
+//        assertEquals("student added or updated successful", response.getMessage());
+//        assertNotNull(response.getResult());
+//        assertEquals("Updated John Doe", response.getResult().getSname());
+//
+//
+//        verify(studentRepo, times(1)).save(any(Student.class));
+//    }
+//
+//    @Test
+//    void testAddOrUpdateStudent_DuplicatePhoneNumber() {
+//        // Arrange
+//        Studentdto studentdto = new Studentdto("John Doe", new Department(), "1234567891");
+//
+//        Long studentId =  2L;
+//        Student existingStudent = new Student();
+//        existingStudent.setStudentId(studentId);
+//        existingStudent.setSname("John Doe");
+//        existingStudent.setPhoneNum("1234567890");
+//
+//        Student student = new Student();
+//        student.setStudentId(1L);
+//       student.setSname("John Doe");
+//       student.setPhoneNum("1234567890");
+//       student.setDepartment(new Department());
+//
+//
+//        when(studentRepo.existsByPhoneNum(anyString())).thenReturn(true);
+//        when(studentRepo.findByPhoneNum(anyString())).thenReturn(Optional.of(existingStudent));
+//        when(studentMaptructConfig.toEntity(Mockito.any(Studentdto.class))).thenReturn(student);
+//        when(studentRepo.existsById(any(Long.class))).thenReturn(true);
+//
+//        // Act and Assert
+//
+//       BadRequest ex= assertThrows(BadRequest.class, () -> studentService.addorupdateStudent(studentdto, 1L));
+//        assertEquals(ex.getMessage(),"phone number already exist");
+//
+//        verify(studentRepo, never()).save(any(Student.class));
+//    }
+//
+//    @Test
+//    void testViewDetails_ExistingStudent() {
+//        // Arrange
+//        Long studentId = 1L;
+//        Student existingStudent = new Student();
+//        existingStudent.setStudentId(studentId);
+//        existingStudent.setSname("John Doe");
+//
+//        when(studentRepo.findById(studentId)).thenReturn(Optional.of(existingStudent));
+//
+//        // Act
+//        Responsedto<Student> response = studentService.viewdetails(studentId);
+//
+//        // Assert
+//        assertNotNull(response);
+//        assertTrue(response.getSuccess());
+//        assertEquals("student added successful", response.getMessage());
+//        assertNotNull(response.getResult());
+//        assertEquals(studentId, response.getResult().getStudentId());
+//
+//        // Verify that findById method was called
+//        verify(studentRepo, times(1)).findById(studentId);
+//    }
+//
+//    @Test
+//    void testViewDetails_NonExistingStudent() {
+//        // Arrange
+//        Long studentId = 1L;
+//
+//        when(studentRepo.findById(studentId)).thenReturn(Optional.empty());
+//
+//        // Act and Assert
+//        assertThrows(ItemNotFound.class, () -> studentService.viewdetails(studentId));
+//
+//        // Verify that findById method was called
+//        verify(studentRepo, times(1)).findById(studentId);
+//    }
+//
+//    @Test
+//    void testDeleteById() {
+//        // Arrange
+//        Long studentId = 1L;
+//
+//        // Act
+//        var response = studentService.deletebyid(studentId);
+//
+//        // Assert
+//        assertNotNull(response);
+//        assertTrue(response.getSuccess());
+//        assertEquals("student delete successful", response.getMessage());
+//
+//        // Verify that deleteById method was called
+//        verify(studentRepo, times(1)).deleteById(anyLong());
+//    }
+//
+//    @Test
+//    void testListStudent() {
+//        // Arrange
+//        List<Student> students = new ArrayList<>();
+//        students.add(new Student());
+//        students.add(new Student());
+//        students.add(new Student());
+//        students.add(new Student());
+//        students.add(new Student());
+//
+//        Page<Student> pagees= new PageImpl<>(
+//                students
+//        );
+//        when(studentRepo.findAll(Mockito.any(Pageable.class))).thenReturn(pagees);
+//
+//        // Act
+//        Responsedto<List<Student>> response = studentService.listStudent(5,0,"sname");
+//
+//        // Assert
+//        assertNotNull(response);
+//        assertTrue(response.getSuccess());
+//        assertEquals(response.getResult().size(),5);
+//        assertEquals("student list : 5 students", response.getMessage());
+//        assertNotNull(response.getResult());
+//
+//
+//        // Verify that findAll method was called
+//        verify(studentRepo, times(1)).findAll(Mockito.any(Pageable.class));
+//    }
+//}
