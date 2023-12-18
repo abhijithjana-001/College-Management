@@ -1,5 +1,4 @@
 package com.example.CollegeManagment.controller;
-
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Teacher;
@@ -32,7 +31,6 @@ public class TeacherController {
             Responsedto<List<Teacher>> all= teacherService.findAll(pageSize,pageNumber,sort);
             return ResponseEntity.ok(all);
         }
-
 
 
     @PutMapping("/update/{id}")

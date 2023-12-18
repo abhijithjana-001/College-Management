@@ -30,4 +30,6 @@ public class Teacher {
             inverseJoinColumns = @JoinColumn(name = "department_id",referencedColumnName = "id")
     )
     private Set<Department> departments=new HashSet<>();
+
+
 }
