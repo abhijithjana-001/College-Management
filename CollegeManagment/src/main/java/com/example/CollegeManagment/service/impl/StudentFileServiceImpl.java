@@ -31,35 +31,34 @@ public class StudentFileServiceImpl {
         this.studentProfileRepo=studentProfileRepo;
     }
 
-    public Responsedto upload(MultipartFile files[]){
-        Set<StudentProfileImg> studentProfileImgs=new HashSet<>();
-        try {
+    public StudentProfileImg  upload(MultipartFile file)  {
+        StudentProfileImg studentProfileImgs;
+               try{
+                   Path directoryPath = Paths.get(uploadDir);
+                   Files.createDirectories(directoryPath);
+                Path filePath = Paths.get(uploadDir,file.getOriginalFilename());
+                   System.out.println(filePath+"---------"+file.getOriginalFilename());
 
-            for (MultipartFile file : files) {
+                file.transferTo(filePath);
 
-                Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
-                file.transferTo(filePath.toFile());
                 if(!studentProfileRepo.existsByName(file.getOriginalFilename()))
                 {
-                    studentProfileImgs.add(StudentProfileImg.builder()
+                     studentProfileImgs=   StudentProfileImg.builder()
                             .name(file.getOriginalFilename())
                             .type(file.getContentType())
                             .size(file.getSize())
                             .filePath(filePath.toString())
                             .created(LocalDateTime.now())
-                            .build());
+                            .build();
                 }
                 else {
                     throw  new BadRequest("Duplicate entry , image already exists at location "+filePath);
                 }
 
-            }
-            studentProfileRepo.saveAll(studentProfileImgs);
-
-            return new Responsedto<>(true, files.length + " File uploaded successfully!", null);
+                return studentProfileImgs;
         } catch (IOException e) {
             e.printStackTrace();
-            throw  new BadRequest("File upload failed \n "+e.getMessage());
+            throw  new BadRequest("File upload failed \n"+e.getMessage());
         }
     }
 

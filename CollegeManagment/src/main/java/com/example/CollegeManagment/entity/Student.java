@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 @Table(name="student")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "student_id")
+
 public class Student {
 
     @Id
@@ -27,5 +27,7 @@ public class Student {
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id",referencedColumnName = "id")
+    private StudentProfileImg profileImg;
 }

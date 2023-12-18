@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class StudentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Responsedto<Student>> addstudent(@Valid @RequestBody Studentdto studentdto){
-                 Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentdto,null);
+    public ResponseEntity<Responsedto<Student>> addstudent(@Valid @RequestParam(name = "dto") String studentdto, @RequestParam(name = "file")MultipartFile file){
+                 Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentdto,file,null);
                  return ResponseEntity.ok(responsedto);
     }
     @GetMapping("/list")
@@ -51,10 +52,10 @@ public class StudentController {
      }
 
 
-     @PutMapping("/update/{id}")
-     public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id,@Valid  @RequestBody Studentdto studentdto){
-         Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentdto,id);
-         return ResponseEntity.ok(responsedto);
-     }
+//     @PutMapping("/update/{id}")
+//     public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id,@Valid  @RequestBody Studentdto studentdto){
+//         Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentdto,null,id);
+//         return ResponseEntity.ok(responsedto);
+//     }
 
 }
