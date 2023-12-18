@@ -1,7 +1,9 @@
 package com.example.CollegeManagment.entity;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +13,9 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "Image_table")
-public class DepartmentImgEntity {
+public class DepartmentFileEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
