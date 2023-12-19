@@ -35,12 +35,12 @@ public class TeacherController {
         }
 
 
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<Responsedto<Teacher>> update(@Valid @RequestBody TeacherRequestDTO teacherRequestDTO,
-//                                                                @PathVariable long id) {
-//        Responsedto<Teacher> Responsedto = teacherService.createorupdate(id, teacherRequestDTO);
-//        return ResponseEntity.ok(Responsedto);
-//    }
+    @PutMapping("/update")
+    public ResponseEntity<Responsedto<Teacher>> update(@RequestParam(name = "id") Long id,@Valid @RequestParam(name = "dto")
+                   String teacherRequestDTO, @RequestParam(name="file",required = false)MultipartFile file) {
+        Responsedto<Teacher> Responsedto = teacherService.createorupdate(id,teacherRequestDTO,file);
+        return ResponseEntity.ok(Responsedto);
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Responsedto<Teacher>> delete(@PathVariable long id) {

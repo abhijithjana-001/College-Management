@@ -2,6 +2,7 @@ package com.example.CollegeManagment.controller.filehandling;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.ImageData;
+import com.example.CollegeManagment.entity.TeacherProfileImg;
 import com.example.CollegeManagment.service.impl.TeacherFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +27,8 @@ public class TeacherFileHandlingController {
 
     @PostMapping("/upload")
     public ResponseEntity<Responsedto> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        Responsedto upload=teacherFileService.upload(file);
-        return ResponseEntity.ok(upload);
+        TeacherProfileImg upload=teacherFileService.upload(file);
+        return ResponseEntity.ok(new Responsedto(true,"uploaded successfully",upload));
     }
 
     @GetMapping("/{fileName}")

@@ -53,7 +53,8 @@ public class StudentController {
 
 
      @PutMapping("/update")
-     public ResponseEntity<Responsedto<Student>> updateStudent(@RequestParam(name = "id") Long id,@Valid  @RequestParam(name = "dto") String studentdto, @RequestParam(name = "file",required = false)MultipartFile file){
+     public ResponseEntity<Responsedto<Student>> updateStudent(@RequestParam(name = "id") Long id,@Valid  @RequestParam(name = "dto")
+        String studentdto, @RequestParam(name = "file",required = false)MultipartFile file){
          Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentdto,file,id);
          return ResponseEntity.ok(responsedto);
      }
