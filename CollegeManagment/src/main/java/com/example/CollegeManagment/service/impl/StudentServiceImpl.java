@@ -45,7 +45,7 @@ public class StudentServiceImpl implements Studentservice {
      }
     @Override
     public Responsedto<Student> addorupdateStudent(String studentdtodata, MultipartFile file, Long id) {
-         String filename=(studentRepo.findById(id).get().getProfileImg().getName());
+         String filename=null;
          Studentdto studentdto=null;
         try {
             studentdto= objectMapper.readValue(studentdtodata,Studentdto.class);
@@ -62,6 +62,7 @@ public class StudentServiceImpl implements Studentservice {
          else {
 
              if(studentRepo.findById(id).isPresent()) {
+                 filename=studentRepo.findById(id).get().getProfileImg().getName();
                  student.setStudentId(id);
 
 
