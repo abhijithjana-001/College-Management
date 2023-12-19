@@ -26,5 +26,7 @@ public class StudentProfileImg {
     private Long size;
 
     private String filePath;
-
+    @JsonIgnore
+    @OneToOne(mappedBy = "profileImg")
+    private  Student student;
 }
