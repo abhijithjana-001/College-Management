@@ -31,4 +31,7 @@ public class DepartmentFileEntity {
 
     private String filePath;
 
+    @OneToOne(mappedBy = "departmentImg",cascade = CascadeType.ALL)
+    private  Department department;
+
 }

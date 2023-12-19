@@ -1,10 +1,8 @@
 package com.example.CollegeManagment.controller;
 
-import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.service.Studentservice;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 

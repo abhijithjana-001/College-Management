@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 public interface DepartmentMapper {
 
     @Mapping(target = "id", ignore = true)
-    Department toEntity(DepartmentDto departmentDto);
+    Department toEntity(String departmentDto);
 
 
     default void updateEntity(DepartmentDto departmentDto, Department department) {

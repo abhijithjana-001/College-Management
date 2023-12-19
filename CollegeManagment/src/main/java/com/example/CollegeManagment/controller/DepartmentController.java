@@ -1,6 +1,5 @@
 package com.example.CollegeManagment.controller;
 
-import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.service.DepartmentService;
@@ -8,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<Responsedto<Department>> addDepartment(@RequestBody DepartmentDto departmentRequestDto) {
-        Responsedto responsedto = departmentService.createOrUpdate(departmentRequestDto, null);
+    public ResponseEntity<Responsedto<Department>> addDepartment(@Valid @RequestParam(name = "dto") String departmentDto, @RequestParam(name = "file")MultipartFile file) {
+        Responsedto<Department> responsedto = departmentService.createOrUpdate(departmentDto, file, null);
         return ResponseEntity.ok(responsedto);
     }
 
@@ -29,21 +29,21 @@ public class DepartmentController {
             @RequestParam(value ="pageNumber",defaultValue = "0",required = false) Integer pageNumber,
             @RequestParam(value ="pageSize",defaultValue = "5",required = false) Integer pageSize,
             @RequestParam(value ="sortBy",defaultValue = "name",required = false) String sortBy
-        )
-    {
-        Responsedto<List<Department>> all=departmentService.findAllDepartments(pageSize, pageNumber, sortBy);
-        return ResponseEntity.ok(all);
+        ) {
+        Responsedto<List<Department>> responsedto=departmentService.findAllDepartments(pageSize, pageNumber, sortBy);
+        return ResponseEntity.ok(responsedto);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Responsedto<Department>> update(@Valid @PathVariable long id, @RequestBody DepartmentDto departmentDto) {
-        Responsedto<Department> Responsedto = departmentService.createOrUpdate(departmentDto, id);
+    public ResponseEntity<Responsedto<Department>> update(@RequestParam(name = "id") Long id,
+                                                          @Valid @RequestParam(name = "dto") String departmentDto,
+                                                          @RequestParam(name = "file", required = false) MultipartFile file) {
+        Responsedto<Department> Responsedto = departmentService.createOrUpdate(departmentDto, file, id);
         return ResponseEntity.ok(Responsedto);
     }
 
-
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Responsedto<Department>> delete(@PathVariable long id) {
+    public ResponseEntity<Responsedto<Department>> delete(@PathVariable Long id) {
         Responsedto<Department> Responsedto = departmentService.delete(id);
         return ResponseEntity.ok(Responsedto);
     }

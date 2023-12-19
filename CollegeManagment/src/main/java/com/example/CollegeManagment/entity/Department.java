@@ -27,7 +27,9 @@ public class Department {
     @ManyToMany(mappedBy = "departments")
     private Set<Teacher> teachers;
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "imgId",referencedColumnName = "id")
+    private DepartmentFileEntity departmentImg;
 
     public Department(Long id, String name){
         this.id = id;

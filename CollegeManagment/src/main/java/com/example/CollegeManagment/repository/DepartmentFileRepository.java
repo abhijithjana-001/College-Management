@@ -4,6 +4,7 @@ import com.example.CollegeManagment.entity.DepartmentFileEntity;
 import com.example.CollegeManagment.entity.StudentProfileImg;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -11,4 +12,6 @@ import java.util.Optional;
 public interface DepartmentFileRepository extends JpaRepository<DepartmentFileEntity, Long> {
 
     Optional<DepartmentFileEntity> findByName(String name);
+
+    DepartmentFileEntity upload(MultipartFile file);
 }

@@ -27,7 +27,7 @@ public class DepartmentFileService{
 
     @Autowired
     private DepartmentFileRepository departmentFileRepository;
-    public Responsedto upload(MultipartFile files[]){
+    public Responsedto upload(MultipartFile[] files){
         Set<DepartmentFileEntity> departmentFileEntities = new HashSet<>();
         try {
 
