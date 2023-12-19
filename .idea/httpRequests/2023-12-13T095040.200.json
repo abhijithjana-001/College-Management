@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "message": "Teachers List",
+  "result": [
+    {
+      "tid": 4,
+      "name": "Abhijidsdscdvddfvfvfed",
+      "phno": null,
+      "departments": [
+        {
+          "id": 1,
+          "name": "CSE"
+        }
+      ]
+    }
+  ]
+}

@@ -46,10 +46,10 @@ public class StudentServiceImpl implements Studentservice {
      }
     @Override
     public Responsedto<Student> addorupdateStudent(String studentdtodata, MultipartFile file, Long id) {
+         String filename=null;
          Studentdto studentdto=null;
         try {
             studentdto= objectMapper.readValue(studentdtodata,Studentdto.class);
-
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -63,8 +63,9 @@ public class StudentServiceImpl implements Studentservice {
          else {
 
              if(studentRepo.findById(id).isPresent()) {
+                 filename=studentRepo.findById(id).get().getProfileImg().getName();
                  student.setStudentId(id);
-                 studentFileService.deletefile(studentRepo.findById(id).get().getProfileImg().getName());
+
 
                  student.setProfileImg(studentProfileImg);
 
@@ -80,6 +81,7 @@ public class StudentServiceImpl implements Studentservice {
                  .getStudentId().equals( student.getStudentId())) {
 
              studentRepo.save(student);
+             studentFileService.deletefile(filename);
          } else {
             throw new BadRequest("phone number already exist");
         }
