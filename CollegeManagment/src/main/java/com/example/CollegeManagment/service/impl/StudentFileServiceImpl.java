@@ -76,7 +76,9 @@ public class StudentFileServiceImpl {
         StudentProfileImg studentprofile= studentProfileRepo.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
         File file = new File(studentprofile.getFilePath());
         if (file.exists() && file.delete()) {
-            studentProfileRepo.delete(studentprofile);
+
+                studentProfileRepo.delete(studentprofile);
+
             return new Responsedto<>(true, "File delete successfully!", null);
         }
         else throw new BadRequest("File delete failed!");

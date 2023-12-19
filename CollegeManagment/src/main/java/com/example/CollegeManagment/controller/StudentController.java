@@ -52,10 +52,10 @@ public class StudentController {
      }
 
 
-//     @PutMapping("/update/{id}")
-//     public ResponseEntity<Responsedto<Student>> updateStudent(@PathVariable Long id,@Valid  @RequestBody Studentdto studentdto){
-//         Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentdto,null,id);
-//         return ResponseEntity.ok(responsedto);
-//     }
+     @PutMapping("/update")
+     public ResponseEntity<Responsedto<Student>> updateStudent(@RequestParam(name = "id") Long id,@Valid  @RequestParam(name = "dto") String studentdto, @RequestParam(name = "file",required = false)MultipartFile file){
+         Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentdto,file,id);
+         return ResponseEntity.ok(responsedto);
+     }
 
 }

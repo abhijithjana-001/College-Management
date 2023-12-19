@@ -7,12 +7,14 @@ import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.entity.StudentProfileImg;
+import com.example.CollegeManagment.repository.StudentProfileRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.Studentservice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,9 @@ public class StudentServiceImpl implements Studentservice {
     private  StudentFileServiceImpl studentFileService;
 
     @Autowired
+    private StudentProfileRepo studentProfileRepo;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
      public StudentServiceImpl(StudentRepo studentRepo,StudentMaptructConfig studentMaptructConfig){
@@ -43,6 +48,7 @@ public class StudentServiceImpl implements Studentservice {
          Studentdto studentdto=null;
         try {
             studentdto= objectMapper.readValue(studentdtodata,Studentdto.class);
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -54,11 +60,13 @@ public class StudentServiceImpl implements Studentservice {
              student.setProfileImg(studentProfileImg);
         }
          else {
-             boolean exists= studentRepo.existsById(id);
-             if(exists) {
+
+             if(studentRepo.findById(id).isPresent()) {
                  student.setStudentId(id);
-                 studentFileService.deletefile(student.getProfileImg().getName());
+                 studentFileService.deletefile(studentRepo.findById(id).get().getProfileImg().getName());
+
                  student.setProfileImg(studentProfileImg);
+
              }
              else
                  throw new ItemNotFound("Student with id " + id + " is not found");

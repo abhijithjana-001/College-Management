@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,4 @@ public class StudentProfileImg {
 
     private String filePath;
 
-    @OneToOne(mappedBy = "profileImg",cascade = CascadeType.ALL)
-    private  Student student;
 }
