@@ -32,12 +32,14 @@ public class StudentFileServiceImpl {
     }
 
     public StudentProfileImg  upload(MultipartFile file)  {
+        isImage(file);
+
         StudentProfileImg studentProfileImgs;
                try{
                    Path directoryPath = Paths.get(uploadDir);
                    Files.createDirectories(directoryPath);
                 Path filePath = Paths.get(uploadDir,file.getOriginalFilename());
-                   System.out.println(filePath+"---------"+file.getOriginalFilename());
+
 
                 file.transferTo(filePath);
 
@@ -84,5 +86,14 @@ public class StudentFileServiceImpl {
             return new Responsedto<>(true, "File delete successfully!", null);
         }
         else throw new BadRequest("File delete failed!");
+    }
+
+
+
+    private Boolean isImage(MultipartFile file){
+        if(file.getContentType().startsWith("image"))
+            return true;
+        else
+            throw new BadRequest("uploaded file is not an image");
     }
 }
