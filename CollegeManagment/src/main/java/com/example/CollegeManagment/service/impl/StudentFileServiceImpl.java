@@ -79,6 +79,8 @@ public class StudentFileServiceImpl {
 
                 studentProfileRepo.delete(studentprofile);
 
+
+
             return new Responsedto<>(true, "File delete successfully!", null);
         }
         else throw new BadRequest("File delete failed!");
