@@ -31,5 +31,7 @@ public class Teacher {
     )
     private Set<Department> departments=new HashSet<>();
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_p_id",referencedColumnName = "id")
+    private TeacherProfileImg teacherProfileImg;
 }

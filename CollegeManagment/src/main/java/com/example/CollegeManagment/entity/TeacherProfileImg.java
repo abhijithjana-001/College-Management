@@ -24,4 +24,7 @@ public class TeacherProfileImg {
     private String filePath;
     private LocalDateTime created;
     private Long size;
+
+    @OneToOne(mappedBy = "teacherProfileImg",cascade = CascadeType.ALL)
+    private  Teacher teacher;
 }

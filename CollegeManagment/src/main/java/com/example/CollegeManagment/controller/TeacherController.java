@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,9 +18,10 @@ public class TeacherController {
     Teacherservice teacherService;
 
     @PostMapping("/addTeacher")
-    public ResponseEntity<Responsedto<Teacher>> addTeacher(@Valid @RequestBody TeacherRequestDTO teacherRequestDTO) {
-        Responsedto<Teacher> Responsedto= teacherService.createorupdate(null,teacherRequestDTO);
-        return ResponseEntity.ok(Responsedto);
+    public ResponseEntity<Responsedto<Teacher>> addTeacher(@Valid @RequestParam(name = "dto")
+                           String teacherRequestDTO, @RequestParam(name="file")MultipartFile file) {
+        Responsedto<Teacher> responsedto= teacherService.createorupdate(null,teacherRequestDTO,file);
+        return ResponseEntity.ok(responsedto);
     }
 
     @GetMapping("/teachers")
@@ -33,12 +35,12 @@ public class TeacherController {
         }
 
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Responsedto<Teacher>> update(@Valid @RequestBody TeacherRequestDTO teacherRequestDTO,
-                                                                @PathVariable long id) {
-        Responsedto<Teacher> Responsedto = teacherService.createorupdate(id, teacherRequestDTO);
-        return ResponseEntity.ok(Responsedto);
-    }
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<Responsedto<Teacher>> update(@Valid @RequestBody TeacherRequestDTO teacherRequestDTO,
+//                                                                @PathVariable long id) {
+//        Responsedto<Teacher> Responsedto = teacherService.createorupdate(id, teacherRequestDTO);
+//        return ResponseEntity.ok(Responsedto);
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Responsedto<Teacher>> delete(@PathVariable long id) {

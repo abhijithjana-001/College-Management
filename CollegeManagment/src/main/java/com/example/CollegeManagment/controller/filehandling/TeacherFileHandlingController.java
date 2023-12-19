@@ -25,7 +25,7 @@ public class TeacherFileHandlingController {
     private TeacherFileService teacherFileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<Responsedto> handleFileUpload(@RequestParam("file") MultipartFile file[]) {
+    public ResponseEntity<Responsedto> handleFileUpload(@RequestParam("file") MultipartFile file) {
         Responsedto upload=teacherFileService.upload(file);
         return ResponseEntity.ok(upload);
     }
