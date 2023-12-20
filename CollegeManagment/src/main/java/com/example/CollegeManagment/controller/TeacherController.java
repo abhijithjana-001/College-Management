@@ -38,8 +38,8 @@ public class TeacherController {
     @PutMapping("/update")
     public ResponseEntity<Responsedto<Teacher>> update(@RequestParam(name = "id") Long id,@Valid @RequestParam(name = "dto")
                    String teacherRequestDTO, @RequestParam(name="file",required = false)MultipartFile file) {
-        Responsedto<Teacher> Responsedto = teacherService.createorupdate(id,teacherRequestDTO,file);
-        return ResponseEntity.ok(Responsedto);
+        Responsedto<Teacher> responsedto = teacherService.createorupdate(id,teacherRequestDTO,file);
+        return ResponseEntity.ok(responsedto);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -48,6 +48,7 @@ public class TeacherServiceImpl implements Teacherservice {
 
         @Override
         public Responsedto<Teacher>createorupdate(Long id, String teacherdtoData, MultipartFile file) {
+            String filename=null;
             TeacherRequestDTO teacherRequestDTO=null;
             try{
                 teacherRequestDTO=objectMapper.readValue(teacherdtoData, TeacherRequestDTO.class);
@@ -64,8 +65,8 @@ public class TeacherServiceImpl implements Teacherservice {
             }else{
                 Boolean exist=teacherRepo.existsById(id);
                 if(exist) {
+                    filename=teacherRepo.findById(id).get().getTeacherProfileImg().getName();
                     teacher.setTid(id);
-                    teacherFileService.deleteFile(teacher.getTeacherProfileImg().getName());
                     teacher.setTeacherProfileImg(new TeacherProfileImg());
                 }
                 else
