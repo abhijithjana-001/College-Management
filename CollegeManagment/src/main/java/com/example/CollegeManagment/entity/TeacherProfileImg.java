@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +25,8 @@ public class TeacherProfileImg {
     private String filePath;
     private LocalDateTime created;
     private Long size;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "teacherProfileImg")
+    private  Teacher teacher;
 }

@@ -9,6 +9,7 @@ import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
+
 import com.example.CollegeManagment.service.Studentservice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
