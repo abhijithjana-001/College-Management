@@ -47,13 +47,16 @@ public class StudentServiceImpl implements Studentservice {
     public Responsedto<Student> addorupdateStudent(String studentdtodata, MultipartFile file, Long id) {
          String filename=null;
          Studentdto studentdto=null;
+        StudentProfileImg studentProfileImg=null;
         try {
             studentdto= objectMapper.readValue(studentdtodata,Studentdto.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         Student student=studentMaptructConfig.toEntity(studentdto);
-        StudentProfileImg studentProfileImg=studentFileService.upload(file);
+        if(file!=null){
+             studentProfileImg = studentFileService.upload(file);
+        }
 
         if (id==null){
             student.setStudentId(new Student().getStudentId());
@@ -62,11 +65,15 @@ public class StudentServiceImpl implements Studentservice {
          else {
 
              if(studentRepo.findById(id).isPresent()) {
-                 filename=studentRepo.findById(id).get().getProfileImg().getName();
+
                  student.setStudentId(id);
+                if(file!= null){
+                    filename=studentRepo.findById(id).get().getProfileImg().getName();
+                    student.setProfileImg(studentProfileImg);
+                }
+                else
+                    student.setProfileImg(studentRepo.findById(id).get().getProfileImg());
 
-
-                 student.setProfileImg(studentProfileImg);
 
              }
              else
@@ -80,6 +87,7 @@ public class StudentServiceImpl implements Studentservice {
                  .getStudentId().equals( student.getStudentId())) {
 
              studentRepo.save(student);
+             if(file!=null)
              studentFileService.deletefile(filename);
          } else {
             throw new BadRequest("phone number already exist");
