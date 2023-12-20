@@ -30,4 +30,8 @@ public class Teacher {
             inverseJoinColumns = @JoinColumn(name = "department_id",referencedColumnName = "id")
     )
     private Set<Department> departments=new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_p_id",referencedColumnName = "id")
+    private TeacherProfileImg teacherProfileImg;
 }

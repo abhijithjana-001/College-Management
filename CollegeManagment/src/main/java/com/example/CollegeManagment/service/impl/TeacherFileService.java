@@ -29,27 +29,27 @@ public class TeacherFileService {
     @Autowired
     private TeacherFileRepository teacherFileRepository;
 
-    public Responsedto upload(MultipartFile files[]){
-        Set<TeacherProfileImg> teacherProfileImg=new HashSet<>();
+    public TeacherProfileImg upload(MultipartFile file){
+        TeacherProfileImg teacherProfileImg;
         try{
-            for(MultipartFile file:files) {
-                Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
-                file.transferTo(filePath.toFile());
+              Path directoryPath=Paths.get(uploadDir);
+              Files.createDirectories(directoryPath);
+              Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
+            System.out.println(filePath+"---------"+file.getOriginalFilename());
+                file.transferTo(filePath);
+
                 if (!teacherFileRepository.existsByName(file.getOriginalFilename())) {
-                    teacherProfileImg.add(TeacherProfileImg.builder()
+                    teacherProfileImg=TeacherProfileImg.builder()
                             .name(file.getOriginalFilename())
                             .type(file.getContentType())
                             .size(file.getSize())
                             .filePath(filePath.toString())
                             .created(LocalDateTime.now())
-                            .build());
+                            .build();
                 } else {
                     throw new BadRequest("Image already exists.Duplication not allowed!");
                 }
-            }
-            teacherFileRepository.saveAll(teacherProfileImg);
-            return new Responsedto<>(true,files.length+
-                    " File uploaded successfully",null);
+                return teacherProfileImg;
         } catch (IOException e) {
             e.printStackTrace();
             throw new BadRequest(e.getMessage());
