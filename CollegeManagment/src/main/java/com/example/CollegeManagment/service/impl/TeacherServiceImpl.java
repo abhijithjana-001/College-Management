@@ -50,6 +50,7 @@ public class TeacherServiceImpl implements Teacherservice {
         public Responsedto<Teacher>createorupdate(Long id, String teacherdtoData, MultipartFile file) {
             String filename=null;
             TeacherRequestDTO teacherRequestDTO=null;
+            TeacherProfileImg teacherProfileImg=null;
             try{
                 teacherRequestDTO=objectMapper.readValue(teacherdtoData, TeacherRequestDTO.class);
             } catch(JsonProcessingException e){
@@ -57,26 +58,36 @@ public class TeacherServiceImpl implements Teacherservice {
             }
 
             Teacher teacher=teacherMapStruct.toEntity(teacherRequestDTO);
-            TeacherProfileImg teacherProfileImg=teacherFileService.upload(file);
+            if(file!=null) {
+                 teacherProfileImg = teacherFileService.upload(file);
+            }
             if(id==null){
                 teacher.setTid(new Teacher().getTid());
                 teacher.setTeacherProfileImg(teacherProfileImg);
 
-            }else{
-                Boolean exist=teacherRepo.existsById(id);
-                if(exist) {
-                    filename=teacherRepo.findById(id).get().getTeacherProfileImg().getName();
+            }else {
+                if(teacherRepo.findById(id).isPresent()){
                     teacher.setTid(id);
-                    teacher.setTeacherProfileImg(new TeacherProfileImg());
-                }
+                    if(file!=null){
+                        filename = teacherRepo.findById(id).get().getTeacherProfileImg().getName();
+                        teacher.setTeacherProfileImg(teacherProfileImg);
+                } else
+                    teacher.setTeacherProfileImg(teacherRepo.findById(id).get().getTeacherProfileImg());
+
+            }
                 else
                     throw  new ItemNotFound("Teacher not found with ID : "+id);
             }
 
-            if(!teacherRepo.existsByPhno(teacher.getPhno()) ||
-                    teacherRepo.findByPhno(teacherRequestDTO.getPhno()).get().getTid()==teacher.getTid())  {
+            if(!teacherRepo.existsByPhno(teacher.getPhno()))
+                    {
                 teacherRepo.save(teacher);
-            }else{
+
+            } else if (teacherRepo.findByPhno(teacherRequestDTO.getPhno()).get().getTid()==teacher.getTid()) {
+                teacherRepo.save(teacher);
+                if(file!=null)
+                    teacherFileService.deleteFile(filename);
+            } else{
                 throw new BadRequest("Phone number already exists");
             }
 
@@ -93,9 +104,9 @@ public class TeacherServiceImpl implements Teacherservice {
 
 
     @Override
-        public Responsedto<Teacher> delete(long id) {
+        public Responsedto delete(long id) {
             teacherRepo.deleteById(id);
-            return new Responsedto<Teacher>(true, "Deleted Successfully", null);
+            return new Responsedto<>(true, "Deleted Successfully", null);
         }
 
       }
