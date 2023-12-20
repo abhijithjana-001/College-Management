@@ -44,20 +44,7 @@ class StudentControllerDiffblueTest {
      */
     @Test
     void testAddstudent() throws IOException {
-        //   Diffblue Cover was unable to write a Spring test,
-        //   so wrote a non-Spring test instead.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   jakarta.servlet.ServletException: Request processing failed: org.springframework.web.multipart.MultipartException: Current request is not a multipart request
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   org.springframework.web.multipart.MultipartException: Current request is not a multipart request
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   See https://diff.blue/R013 to resolve this issue.
 
-        // Arrange
         StudentServiceImpl studentservice = mock(StudentServiceImpl.class);
         when(studentservice.addorupdateStudent(Mockito.<String>any(), Mockito.<MultipartFile>any(), Mockito.<Long>any()))
                 .thenReturn(new Responsedto<>());
