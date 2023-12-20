@@ -24,9 +24,10 @@ public class StudentProfileImg {
     private String type;
     private LocalDateTime created;
     private Long size;
-
+    private String link;
     private String filePath;
     @JsonIgnore
     @OneToOne(mappedBy = "profileImg")
     private  Student student;
+
 }

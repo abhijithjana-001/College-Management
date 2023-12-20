@@ -27,29 +27,23 @@ public class DepartmentFileService{
 
     @Autowired
     private DepartmentFileRepository departmentFileRepository;
-    public Responsedto upload(MultipartFile files[]){
-        Set<DepartmentFileEntity> departmentFileEntities = new HashSet<>();
-        try {
+    public DepartmentFileEntity upload(MultipartFile file) throws IOException {
+       DepartmentFileEntity departmentFileEntities ;
 
-            for (MultipartFile file : files) {
                 Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
                 file.transferTo(filePath.toFile());
-                departmentFileEntities.add(DepartmentFileEntity.builder()
+        departmentFileEntities= DepartmentFileEntity.builder()
                         .name(file.getOriginalFilename())
                         .type(file.getContentType())
                         .size(file.getSize())
                         .filePath(filePath.toString())
                         .created(LocalDateTime.now())
-                        .build());
-            }
-            departmentFileRepository.saveAll(departmentFileEntities);
+                        .build();
 
-            return new Responsedto<>(true, files.length + " File uploaded successfully!", null);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw  new BadRequest("File upload failed \n "+e.getMessage());
+            departmentFileRepository.save(departmentFileEntities);
+
+            return departmentFileEntities;
         }
-    }
 
     public ImageData findByName(String name) throws  IOException {
         DepartmentFileEntity departmentFileEntity = (DepartmentFileEntity) departmentFileRepository.findByName(name).orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));

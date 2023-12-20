@@ -12,10 +12,8 @@ import com.example.CollegeManagment.repository.StudentRepo;
 
 import com.example.CollegeManagment.service.Studentservice;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -57,6 +55,7 @@ public class StudentServiceImpl implements Studentservice {
         Student student=studentMaptructConfig.toEntity(studentdto);
         if(file!=null){
              studentProfileImg = studentFileService.upload(file);
+
         }
 
         if (id==null){
@@ -114,7 +113,6 @@ public class StudentServiceImpl implements Studentservice {
         Pageable pageable= PageRequest.of(pagenumber,pagesize,Sort.by(sortby).ascending());
         Page<Student> pagestudent = studentRepo.findAll(pageable);
         List<Student> students =pagestudent.getContent();
-
         return new Responsedto<>(true,"student list : "+students.size()+" students" ,students);
     }
 
