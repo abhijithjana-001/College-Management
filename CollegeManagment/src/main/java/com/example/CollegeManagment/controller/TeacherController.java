@@ -14,8 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "teacher")
 public class TeacherController {
-    @Autowired
-    Teacherservice teacherService;
+
+   private final Teacherservice teacherService;
+
+    public TeacherController(Teacherservice teacherService) {
+        this.teacherService = teacherService;
+    }
 
     @PostMapping("/addTeacher")
     public ResponseEntity<Responsedto<Teacher>> addTeacher(@Valid @RequestParam(name = "dto")
