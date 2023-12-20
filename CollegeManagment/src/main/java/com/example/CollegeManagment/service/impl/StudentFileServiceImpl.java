@@ -49,6 +49,7 @@ public class StudentFileServiceImpl {
                             .name(file.getOriginalFilename())
                             .type(file.getContentType())
                             .size(file.getSize())
+                             .link("/student/file/"+file.getOriginalFilename())
                             .filePath(filePath.toString())
                             .created(LocalDateTime.now())
                             .build();

@@ -56,6 +56,7 @@ public class StudentServiceImpl implements Studentservice {
         Student student=studentMaptructConfig.toEntity(studentdto);
         if(file!=null){
              studentProfileImg = studentFileService.upload(file);
+
         }
 
         if (id==null){
@@ -113,7 +114,6 @@ public class StudentServiceImpl implements Studentservice {
         Pageable pageable= PageRequest.of(pagenumber,pagesize,Sort.by(sortby).ascending());
         Page<Student> pagestudent = studentRepo.findAll(pageable);
         List<Student> students =pagestudent.getContent();
-
         return new Responsedto<>(true,"student list : "+students.size()+" students" ,students);
     }
 
