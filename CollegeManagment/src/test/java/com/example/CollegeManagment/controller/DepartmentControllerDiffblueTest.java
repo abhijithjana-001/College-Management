@@ -1,8 +1,11 @@
 package com.example.CollegeManagment.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.service.DepartmentService;
 
 import java.io.ByteArrayInputStream;
@@ -14,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -37,26 +41,29 @@ class DepartmentControllerDiffblueTest {
      * {@link DepartmentController#addDepartment(String, MultipartFile)}
      */
     @Test
-    @Disabled("TODO: Complete this test")
-    void testAddDepartment() throws IOException {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   jakarta.servlet.ServletException: Request processing failed: org.springframework.web.multipart.MultipartException: Current request is not a multipart request
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   org.springframework.web.multipart.MultipartException: Current request is not a multipart request
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   See https://diff.blue/R013 to resolve this issue.
-
+    void testAddDepartment() {
         // Arrange
-        DepartmentController departmentController = new DepartmentController();
+        String departmentDtoJson = "{\"name\":\"YourDepartmentName\",\"otherField\":\"otherValue\"}";
+        MultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "file content".getBytes());
+
+        // Create a sample Department object for the response
+        Department createdDepartment = new Department();
+        createdDepartment.setId(1L);
+        createdDepartment.setName("YourDepartmentName");
+        // Add other fields as needed
+
+        Responsedto<Department> responseDto = new Responsedto<>(createdDepartment);
+
+        // Mock the service method to return the expected response
+        when(departmentService.createOrUpdate(any(), any(), any())).thenReturn(responseDto);
 
         // Act
-        departmentController.addDepartment("alice.liddell@example.org",
-                new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+        ResponseEntity<Responsedto<Department>> responseEntity = departmentController.addDepartment(departmentDtoJson, file);
+
+        // Assert
+        assertEquals(200, responseEntity.getStatusCodeValue()); // Assuming OK status code
+        assertEquals(responseDto, responseEntity.getBody()); // Check if the response body matches the expected value
+        // Add more assertions if needed based on the expected behavior of your controller
     }
 
     /**

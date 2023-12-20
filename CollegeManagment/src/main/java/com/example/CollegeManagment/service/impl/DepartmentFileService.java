@@ -1,6 +1,5 @@
 package com.example.CollegeManagment.service.impl;
 
-import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.DepartmentFileEntity;
@@ -43,7 +42,7 @@ public class DepartmentFileService{
             departmentFileRepository.save(departmentFileEntities);
 
             return departmentFileEntities;
-        }
+    }
 
     public ImageData findByName(String name) throws  IOException {
         DepartmentFileEntity departmentFileEntity = (DepartmentFileEntity) departmentFileRepository.findByName(name).orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));
