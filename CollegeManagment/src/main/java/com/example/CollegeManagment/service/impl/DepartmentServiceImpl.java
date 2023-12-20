@@ -39,7 +39,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private DepartmentFileService departmentService;
+    private DepartmentFileService departmentFileService;
 
 @Override
 public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFile file, Long id) {
@@ -55,7 +55,7 @@ public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFil
     DepartmentFileEntity departmentFileEntity = null;
 
     try {
-        departmentFileEntity = departmentService.upload(file);
+        departmentFileEntity = departmentFileService.upload(file);
     } catch (IOException e) {
         throw new RuntimeException(e);
     }

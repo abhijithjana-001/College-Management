@@ -12,8 +12,4 @@ public interface DepartmentMapper {
     @Mapping(target = "id", ignore = true)
     Department toEntity(DepartmentDto departmentDto);
 
-
-//    default void updateEntity(DepartmentDto departmentDto, Department department) {
-//        department.setName(departmentDto.getName());
-//    }
 }
