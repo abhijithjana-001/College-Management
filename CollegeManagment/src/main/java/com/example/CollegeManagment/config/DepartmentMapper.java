@@ -13,7 +13,7 @@ public interface DepartmentMapper {
     Department toEntity(DepartmentDto departmentDto);
 
 
-    default void updateEntity(DepartmentDto departmentDto, Department department) {
-        department.setName(departmentDto.getName());
-    }
+//    default void updateEntity(DepartmentDto departmentDto, Department department) {
+//        department.setName(departmentDto.getName());
+//    }
 }

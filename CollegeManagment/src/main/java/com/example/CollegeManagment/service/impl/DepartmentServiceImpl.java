@@ -6,16 +6,21 @@ import com.example.CollegeManagment.config.DepartmentMapper;
 import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
-import com.example.CollegeManagment.entity.Student;
+import com.example.CollegeManagment.entity.DepartmentFileEntity;
+import com.example.CollegeManagment.repository.DepartmentFileRepository;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.service.DepartmentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -27,29 +32,53 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentMapper departmentMapper;
 
-@Override
-public Responsedto<Department> createOrUpdate(DepartmentDto departmentDto, Long id) {
+    @Autowired
+    private DepartmentFileRepository departmentFileRepository;
 
-    Department department;
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private DepartmentFileService departmentService;
+
+@Override
+public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFile file, Long id) {
+    DepartmentDto departmentdto = null;
+
+    try {
+        departmentdto = objectMapper.readValue(departmentDto, DepartmentDto.class);
+    } catch (JsonProcessingException e){
+        throw new RuntimeException(e);
+    }
+
+    Department department = departmentMapper.toEntity(departmentdto);
+    DepartmentFileEntity departmentFileEntity = null;
+
+    try {
+        departmentFileEntity = departmentService.upload(file);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
 
     if (id == null) {
-        department = departmentMapper.toEntity(departmentDto);
+        department.setId(new Department().getId());
+        department.setDepartmentImg(departmentFileEntity);
     } else {
-        department = departmentRepo.findById(id)
-                .orElseThrow(() -> new ItemNotFound("Department not found with ID: " + id));
-        departmentMapper.updateEntity(departmentDto, department);
+        if(departmentRepo.findById(id).isPresent()){
+            department.setId(id);
+            department.setDepartmentImg(departmentFileEntity);
+        } else
+            throw new ItemNotFound("Department with id "+ id +" is not found");
     }
 
-    Department existingDepartment = departmentRepo.findByNameIgnoreCase(departmentDto.getName());
+    if (!departmentRepo.existsByName(departmentdto.getName())) {
+         departmentRepo.save(department);
+    } else
+        throw new BadRequest("Department name already exist");
 
-    if (existingDepartment != null) {
-        throw new BadRequest("Department name already exists");
-    }
-
-    departmentRepo.save(department);
 
     return new Responsedto<>(true, "Department added", department);
-}
+    }
 
 
     @Override
