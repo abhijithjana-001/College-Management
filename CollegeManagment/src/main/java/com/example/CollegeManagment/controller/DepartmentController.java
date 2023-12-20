@@ -35,7 +35,7 @@ public class DepartmentController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Responsedto<Department>> update(@RequestParam(name = "id") Long id,
+    public ResponseEntity<Responsedto<Department>> update(@PathVariable(name = "id") Long id,
                                                           @Valid @RequestParam(name = "dto") String departmentDto,
                                                           @RequestParam(name = "file", required = false) MultipartFile file) {
         Responsedto<Department> Responsedto = departmentService.createOrUpdate(departmentDto, file, id);

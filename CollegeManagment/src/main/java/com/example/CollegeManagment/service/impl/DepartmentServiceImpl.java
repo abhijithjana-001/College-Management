@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -42,7 +43,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 @Override
 public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFile file, Long id) {
-
     DepartmentDto departmentdto = null;
 
     try {
@@ -51,17 +51,21 @@ public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFil
         throw new RuntimeException(e);
     }
 
-    Department department = departmentMapper.toEntity(departmentDto);
-    DepartmentFileEntity departmentFileEntity = departmentFileRepository.upload(file);
+    Department department = departmentMapper.toEntity(departmentdto);
+    DepartmentFileEntity departmentFileEntity = null;
 
+    try {
+        departmentFileEntity = departmentService.upload(file);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
 
     if (id == null) {
         department.setId(new Department().getId());
         department.setDepartmentImg(departmentFileEntity);
     } else {
-        if(departmentFileRepository.findById(id).isPresent()){
+        if(departmentRepo.findById(id).isPresent()){
             department.setId(id);
-            departmentService.deleteFile(departmentRepo.findById(id).get().getDepartmentImg().getName());
             department.setDepartmentImg(departmentFileEntity);
         } else
             throw new ItemNotFound("Department with id "+ id +" is not found");
@@ -72,8 +76,9 @@ public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFil
     } else
         throw new BadRequest("Department name already exist");
 
+
     return new Responsedto<>(true, "Department added", department);
-}
+    }
 
 
     @Override

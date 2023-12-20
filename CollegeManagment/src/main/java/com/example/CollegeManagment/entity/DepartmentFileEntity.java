@@ -1,6 +1,6 @@
 package com.example.CollegeManagment.entity;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +31,7 @@ public class DepartmentFileEntity {
 
     private String filePath;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "departmentImg",cascade = CascadeType.ALL)
     private  Department department;
 
