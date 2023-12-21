@@ -45,7 +45,7 @@ class DepartmentFileServiceDiffblueTest {
     private DepartmentFileService departmentFileService;
 
     @InjectMocks
-    private DepartmentService departmentService;
+    private DepartmentServiceImpl departmentService;
 
     /**
      * Method under test: {@link DepartmentFileService#upload(MultipartFile)}
