@@ -45,7 +45,6 @@ class TeacherControllerDiffblueTest {
      * {@link TeacherController#addTeacher(String, MultipartFile)}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testAddTeacher() throws IOException {
         TeacherServiceImpl teacherservice = mock(TeacherServiceImpl.class);
         when(teacherservice.createorupdate( Mockito.<Long>any(),Mockito.<String>any(), Mockito.<MultipartFile>any()))
