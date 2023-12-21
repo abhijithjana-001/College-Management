@@ -1,10 +1,8 @@
 package com.example.CollegeManagment.service.impl;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
@@ -26,6 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -41,14 +40,35 @@ class StudentFileServiceImplTest {
     private StudentProfileRepo studentProfileRepo;
 
     @Test
-    void testUpload() throws IOException {
+    void testUpload()  {
 
-        // Arrange
-        StudentFileServiceImpl studentFileServiceImpl = new StudentFileServiceImpl(mock(StudentProfileRepo.class));
+        MockMultipartFile file = new MockMultipartFile(
+                "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
 
-        // Act and Assert
-        assertThrows(BadRequest.class, () -> studentFileServiceImpl.upload(new MockMultipartFile("image", "foo.txt",
-                "text/plain", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8")))));
+        StudentProfileImg expectedTeacherProfileImg = StudentProfileImg.builder()
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .size(file.getSize())
+                .filePath("${file.path}\\"+file.getOriginalFilename())
+                .created(LocalDateTime.now())
+                .build();
+
+        when(studentProfileRepo.existsByName(file.getOriginalFilename())).thenReturn(false);
+        when(studentProfileRepo.save(any(StudentProfileImg.class))).thenReturn(expectedTeacherProfileImg);
+
+        // Act
+        StudentProfileImg result = studentFileServiceImpl.upload(file);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(expectedTeacherProfileImg.getName(), result.getName());
+        assertEquals(expectedTeacherProfileImg.getType(), result.getType());
+        assertEquals(expectedTeacherProfileImg.getSize(), result.getSize());
+        assertEquals(expectedTeacherProfileImg.getFilePath(), result.getFilePath());
+
+
+        verify(studentProfileRepo, times(1)).existsByName(file.getOriginalFilename());
+
     }
 
 

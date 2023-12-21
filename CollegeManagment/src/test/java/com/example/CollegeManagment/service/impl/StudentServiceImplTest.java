@@ -62,10 +62,7 @@ class StudentServiceImplTest {
     @Autowired
     private StudentServiceImpl studentServiceImpl;
 
-    /**
-     * Method under test:
-     * {@link StudentServiceImpl#addorupdateStudent(String, MultipartFile, Long)}
-     */
+
     @Test
     void testAddorupdateStudent() throws IOException {
         // Arrange
@@ -111,9 +108,7 @@ class StudentServiceImplTest {
         verify(objectMapper).readValue(Mockito.<String>any(), Mockito.<Class<Studentdto>>any());
     }
 
-    /**
-     * Method under test: {@link StudentServiceImpl#viewdetails(Long)}
-     */
+
     @Test
     void testViewdetails() {
         // Arrange
@@ -193,9 +188,7 @@ class StudentServiceImplTest {
         assertSame(student2, actualViewdetailsResult.getResult());
     }
 
-    /**
-     * Method under test: {@link StudentServiceImpl#deletebyid(Long)}
-     */
+
     @Test
     void testDeletebyid() {
         // Arrange
@@ -211,9 +204,7 @@ class StudentServiceImplTest {
         assertTrue(actualDeletebyidResult.getSuccess());
     }
 
-    /**
-     * Method under test: {@link StudentServiceImpl#deletebyid(Long)}
-     */
+
     @Test
     void testDeletebyid2() {
         // Arrange
@@ -224,10 +215,7 @@ class StudentServiceImplTest {
         verify(studentRepo).deleteById(Mockito.<Long>any());
     }
 
-    /**
-     * Method under test:
-     * {@link StudentServiceImpl#listStudent(Integer, Integer, String)}
-     */
+
     @Test
     void testListStudent() {
         // Arrange
@@ -243,10 +231,6 @@ class StudentServiceImplTest {
         assertTrue(actualListStudentResult.getResult().isEmpty());
     }
 
-    /**
-     * Method under test:
-     * {@link StudentServiceImpl#listStudent(Integer, Integer, String)}
-     */
     @Test
     void testListStudent2() {
         // Arrange

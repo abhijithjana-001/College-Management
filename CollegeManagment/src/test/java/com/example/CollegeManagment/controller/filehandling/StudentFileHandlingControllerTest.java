@@ -1,23 +1,28 @@
 package com.example.CollegeManagment.controller.filehandling;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.ImageData;
+import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.service.impl.StudentFileServiceImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {StudentFileHandlingController.class})
 @ExtendWith(SpringExtension.class)
+@WebMvcTest(StudentFileHandlingController.class)
 class StudentFileHandlingControllerTest {
     @Autowired
     private StudentFileHandlingController studentFileHandlingController;
@@ -34,9 +40,7 @@ class StudentFileHandlingControllerTest {
     @MockBean
     private StudentFileServiceImpl studentFileServiceImpl;
 
-    /**
-     * Method under test: {@link StudentFileHandlingController#getfile(String)}
-     */
+
     @Test
     void testGetfile() throws Exception {
         // Arrange
@@ -53,36 +57,22 @@ class StudentFileHandlingControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("AXAXAXAX"));
     }
 
-    /**
-     * Method under test:
-     * {@link StudentFileHandlingController#handleFileUpload(MultipartFile)}
-     */
+
     @Test
-    @Disabled("TODO: Complete this test")
-    void testHandleFileUpload() throws IOException {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   jakarta.servlet.ServletException: Request processing failed: org.springframework.web.multipart.MultipartException: Current request is not a multipart request
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   org.springframework.web.multipart.MultipartException: Current request is not a multipart request
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-        //       at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-        //   See https://diff.blue/R013 to resolve this issue.
+    void testHandleFileUpload() throws Exception {
+        MockMultipartFile file = new MockMultipartFile(
+                "file", "test.txt", "text/plain", "AXAXAXAX".getBytes(StandardCharsets.UTF_8));
 
-        // Arrange
-        StudentFileHandlingController studentFileHandlingController = new StudentFileHandlingController();
+        when(studentFileServiceImpl.upload(file)).thenReturn(new StudentProfileImg()); // Mock the upload method response
 
-        // Act
-        studentFileHandlingController
-                .handleFileUpload(new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+        // Act and Assert
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(studentFileHandlingController).build();
+
+        mockMvc.perform(multipart("/student/file/upload").file(file))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-    /**
-     * Method under test: {@link StudentFileHandlingController#getfile(String)}
-     */
+
     @Test
     void testGetfile2() throws Exception {
         // Arrange
@@ -99,9 +89,7 @@ class StudentFileHandlingControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("ÈXAXAXAX"));
     }
 
-    /**
-     * Method under test: {@link StudentFileHandlingController#getfile(String)}
-     */
+
     @Test
     void testGetfile3() throws Exception {
         // Arrange
@@ -119,10 +107,7 @@ class StudentFileHandlingControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("AXAXAXAX"));
     }
 
-    /**
-     * Method under test:
-     * {@link StudentFileHandlingController#handleFileDelete(String)}
-     */
+
     @Test
     void testHandleFileDelete() throws Exception {
         // Arrange
@@ -139,10 +124,7 @@ class StudentFileHandlingControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-    /**
-     * Method under test:
-     * {@link StudentFileHandlingController#handleFileDelete(String)}
-     */
+
     @Test
     void testHandleFileDelete2() throws Exception {
         // Arrange
@@ -157,10 +139,7 @@ class StudentFileHandlingControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-    /**
-     * Method under test:
-     * {@link StudentFileHandlingController#handleFileDelete(String)}
-     */
+
     @Test
     void testHandleFileDelete3() throws Exception {
         // Arrange
@@ -178,10 +157,7 @@ class StudentFileHandlingControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-    /**
-     * Method under test:
-     * {@link StudentFileHandlingController#handleFileDelete(String)}
-     */
+
     @Test
     void testHandleFileDelete4() throws Exception {
         // Arrange
@@ -199,10 +175,7 @@ class StudentFileHandlingControllerTest {
         actualPerformResult.andExpect(MockMvcResultMatchers.status().is(406));
     }
 
-    /**
-     * Method under test:
-     * {@link StudentFileHandlingController#handleFileDelete(String)}
-     */
+
     @Test
     void testHandleFileDelete5() throws Exception {
         // Arrange
@@ -220,10 +193,7 @@ class StudentFileHandlingControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-    /**
-     * Method under test:
-     * {@link StudentFileHandlingController#handleFileDelete(String)}
-     */
+
     @Test
     void testHandleFileDelete6() throws Exception {
         // Arrange
@@ -242,10 +212,7 @@ class StudentFileHandlingControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-    /**
-     * Method under test:
-     * {@link StudentFileHandlingController#handleFileDelete(String)}
-     */
+
     @Test
     void testHandleFileDelete7() throws Exception {
         // Arrange
