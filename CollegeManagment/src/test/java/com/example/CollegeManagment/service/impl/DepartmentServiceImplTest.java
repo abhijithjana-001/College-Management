@@ -42,7 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {DepartmentServiceImpl.class})
 @ExtendWith(SpringExtension.class)
-class DepartmentServiceImplDiffblueTest {
+class DepartmentServiceImplTest {
     @MockBean
     private DepartmentFileRepository departmentFileRepository;
 
@@ -61,10 +61,7 @@ class DepartmentServiceImplDiffblueTest {
     @MockBean
     private ObjectMapper objectMapper;
 
-    /**
-     * Method under test:
-     * {@link DepartmentServiceImpl#createOrUpdate(String, MultipartFile, Long)}
-     */
+
     @Test
     void testCreateOrUpdate() throws IOException {
         // Arrange
@@ -197,10 +194,7 @@ class DepartmentServiceImplDiffblueTest {
         verify(departmentRepo).findById(Mockito.<Long>any());
     }
 
-    /**
-     * Method under test:
-     * {@link DepartmentServiceImpl#createOrUpdate(String, MultipartFile, Long)}
-     */
+
     @Test
     void testCreateOrUpdate2() throws IOException {
         // Arrange
@@ -333,10 +327,7 @@ class DepartmentServiceImplDiffblueTest {
         verify(departmentRepo).findById(Mockito.<Long>any());
     }
 
-    /**
-     * Method under test:
-     * {@link DepartmentServiceImpl#createOrUpdate(String, MultipartFile, Long)}
-     */
+
     @Test
     void testCreateOrUpdate3() throws IOException {
         // Arrange
@@ -519,10 +510,7 @@ class DepartmentServiceImplDiffblueTest {
         assertSame(departmentFileEntity, result.getDepartmentImg());
     }
 
-    /**
-     * Method under test:
-     * {@link DepartmentServiceImpl#findAllDepartments(Integer, Integer, String)}
-     */
+
     @Test
     void testFindAllDepartments() {
         // Arrange
@@ -539,10 +527,7 @@ class DepartmentServiceImplDiffblueTest {
         assertTrue(actualFindAllDepartmentsResult.getResult().isEmpty());
     }
 
-    /**
-     * Method under test:
-     * {@link DepartmentServiceImpl#findAllDepartments(Integer, Integer, String)}
-     */
+
     @Test
     void testFindAllDepartments2() {
         // Arrange
@@ -553,9 +538,7 @@ class DepartmentServiceImplDiffblueTest {
         verify(departmentRepo).findAll(Mockito.<Pageable>any());
     }
 
-    /**
-     * Method under test: {@link DepartmentServiceImpl#delete(Long)}
-     */
+
     @Test
     void testDelete() {
         // Arrange
@@ -571,9 +554,7 @@ class DepartmentServiceImplDiffblueTest {
         assertTrue(actualDeleteResult.getSuccess());
     }
 
-    /**
-     * Method under test: {@link DepartmentServiceImpl#delete(Long)}
-     */
+
     @Test
     void testDelete2() {
         // Arrange

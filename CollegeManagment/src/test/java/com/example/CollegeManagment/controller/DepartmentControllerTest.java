@@ -8,10 +8,6 @@ import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.service.DepartmentService;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -29,32 +25,26 @@ import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {DepartmentController.class})
 @ExtendWith(SpringExtension.class)
-class DepartmentControllerDiffblueTest {
+class DepartmentControllerTest {
     @Autowired
     private DepartmentController departmentController;
 
     @MockBean
     private DepartmentService departmentService;
 
-    /**
-     * Method under test:
-     * {@link DepartmentController#addDepartment(String, MultipartFile)}
-     */
+
     @Test
     void testAddDepartment() {
         // Arrange
-        String departmentDtoJson = "{\"name\":\"YourDepartmentName\",\"otherField\":\"otherValue\"}";
+        String departmentDtoJson = "{\"name\":\"YourDepartmentName\"}";
         MultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "file content".getBytes());
 
-        // Create a sample Department object for the response
         Department createdDepartment = new Department();
         createdDepartment.setId(1L);
         createdDepartment.setName("YourDepartmentName");
-        // Add other fields as needed
 
         Responsedto<Department> responseDto = new Responsedto<>(createdDepartment);
 
-        // Mock the service method to return the expected response
         when(departmentService.createOrUpdate(any(), any(), any())).thenReturn(responseDto);
 
         // Act
@@ -63,13 +53,9 @@ class DepartmentControllerDiffblueTest {
         // Assert
         assertEquals(200, responseEntity.getStatusCodeValue()); // Assuming OK status code
         assertEquals(responseDto, responseEntity.getBody()); // Check if the response body matches the expected value
-        // Add more assertions if needed based on the expected behavior of your controller
     }
 
-    /**
-     * Method under test:
-     * {@link DepartmentController#findAllDepartments(Integer, Integer, String)}
-     */
+
     @Test
     void testFindAllDepartments() throws Exception {
         // Arrange
@@ -86,9 +72,7 @@ class DepartmentControllerDiffblueTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-    /**
-     * Method under test: {@link DepartmentController#delete(Long)}
-     */
+
     @Test
     void testDelete() throws Exception {
         // Arrange
@@ -104,10 +88,7 @@ class DepartmentControllerDiffblueTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-    /**
-     * Method under test:
-     * {@link DepartmentController#update(Long, String, MultipartFile)}
-     */
+
     @Test
     void testUpdate() throws Exception {
         // Arrange

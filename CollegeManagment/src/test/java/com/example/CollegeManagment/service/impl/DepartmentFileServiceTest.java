@@ -34,9 +34,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
+import static org.mockito.ArgumentMatchers.anyString;
+
 @ContextConfiguration(classes = {DepartmentFileService.class})
 @ExtendWith(SpringExtension.class)
-class DepartmentFileServiceDiffblueTest {
+class DepartmentFileServiceTest {
     @MockBean
     private DepartmentFileRepository departmentFileRepository;
 
@@ -46,32 +48,22 @@ class DepartmentFileServiceDiffblueTest {
     @InjectMocks
     private DepartmentServiceImpl departmentService;
 
-    /**
-     * Method under test: {@link DepartmentFileService#upload(MultipartFile)}
-     */
+
     @Test
     public void testUpload() throws IOException {
-        // Arrange
         MultipartFile mockFile = new MockMultipartFile("testFile", "test.txt", "text/plain", "Hello, World!".getBytes());
 
-        // Mock the behavior of Paths.get and file.transferTo
-        when(Paths.get(String.valueOf(String.class))).thenReturn(Paths.get("/your/upload/dir/test.txt"));
+        when(Paths.get(anyString())).thenReturn(Paths.get("/your/upload/dir/test.txt"));
 
-        // Act
         DepartmentFileEntity result = departmentFileService.upload(mockFile);
 
-        // Assert
         verify(departmentFileRepository).save(any(DepartmentFileEntity.class));
 
-        // Add more specific assertions based on your actual logic
         assertEquals("test.txt", result.getName());
         assertEquals("text/plain", result.getType());
         assertEquals(13, result.getSize()); // Adjust the expected size based on your input data
     }
 
-    /**
-     * Method under test: {@link DepartmentFileService#findByName(String)}
-     */
     @Test
     void testFindByName() throws IOException {
         // Arrange
@@ -83,9 +75,6 @@ class DepartmentFileServiceDiffblueTest {
         verify(departmentFileRepository).findByName(Mockito.<String>any());
     }
 
-    /**
-     * Method under test: {@link DepartmentFileService#deleteFile(String)}
-     */
     @Test
     void testDeleteFile() {
         // Arrange
@@ -133,9 +122,6 @@ class DepartmentFileServiceDiffblueTest {
         assertFalse(actualDeleteFileResult.getSuccess());
     }
 
-    /**
-     * Method under test: {@link DepartmentFileService#deleteFile(String)}
-     */
     @Test
     void testDeleteFile2() {
         // Arrange
@@ -198,9 +184,7 @@ class DepartmentFileServiceDiffblueTest {
         assertFalse(actualDeleteFileResult.getSuccess());
     }
 
-    /**
-     * Method under test: {@link DepartmentFileService#deleteFile(String)}
-     */
+
     @Test
     void testDeleteFile3() {
         // Arrange
