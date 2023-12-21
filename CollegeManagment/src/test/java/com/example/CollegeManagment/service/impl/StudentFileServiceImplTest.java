@@ -40,9 +40,6 @@ class StudentFileServiceImplTest {
     @MockBean
     private StudentProfileRepo studentProfileRepo;
 
-    /**
-     * Method under test: {@link StudentFileServiceImpl#upload(MultipartFile)}
-     */
     @Test
     void testUpload() throws IOException {
 
@@ -54,9 +51,7 @@ class StudentFileServiceImplTest {
                 "text/plain", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8")))));
     }
 
-    /**
-     * Method under test: {@link StudentFileServiceImpl#findByName(String)}
-     */
+
     @Test
     void testFindByName() throws IOException {
 
@@ -71,9 +66,6 @@ class StudentFileServiceImplTest {
         verify(studentProfileRepo).findByName(Mockito.<String>any());
     }
 
-    /**
-     * Method under test: {@link StudentFileServiceImpl#deletefile(String)}
-     */
     @Test
     void testDeletefile() {
         // Arrange
@@ -134,9 +126,7 @@ class StudentFileServiceImplTest {
         verify(studentProfileRepo).findByName(Mockito.<String>any());
     }
 
-    /**
-     * Method under test: {@link StudentFileServiceImpl#deletefile(String)}
-     */
+
     @Test
     void testDeletefile2() {
         // Arrange
