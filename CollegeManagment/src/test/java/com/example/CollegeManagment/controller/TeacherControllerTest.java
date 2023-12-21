@@ -1,109 +1,121 @@
-//package com.example.CollegeManagment.controller;
-//
-//import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
-//import com.example.CollegeManagment.dto.responsedto.Responsedto;
-//import com.example.CollegeManagment.entity.Teacher;
-//import com.example.CollegeManagment.service.Teacherservice;
-//import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.web.servlet.MockMvc;
-//
-//import java.util.Arrays;
-//import java.util.List;
-//
-//import static org.mockito.Mockito.*;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//
-//@WebMvcTest(TeacherController.class)
-//class TeacherControllerTest{
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @MockBean
-//    private Teacherservice teacherService;
-//
-//    @Autowired
-//    private ObjectMapper objectMapper;
-//
-//    @Test
-//    void addTeacherTest() throws Exception {
-//        TeacherRequestDTO requestDTO = new TeacherRequestDTO();
-//        requestDTO.setName("John Doe");
-//
-//        Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Added Successfully", new Teacher());
-//
-//        when(teacherService.createorupdate(null,requestDTO)).thenReturn(responseDTO);
-//
-//        mockMvc.perform(post("/teacher/addTeacher")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(requestDTO)))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.success").value(true))
-//                .andExpect(jsonPath("$.message").value("Added Successfully"));
-//    }
-//
-//    @Test
-//    void findAllTeachersTest() throws Exception {
-//
-//        List<Teacher> teachers = Arrays.asList(new Teacher());
-//        Responsedto<List<Teacher>> responseDTO = new Responsedto<>(true, "Teacher List", teachers);
-//
-//        when(teacherService.findAll(5,0,"name")).thenReturn(responseDTO);
-//
-//        this.mockMvc.perform(get("/teacher/teachers")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.success").value(true))
-//                .andExpect(jsonPath("$.message").value("Teacher List"));
-//    }
-//
-//    @Test
-//    void updateTeacherTest() throws Exception {
-//        long teacherId = 1L;
-//        TeacherRequestDTO requestDTO = new TeacherRequestDTO();
-//        requestDTO.setName("Updated Teacher");
-//
-//        Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Updated Successfully", new Teacher());
-//
-//        when(teacherService.createorupdate(teacherId, requestDTO)).thenReturn(responseDTO);
-//
-//        mockMvc.perform(put("/teacher/update/{id}", teacherId)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(requestDTO)))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.success").value(true))
-//                .andExpect(jsonPath("$.message").value("Updated Successfully"));
-//    }
-//
-//    @Test
-//    void deleteTeacherTest() throws Exception {
-//        long teacherId = 1L;
-//        Responsedto<Teacher> responseDTO = new Responsedto<>(true, "Deleted Successfully", null);
-//
-//        when(teacherService.delete(teacherId)).thenReturn(responseDTO);
-//
-//        mockMvc.perform(delete("/teacher/delete/{id}", teacherId)
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.success").value(true))
-//                .andExpect(jsonPath("$.message").value("Deleted Successfully"));
-//        verify(teacherService, times(1)).delete(teacherId);
-//    }
-//
-////    private static String asJsonString(final Object obj) {
-////        try {
-////            return new ObjectMapper().writeValueAsString(obj);
-////        } catch (Exception e) {
-////            throw new RuntimeException(e);
-////        }
-////    }
-//}
+package com.example.CollegeManagment.controller;
+
+import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.Teacher;
+import com.example.CollegeManagment.service.Teacherservice;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+
+@ContextConfiguration(classes = {TeacherController.class})
+@ExtendWith(SpringExtension.class)
+class TeacherControllerTest {
+    @Autowired
+    private TeacherController teacherController;
+
+    @MockBean
+    private Teacherservice teacherservice;
+
+    /**
+     * Method under test:
+     * {@link TeacherController#addTeacher(String, MultipartFile)}
+     */
+    @Test
+     void testAddTeacher() throws IOException {
+        TeacherServiceImpl teacherservice = mock(TeacherServiceImpl.class);
+        when(teacherservice.createorupdate( Mockito.<Long>any(),Mockito.<String>any(), Mockito.<MultipartFile>any()))
+                .thenReturn(new Responsedto<>());
+        TeacherController teacherController = new TeacherController(teacherservice);
+
+        // Act
+        ResponseEntity<Responsedto<Teacher>> actualAddteacher = teacherController.addTeacher(
+                "alice.liddell@example.org",
+                new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+
+        // Assert
+        verify(teacherservice).createorupdate(Mockito.<Long>any(), Mockito.<String>any(), Mockito.<MultipartFile>any());
+        assertEquals(200, actualAddteacher.getStatusCodeValue());
+        assertTrue(actualAddteacher.hasBody());
+        assertTrue(actualAddteacher.getHeaders().isEmpty());
+    }
+
+    /**
+     * Method under test:
+     * {@link TeacherController#findAll(Integer, Integer, String)}
+     */
+    @Test
+    void testFindAll() throws Exception {
+        // Arrange
+        when(teacherservice.findAll(Mockito.<Integer>any(), Mockito.<Integer>any(), Mockito.<String>any()))
+                .thenReturn(new Responsedto<>());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/teacher/teachers");
+
+        // Act and Assert
+        MockMvcBuilders.standaloneSetup(teacherController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{}"));
+    }
+
+    /**
+     * Method under test: {@link TeacherController#delete(long)}
+     */
+    @Test
+    void testDelete() throws Exception {
+        // Arrange
+        when(teacherservice.delete(anyLong())).thenReturn(new Responsedto<>());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/teacher/delete/{id}", 1L);
+
+        // Act and Assert
+        MockMvcBuilders.standaloneSetup(teacherController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{}"));
+    }
+
+    /**
+     * Method under test:
+     * {@link TeacherController#update(Long, String, MultipartFile)}
+     */
+    @Test
+    void testUpdate() throws Exception {
+        // Arrange
+        when(teacherservice.createorupdate(Mockito.<Long>any(), Mockito.<String>any(), Mockito.<MultipartFile>any()))
+                .thenReturn(new Responsedto<>());
+        MockHttpServletRequestBuilder paramResult = MockMvcRequestBuilders.put("/teacher/update").param("dto", "foo");
+        MockHttpServletRequestBuilder requestBuilder = paramResult.param("id", String.valueOf(1L));
+
+        // Act and Assert
+        MockMvcBuilders.standaloneSetup(teacherController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{}"));
+    }
+}
