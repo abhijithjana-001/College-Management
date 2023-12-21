@@ -75,9 +75,7 @@ class TeacherFileServiceTest {
         verify(teacherFileRepository, times(1)).save(any(TeacherProfileImg.class));
     }
 
-    /**
-     * Method under test: {@link TeacherFileService#findByName(String)}
-     */
+
     @Test
     void testFindByName() throws IOException {
         // Arrange
@@ -89,9 +87,7 @@ class TeacherFileServiceTest {
         verify(teacherFileRepository).findByName(Mockito.<String>any());
     }
 
-    /**
-     * Method under test: {@link TeacherFileService#deleteFile(String)}
-     */
+
     @Test
     void testDeleteFile() {
         // Arrange
@@ -139,9 +135,7 @@ class TeacherFileServiceTest {
         assertFalse(actualDeleteFileResult.getSuccess());
     }
 
-    /**
-     * Method under test: {@link TeacherFileService#deleteFile(String)}
-     */
+
     @Test
     void testDeleteFile2() {
         // Arrange
@@ -204,9 +198,7 @@ class TeacherFileServiceTest {
         assertFalse(actualDeleteFileResult.getSuccess());
     }
 
-    /**
-     * Method under test: {@link TeacherFileService#deleteFile(String)}
-     */
+
     @Test
     void testDeleteFile3() {
         // Arrange

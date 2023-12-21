@@ -5,10 +5,7 @@ import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.config.TeacherMapStruct;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
-import com.example.CollegeManagment.entity.Department;
-import com.example.CollegeManagment.entity.StudentProfileImg;
-import com.example.CollegeManagment.entity.Teacher;
-import com.example.CollegeManagment.entity.TeacherProfileImg;
+import com.example.CollegeManagment.entity.*;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.TeacherRepo;
 import com.example.CollegeManagment.service.Teacherservice;
@@ -102,6 +99,12 @@ public class TeacherServiceImpl implements Teacherservice {
         return new Responsedto<>(true,"Teachers List",teachers);
     }
 
+    @Override
+    public  Responsedto<Teacher> viewDetails(Long id){
+        Teacher teacher=teacherRepo.findById(id)
+                .orElseThrow(()->  new ItemNotFound("Teacher with id "+id +" is not found"));
+        return new Responsedto<>(true,"Teacher Details",teacher);
+    }
 
     @Override
         public Responsedto delete(long id) {

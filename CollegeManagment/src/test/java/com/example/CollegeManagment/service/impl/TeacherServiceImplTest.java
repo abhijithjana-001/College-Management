@@ -61,10 +61,7 @@ class TeacherServiceImplTest {
     @Autowired
     private TeacherServiceImpl teacherServiceImpl;
 
-    /**
-     * Method under test:
-     * {@link TeacherServiceImpl#createorupdate(Long, String, MultipartFile)}
-     */
+
     @Test
     void testCreateorupdate() throws IOException {
         TeacherRequestDTO.TeacherRequestDTOBuilder builderResult = TeacherRequestDTO.builder();
@@ -281,10 +278,7 @@ class TeacherServiceImplTest {
         assertSame(teacherProfileImg3, result.getTeacherProfileImg());
     }
 
-    /**
-     * Method under test:
-     * {@link TeacherServiceImpl#createorupdate(Long, String, MultipartFile)}
-     */
+
     @Test
     void testCreateorupdate2() throws IOException {
         TeacherRequestDTO.TeacherRequestDTOBuilder builderResult = TeacherRequestDTO.builder();
@@ -495,10 +489,7 @@ class TeacherServiceImplTest {
         verify(teacherRepo).save(Mockito.<Teacher>any());
     }
 
-    /**
-     * Method under test:
-     * {@link TeacherServiceImpl#findAll(Integer, Integer, String)}
-     */
+
     @Test
     void testFindAll() {
         when(teacherRepo.findAll(Mockito.<Pageable>any())).thenReturn(new PageImpl<>(new ArrayList<>()));
@@ -509,10 +500,7 @@ class TeacherServiceImplTest {
         assertTrue(actualFindAllResult.getResult().isEmpty());
     }
 
-    /**
-     * Method under test:
-     * {@link TeacherServiceImpl#findAll(Integer, Integer, String)}
-     */
+
     @Test
     void testFindAll2() {
         when(teacherRepo.findAll(Mockito.<Pageable>any())).thenThrow(new RuntimeException("foo"));
@@ -520,9 +508,7 @@ class TeacherServiceImplTest {
         verify(teacherRepo).findAll(Mockito.<Pageable>any());
     }
 
-    /**
-     * Method under test: {@link TeacherServiceImpl#delete(long)}
-     */
+
     @Test
     void testDelete() {
         doNothing().when(teacherRepo).deleteById(Mockito.<Long>any());
@@ -533,9 +519,7 @@ class TeacherServiceImplTest {
         assertTrue(actualDeleteResult.getSuccess());
     }
 
-    /**
-     * Method under test: {@link TeacherServiceImpl#delete(long)}
-     */
+
     @Test
     void testDelete2() {
         doThrow(new RuntimeException("Deleted Successfully")).when(teacherRepo).deleteById(Mockito.<Long>any());
