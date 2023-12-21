@@ -31,7 +31,7 @@ public class DepartmentFileService{
 
                 Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
                 file.transferTo(filePath.toFile());
-        departmentFileEntities= DepartmentFileEntity.builder()
+                departmentFileEntities = DepartmentFileEntity.builder()
                         .name(file.getOriginalFilename())
                         .type(file.getContentType())
                         .size(file.getSize())
