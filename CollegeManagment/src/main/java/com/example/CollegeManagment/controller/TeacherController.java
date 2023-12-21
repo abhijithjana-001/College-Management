@@ -1,6 +1,7 @@
 package com.example.CollegeManagment.controller;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.service.Teacherservice;
 import jakarta.validation.Valid;
@@ -37,7 +38,11 @@ public class TeacherController {
             Responsedto<List<Teacher>> all= teacherService.findAll(pageSize,pageNumber,sort);
             return ResponseEntity.ok(all);
         }
-
+    @GetMapping("/{id}")
+    public ResponseEntity<Responsedto<Teacher>> findTeacher(@PathVariable Long id){
+        Responsedto<Teacher> responsedto=teacherService.viewDetails(id);
+        return ResponseEntity.ok(responsedto);
+    }
 
     @PutMapping("/update")
     public ResponseEntity<Responsedto<Teacher>> update(@RequestParam(name = "id") Long id,@Valid @RequestParam(name = "dto")

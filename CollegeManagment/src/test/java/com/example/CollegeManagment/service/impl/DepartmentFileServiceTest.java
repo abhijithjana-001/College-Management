@@ -53,7 +53,7 @@ class DepartmentFileServiceTest {
     @Test
     void testUpload() throws IOException {
 
-        String uploadDir = "/your/upload/dir";
+        String uploadDir = "${file.path}";
         MockMultipartFile mockFile = new MockMultipartFile(
                 "testFile",
                 "test.png",
