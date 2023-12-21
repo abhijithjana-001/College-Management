@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {StudentFileHandlingController.class})
 @ExtendWith(SpringExtension.class)
-class StudentFileHandlingControllerDiffblueTest {
+class StudentFileHandlingControllerTest {
     @Autowired
     private StudentFileHandlingController studentFileHandlingController;
 

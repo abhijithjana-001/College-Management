@@ -43,7 +43,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {StudentServiceImpl.class})
 @ExtendWith(SpringExtension.class)
-class StudentServiceImplDiffblueTest {
+class StudentServiceImplTest {
     @MockBean
     private ObjectMapper objectMapper;
 
