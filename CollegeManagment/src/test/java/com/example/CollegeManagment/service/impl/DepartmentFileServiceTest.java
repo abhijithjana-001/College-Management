@@ -17,6 +17,7 @@ import com.example.CollegeManagment.entity.DepartmentFileEntity;
 import com.example.CollegeManagment.repository.DepartmentFileRepository;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,18 +51,36 @@ class DepartmentFileServiceTest {
 
 
     @Test
-    public void testUpload() throws IOException {
-        MultipartFile mockFile = new MockMultipartFile("testFile", "test.txt", "text/plain", "Hello, World!".getBytes());
+    void testUpload() throws IOException {
 
-        when(Paths.get(anyString())).thenReturn(Paths.get("/your/upload/dir/test.txt"));
+        String uploadDir = "/your/upload/dir";
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "testFile",
+                "test.png",
+                "image/png",
+                "Hello, World!".getBytes()
+        );
 
+        Path expectedFilePath = Paths.get(uploadDir, mockFile.getOriginalFilename());
+
+        when(departmentFileRepository.save(any(DepartmentFileEntity.class)))
+                .thenAnswer(invocation -> {
+                    DepartmentFileEntity savedEntity = invocation.getArgument(0);
+                    savedEntity.setId(1L); // Assuming your entity has an ID field
+                    return savedEntity;
+                });
+
+        // Act
         DepartmentFileEntity result = departmentFileService.upload(mockFile);
 
+        // Assert
         verify(departmentFileRepository).save(any(DepartmentFileEntity.class));
 
-        assertEquals("test.txt", result.getName());
-        assertEquals("text/plain", result.getType());
-        assertEquals(13, result.getSize()); // Adjust the expected size based on your input data
+        assertEquals(mockFile.getOriginalFilename(), result.getName());
+        assertEquals(mockFile.getContentType(), result.getType());
+        assertEquals(mockFile.getSize(), result.getSize());
+        assertEquals(expectedFilePath.toString(), result.getFilePath());
+        assertEquals(LocalDateTime.now().getDayOfMonth(), result.getCreated().getDayOfMonth()); // Adjust as needed
     }
 
     @Test
