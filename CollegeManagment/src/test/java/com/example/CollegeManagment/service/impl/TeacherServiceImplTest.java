@@ -42,7 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {TeacherServiceImpl.class})
 @ExtendWith(SpringExtension.class)
-class TeacherServiceImplDiffblueTest {
+class TeacherServiceImplTest {
     @MockBean
     private DepartmentRepo departmentRepo;
 

@@ -1,16 +1,13 @@
 package com.example.CollegeManagment.controller;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
-import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.service.Teacherservice;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import com.example.CollegeManagment.service.impl.StudentServiceImpl;
 import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -33,7 +30,7 @@ import static org.mockito.Mockito.verify;
 
 @ContextConfiguration(classes = {TeacherController.class})
 @ExtendWith(SpringExtension.class)
-class TeacherControllerDiffblueTest {
+class TeacherControllerTest {
     @Autowired
     private TeacherController teacherController;
 
@@ -45,7 +42,7 @@ class TeacherControllerDiffblueTest {
      * {@link TeacherController#addTeacher(String, MultipartFile)}
      */
     @Test
-    void testAddTeacher() throws IOException {
+     void testAddTeacher() throws IOException {
         TeacherServiceImpl teacherservice = mock(TeacherServiceImpl.class);
         when(teacherservice.createorupdate( Mockito.<Long>any(),Mockito.<String>any(), Mockito.<MultipartFile>any()))
                 .thenReturn(new Responsedto<>());
