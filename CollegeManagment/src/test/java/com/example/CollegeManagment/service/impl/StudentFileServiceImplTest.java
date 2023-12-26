@@ -6,10 +6,7 @@ import static org.mockito.Mockito.*;
 
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
-import com.example.CollegeManagment.entity.Department;
-import com.example.CollegeManagment.entity.DepartmentFileEntity;
-import com.example.CollegeManagment.entity.Student;
-import com.example.CollegeManagment.entity.StudentProfileImg;
+import com.example.CollegeManagment.entity.*;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
 
 import java.io.ByteArrayInputStream;
@@ -23,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -39,13 +37,14 @@ class StudentFileServiceImplTest {
     @MockBean
     private StudentProfileRepo studentProfileRepo;
 
+
     @Test
     void testUpload()  {
 
         MockMultipartFile file = new MockMultipartFile(
                 "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
 
-        StudentProfileImg expectedTeacherProfileImg = StudentProfileImg.builder()
+        StudentProfileImg expectedStudentProfileImg = StudentProfileImg.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .size(file.getSize())
@@ -54,17 +53,17 @@ class StudentFileServiceImplTest {
                 .build();
 
         when(studentProfileRepo.existsByName(file.getOriginalFilename())).thenReturn(false);
-        when(studentProfileRepo.save(any(StudentProfileImg.class))).thenReturn(expectedTeacherProfileImg);
+        when(studentProfileRepo.save(any(StudentProfileImg.class))).thenReturn(expectedStudentProfileImg);
 
         // Act
         StudentProfileImg result = studentFileServiceImpl.upload(file);
 
         // Assert
         assertNotNull(result);
-        assertEquals(expectedTeacherProfileImg.getName(), result.getName());
-        assertEquals(expectedTeacherProfileImg.getType(), result.getType());
-        assertEquals(expectedTeacherProfileImg.getSize(), result.getSize());
-        assertEquals(expectedTeacherProfileImg.getFilePath(), result.getFilePath());
+        assertEquals(expectedStudentProfileImg.getName(), result.getName());
+        assertEquals(expectedStudentProfileImg.getType(), result.getType());
+        assertEquals(expectedStudentProfileImg.getSize(), result.getSize());
+        assertEquals(expectedStudentProfileImg.getFilePath(), result.getFilePath());
 
 
         verify(studentProfileRepo, times(1)).existsByName(file.getOriginalFilename());
@@ -72,18 +71,28 @@ class StudentFileServiceImplTest {
     }
 
 
+
+
     @Test
     void testFindByName() throws IOException {
-
-
         // Arrange
-        StudentProfileRepo studentProfileRepo = mock(StudentProfileRepo.class);
-        Optional<StudentProfileImg> emptyResult = Optional.empty();
-        when(studentProfileRepo.findByName(Mockito.<String>any())).thenReturn(emptyResult);
+        MockMultipartFile file = new MockMultipartFile(
+                "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
+        StudentProfileImg studentProfileImg = StudentProfileImg.builder()
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .size(file.getSize())
+                .filePath("${file.path}\\"+file.getOriginalFilename())
+                .created(LocalDateTime.now())
+                .build();
 
-        // Act and Assert
-        assertThrows(ItemNotFound.class, () -> (new StudentFileServiceImpl(studentProfileRepo)).findByName("Name"));
-        verify(studentProfileRepo).findByName(Mockito.<String>any());
+        when(studentProfileRepo.findByName(Mockito.<String>any())).thenReturn(Optional.of(studentProfileImg));
+//       act
+        ImageData test = studentFileServiceImpl.findByName("test");
+
+
+        // Assert
+        assert.e test.contenttype()
     }
 
     @Test
