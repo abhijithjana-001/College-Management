@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -13,10 +14,10 @@ import static org.mockito.Mockito.when;
 
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.config.TeacherMapStruct;
+import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
-import com.example.CollegeManagment.entity.Teacher;
-import com.example.CollegeManagment.entity.TeacherProfileImg;
+import com.example.CollegeManagment.entity.*;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.repository.TeacherRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,10 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,6 +61,26 @@ class TeacherServiceImplTest {
     private TeacherServiceImpl teacherServiceImpl;
 
 
+
+    @Test
+    void testCreateorupdatewithnullId() throws IOException{
+        Teacher teacher=new Teacher();
+        teacher.setDepartments(new HashSet<>());
+        teacher.setName("Deepak");
+        teacher.setPhno("8098736321");
+        teacher.setTeacherProfileImg(new TeacherProfileImg());
+        teacher.setTid(1L);
+        HashSet<Department> departments=new HashSet<>();
+        TeacherRequestDTO buildResult=TeacherRequestDTO.builder().department(departments).name("Name").phno("7025986547").build();
+        when(objectMapper.readValue(Mockito.<String>any(), Mockito.<Class<TeacherRequestDTO>>any())).thenReturn(buildResult);
+        when(teacherMapStruct.toEntity(Mockito.<TeacherRequestDTO>any())).thenReturn(teacher);
+        when(teacherFileService.upload(Mockito.<MultipartFile>any())).thenReturn(new TeacherProfileImg());
+        when(teacherRepo.existsByPhno(Mockito.any(String.class))).thenReturn(false);
+        when(teacherRepo.save(any(Teacher.class))).thenReturn(teacher);
+
+        Responsedto responsedto=  teacherServiceImpl.createorupdate(null,"teacherData",
+                new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+    }
     @Test
     void testCreateorupdate() throws IOException {
         // Arrange
