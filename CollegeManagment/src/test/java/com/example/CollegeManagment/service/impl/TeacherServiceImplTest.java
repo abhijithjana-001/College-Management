@@ -76,7 +76,7 @@ class TeacherServiceImplTest {
         teacherProfileImg.setFilePath("/directory/foo.txt");
         teacherProfileImg.setId(1L);
         teacherProfileImg.setName("Name");
-        teacherProfileImg.setSize(3L);
+        teacherProfileImg.setSize(3212L);
         teacherProfileImg.setTeacher(new Teacher());
         teacherProfileImg.setType("Type");
 
