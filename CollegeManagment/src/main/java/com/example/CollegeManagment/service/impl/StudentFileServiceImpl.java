@@ -46,7 +46,7 @@ public class StudentFileServiceImpl implements StudentFileService {
 
                 if(!studentProfileRepo.existsByName(file.getOriginalFilename()))
                 {
-                     studentProfileImgs=   StudentProfileImg.builder()
+                    studentProfileImgs=   StudentProfileImg.builder()
                             .name(file.getOriginalFilename())
                             .type(file.getContentType())
                             .size(file.getSize())
