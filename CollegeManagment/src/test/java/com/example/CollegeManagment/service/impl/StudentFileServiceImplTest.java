@@ -85,14 +85,12 @@ class StudentFileServiceImplTest {
                 .filePath("${file.path}\\"+file.getOriginalFilename())
                 .created(LocalDateTime.now())
                 .build();
-
         when(studentProfileRepo.findByName(Mockito.<String>any())).thenReturn(Optional.of(studentProfileImg));
 //       act
         ImageData test = studentFileServiceImpl.findByName("test");
-
-
-        // Assert
-        assert.e test.contenttype()
+//         Assert
+        assertEquals(test.contenttype(),file.getContentType());
+        assertEquals(test.image().length,file.getSize());
     }
 
     @Test
