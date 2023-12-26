@@ -59,10 +59,7 @@ class TeacherControllerTest {
         assertTrue(actualAddteacher.getHeaders().isEmpty());
     }
 
-    /**
-     * Method under test:
-     * {@link TeacherController#findAll(Integer, Integer, String)}
-     */
+
     @Test
     void testFindAll() throws Exception {
         // Arrange
@@ -79,9 +76,7 @@ class TeacherControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-    /**
-     * Method under test: {@link TeacherController#delete(long)}
-     */
+
     @Test
     void testDelete() throws Exception {
         // Arrange
@@ -97,9 +92,7 @@ class TeacherControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-    /**
-     * Method under test: {@link TeacherController#findTeacher(Long)}
-     */
+
     @Test
     void testFindTeacher() throws Exception {
         // Arrange
@@ -115,10 +108,7 @@ class TeacherControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-    /**
-     * Method under test:
-     * {@link TeacherController#update(Long, String, MultipartFile)}
-     */
+
     @Test
     void testUpdate() throws Exception {
         // Arrange
