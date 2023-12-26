@@ -1,13 +1,20 @@
 package com.example.CollegeManagment.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.service.Teacherservice;
+import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -23,11 +30,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
-
 @ContextConfiguration(classes = {TeacherController.class})
 @ExtendWith(SpringExtension.class)
 class TeacherControllerTest {
@@ -39,7 +41,7 @@ class TeacherControllerTest {
 
 
     @Test
-     void testAddTeacher() throws IOException {
+    void testAddTeacher() throws IOException {
         TeacherServiceImpl teacherservice = mock(TeacherServiceImpl.class);
         when(teacherservice.createorupdate( Mockito.<Long>any(),Mockito.<String>any(), Mockito.<MultipartFile>any()))
                 .thenReturn(new Responsedto<>());
@@ -57,7 +59,10 @@ class TeacherControllerTest {
         assertTrue(actualAddteacher.getHeaders().isEmpty());
     }
 
-
+    /**
+     * Method under test:
+     * {@link TeacherController#findAll(Integer, Integer, String)}
+     */
     @Test
     void testFindAll() throws Exception {
         // Arrange
@@ -74,7 +79,9 @@ class TeacherControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
-
+    /**
+     * Method under test: {@link TeacherController#delete(long)}
+     */
     @Test
     void testDelete() throws Exception {
         // Arrange
@@ -90,7 +97,28 @@ class TeacherControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("{}"));
     }
 
+    /**
+     * Method under test: {@link TeacherController#findTeacher(Long)}
+     */
+    @Test
+    void testFindTeacher() throws Exception {
+        // Arrange
+        when(teacherservice.viewDetails(Mockito.<Long>any())).thenReturn(new Responsedto<>());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/teacher/{id}", 1L);
 
+        // Act and Assert
+        MockMvcBuilders.standaloneSetup(teacherController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{}"));
+    }
+
+    /**
+     * Method under test:
+     * {@link TeacherController#update(Long, String, MultipartFile)}
+     */
     @Test
     void testUpdate() throws Exception {
         // Arrange
