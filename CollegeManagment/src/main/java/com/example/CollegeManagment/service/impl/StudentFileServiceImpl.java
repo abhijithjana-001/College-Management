@@ -6,6 +6,7 @@ import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
+import com.example.CollegeManagment.service.StudentFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-public class StudentFileServiceImpl {
+public class StudentFileServiceImpl implements StudentFileService {
     @Value("${file.path}")
     private  String uploadDir;
     private final StudentProfileRepo studentProfileRepo;

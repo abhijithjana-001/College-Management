@@ -7,8 +7,6 @@ OCollegeManagment/src/main/java/com/example/CollegeManagment/entity/Student.java
 ]CollegeManagment/src/main/java/com/example/CollegeManagment/config/StudentMaptructConfig.java,0\8\0832e6db46827e655cd51dd635d4ec942ae464d6
 ê
 `CollegeManagment/src/main/java/com/example/CollegeManagment/controller/DepartmentController.java,2\c\2c2a42a3a3f24535abbd71fe9804e20f66e39eb1
-ã
-[CollegeManagment/src/test/java/com/example/CollegeManagment/service/StudentServiceTest.java,1\7\17ea8d813315f54cb4a66f37b85c19cc7abf94cc
 ç
 ]CollegeManagment/src/main/java/com/example/CollegeManagment/controller/StudentController.java,d\9\d9a11214efb6de9a33c7a32ac7d3bf0dca53e5eb
 á
