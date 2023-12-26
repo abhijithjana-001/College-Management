@@ -83,6 +83,8 @@ class TeacherServiceImplTest {
 
         Responsedto responsedto=  teacherServiceImpl.createorupdate(null,"teacherData",
                 new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+        assertEquals(responsedto.getSuccess(),true);
+        assertEquals(responsedto.getResult(),teacher);
     }
 
 
