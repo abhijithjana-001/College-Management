@@ -37,7 +37,11 @@ class DepartmentControllerTest {
     void testAddDepartment() {
         // Arrange
         String departmentDtoJson = "{\"name\":\"YourDepartmentName\"}";
-        MultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "file content".getBytes());
+        MultipartFile file = new MockMultipartFile(
+                "file",
+                "file.txt",
+                "text/plain",
+                "file content".getBytes());
 
         Department createdDepartment = new Department();
         createdDepartment.setId(1L);
@@ -51,8 +55,8 @@ class DepartmentControllerTest {
         ResponseEntity<Responsedto<Department>> responseEntity = departmentController.addDepartment(departmentDtoJson, file);
 
         // Assert
-        assertEquals(200, responseEntity.getStatusCodeValue()); // Assuming OK status code
-        assertEquals(responseDto, responseEntity.getBody()); // Check if the response body matches the expected value
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(responseDto, responseEntity.getBody());
     }
 
 
