@@ -11,6 +11,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.config.TeacherMapStruct;
 import com.example.CollegeManagment.dto.requestdto.TeacherRequestDTO;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
@@ -64,6 +65,7 @@ class TeacherServiceImplTest {
 
     @Test
     void testCreateorupdate() throws IOException {
+        // Arrange
         TeacherRequestDTO.TeacherRequestDTOBuilder builderResult = TeacherRequestDTO.builder();
         TeacherRequestDTO buildResult = builderResult.department(new HashSet<>()).name("Name").phno("Phno").build();
         when(objectMapper.readValue(Mockito.<String>any(), Mockito.<Class<TeacherRequestDTO>>any()))
@@ -260,8 +262,12 @@ class TeacherServiceImplTest {
         when(teacherRepo.existsByPhno(Mockito.<String>any())).thenReturn(true);
         when(teacherRepo.save(Mockito.<Teacher>any())).thenReturn(teacher10);
         when(teacherRepo.findById(Mockito.<Long>any())).thenReturn(ofResult);
+
+        // Act
         Responsedto<Teacher> actualCreateorupdateResult = teacherServiceImpl.createorupdate(1L, "Teacherdto Data",
                 new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+
+        // Assert
         verify(teacherMapStruct).toEntity(Mockito.<TeacherRequestDTO>any());
         verify(teacherRepo).existsByPhno(Mockito.<String>any());
         verify(teacherRepo).findByPhno(Mockito.<String>any());
@@ -281,6 +287,7 @@ class TeacherServiceImplTest {
 
     @Test
     void testCreateorupdate2() throws IOException {
+        // Arrange
         TeacherRequestDTO.TeacherRequestDTOBuilder builderResult = TeacherRequestDTO.builder();
         TeacherRequestDTO buildResult = builderResult.department(new HashSet<>()).name("Name").phno("Phno").build();
         when(objectMapper.readValue(Mockito.<String>any(), Mockito.<Class<TeacherRequestDTO>>any()))
@@ -477,6 +484,8 @@ class TeacherServiceImplTest {
         when(teacherRepo.existsByPhno(Mockito.<String>any())).thenReturn(true);
         when(teacherRepo.save(Mockito.<Teacher>any())).thenReturn(teacher10);
         when(teacherRepo.findById(Mockito.<Long>any())).thenReturn(ofResult);
+
+        // Act and Assert
         assertThrows(RuntimeException.class, () -> teacherServiceImpl.createorupdate(1L, "Teacherdto Data",
                 new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8")))));
         verify(teacherMapStruct).toEntity(Mockito.<TeacherRequestDTO>any());
@@ -492,8 +501,13 @@ class TeacherServiceImplTest {
 
     @Test
     void testFindAll() {
+        // Arrange
         when(teacherRepo.findAll(Mockito.<Pageable>any())).thenReturn(new PageImpl<>(new ArrayList<>()));
+
+        // Act
         Responsedto<List<Teacher>> actualFindAllResult = teacherServiceImpl.findAll(3, 10, "Sort");
+
+        // Assert
         verify(teacherRepo).findAll(Mockito.<Pageable>any());
         assertEquals("Teachers List", actualFindAllResult.getMessage());
         assertTrue(actualFindAllResult.getSuccess());
@@ -503,16 +517,94 @@ class TeacherServiceImplTest {
 
     @Test
     void testFindAll2() {
+        // Arrange
         when(teacherRepo.findAll(Mockito.<Pageable>any())).thenThrow(new RuntimeException("foo"));
+
+        // Act and Assert
         assertThrows(RuntimeException.class, () -> teacherServiceImpl.findAll(3, 10, "Sort"));
         verify(teacherRepo).findAll(Mockito.<Pageable>any());
     }
 
 
     @Test
+    void testViewDetails() {
+        // Arrange
+        TeacherProfileImg teacherProfileImg = new TeacherProfileImg();
+        teacherProfileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
+        teacherProfileImg.setFilePath("/directory/foo.txt");
+        teacherProfileImg.setId(1L);
+        teacherProfileImg.setName("Name");
+        teacherProfileImg.setSize(3L);
+        teacherProfileImg.setTeacher(new Teacher());
+        teacherProfileImg.setType("Type");
+
+        Teacher teacher = new Teacher();
+        teacher.setDepartments(new HashSet<>());
+        teacher.setName("Name");
+        teacher.setPhno("Phno");
+        teacher.setTeacherProfileImg(teacherProfileImg);
+        teacher.setTid(1L);
+
+        TeacherProfileImg teacherProfileImg2 = new TeacherProfileImg();
+        teacherProfileImg2.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
+        teacherProfileImg2.setFilePath("/directory/foo.txt");
+        teacherProfileImg2.setId(1L);
+        teacherProfileImg2.setName("Name");
+        teacherProfileImg2.setSize(3L);
+        teacherProfileImg2.setTeacher(teacher);
+        teacherProfileImg2.setType("Type");
+
+        Teacher teacher2 = new Teacher();
+        teacher2.setDepartments(new HashSet<>());
+        teacher2.setName("Name");
+        teacher2.setPhno("Phno");
+        teacher2.setTeacherProfileImg(teacherProfileImg2);
+        teacher2.setTid(1L);
+        Optional<Teacher> ofResult = Optional.of(teacher2);
+        when(teacherRepo.findById(Mockito.<Long>any())).thenReturn(ofResult);
+
+        // Act
+        Responsedto<Teacher> actualViewDetailsResult = teacherServiceImpl.viewDetails(1L);
+
+        // Assert
+        verify(teacherRepo).findById(Mockito.<Long>any());
+        assertEquals("Teacher Details", actualViewDetailsResult.getMessage());
+        assertTrue(actualViewDetailsResult.getSuccess());
+        assertSame(teacher2, actualViewDetailsResult.getResult());
+    }
+
+    @Test
+    void testViewDetails2() {
+        // Arrange
+        Optional<Teacher> emptyResult = Optional.empty();
+        when(teacherRepo.findById(Mockito.<Long>any())).thenReturn(emptyResult);
+
+        // Act and Assert
+        assertThrows(ItemNotFound.class, () -> teacherServiceImpl.viewDetails(1L));
+        verify(teacherRepo).findById(Mockito.<Long>any());
+    }
+
+
+    @Test
+    void testViewDetails3() {
+        // Arrange
+        when(teacherRepo.findById(Mockito.<Long>any())).thenThrow(new RuntimeException("foo"));
+
+        // Act and Assert
+        assertThrows(RuntimeException.class, () -> teacherServiceImpl.viewDetails(1L));
+        verify(teacherRepo).findById(Mockito.<Long>any());
+    }
+
+
+    @Test
     void testDelete() {
+        // Arrange
         doNothing().when(teacherRepo).deleteById(Mockito.<Long>any());
+
+        // Act
         Responsedto actualDeleteResult = teacherServiceImpl.delete(1L);
+
+        // Assert
         verify(teacherRepo).deleteById(Mockito.<Long>any());
         assertEquals("Deleted Successfully", actualDeleteResult.getMessage());
         assertNull(actualDeleteResult.getResult());
@@ -522,7 +614,10 @@ class TeacherServiceImplTest {
 
     @Test
     void testDelete2() {
+        // Arrange
         doThrow(new RuntimeException("Deleted Successfully")).when(teacherRepo).deleteById(Mockito.<Long>any());
+
+        // Act and Assert
         assertThrows(RuntimeException.class, () -> teacherServiceImpl.delete(1L));
         verify(teacherRepo).deleteById(Mockito.<Long>any());
     }
