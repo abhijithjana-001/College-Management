@@ -33,9 +33,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.multipart.MultipartFile;
 
-import static org.mockito.ArgumentMatchers.anyString;
 
 @ContextConfiguration(classes = {DepartmentFileService.class})
 @ExtendWith(SpringExtension.class)
@@ -66,7 +64,7 @@ class DepartmentFileServiceTest {
         when(departmentFileRepository.save(any(DepartmentFileEntity.class)))
                 .thenAnswer(invocation -> {
                     DepartmentFileEntity savedEntity = invocation.getArgument(0);
-                    savedEntity.setId(1L); // Assuming your entity has an ID field
+                    savedEntity.setId(1L);
                     return savedEntity;
                 });
 
@@ -80,7 +78,7 @@ class DepartmentFileServiceTest {
         assertEquals(mockFile.getContentType(), result.getType());
         assertEquals(mockFile.getSize(), result.getSize());
         assertEquals(expectedFilePath.toString(), result.getFilePath());
-        assertEquals(LocalDateTime.now().getDayOfMonth(), result.getCreated().getDayOfMonth()); // Adjust as needed
+        assertEquals(LocalDateTime.now().getDayOfMonth(), result.getCreated().getDayOfMonth());
     }
 
     @Test
@@ -167,6 +165,7 @@ class DepartmentFileServiceTest {
         department2.setStudents(new HashSet<>());
         department2.setTeachers(new HashSet<>());
         DepartmentFileEntity departmentFileEntity = mock(DepartmentFileEntity.class);
+
         when(departmentFileEntity.getFilePath()).thenReturn("/directory/foo.txt");
         doNothing().when(departmentFileEntity).setCreated(Mockito.<LocalDateTime>any());
         doNothing().when(departmentFileEntity).setDepartment(Mockito.<Department>any());
@@ -175,6 +174,7 @@ class DepartmentFileServiceTest {
         doNothing().when(departmentFileEntity).setName(Mockito.<String>any());
         doNothing().when(departmentFileEntity).setSize(Mockito.<Long>any());
         doNothing().when(departmentFileEntity).setType(Mockito.<String>any());
+
         departmentFileEntity.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
         departmentFileEntity.setDepartment(department2);
         departmentFileEntity.setFilePath("/directory/foo.txt");
