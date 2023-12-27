@@ -66,7 +66,7 @@ public class DepartmentFileService{
             departmentFileRepository.delete(departmentFileEntity);
             return new Responsedto<>(true, "File delete successfully!", null);
         } else {
-            return new Responsedto<>(false, "File delete successfully!", null);
+            return new Responsedto<>(false, "File does not exist", null);
         }
     }
 
