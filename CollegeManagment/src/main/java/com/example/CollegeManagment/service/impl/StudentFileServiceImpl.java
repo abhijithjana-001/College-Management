@@ -7,6 +7,7 @@ import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
 import com.example.CollegeManagment.service.StudentFileService;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -24,16 +25,17 @@ import java.util.*;
 
 @Service
 public class StudentFileServiceImpl implements StudentFileService {
+
     @Value("${file.path}")
     private  String uploadDir;
-    private final StudentProfileRepo studentProfileRepo;
-    public StudentFileServiceImpl(StudentProfileRepo studentProfileRepo)
-    {
-        this.studentProfileRepo=studentProfileRepo;
-    }
+
+    @Autowired
+    private  StudentProfileRepo studentProfileRepo;
+
 
     public StudentProfileImg  upload(MultipartFile file)  {
         isImage(file);
+
 
         StudentProfileImg studentProfileImgs;
                try{
@@ -70,10 +72,7 @@ public class StudentFileServiceImpl implements StudentFileService {
         StudentProfileImg studentprofile= studentProfileRepo.findByName(name).orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));
         Path path = Paths.get(studentprofile.getFilePath());
          String contentType = Files.probeContentType(path);
-        if (contentType == null) {
-            contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-        }
-        byte[] image = Files.readAllBytes(path);
+         byte[] image = Files.readAllBytes(path);
         return new ImageData(contentType,image);
     }
     public Responsedto deletefile(String filename){
