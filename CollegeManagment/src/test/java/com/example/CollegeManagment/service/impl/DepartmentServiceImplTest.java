@@ -27,36 +27,37 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {DepartmentServiceImpl.class})
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class DepartmentServiceImplTest {
-    @MockBean
+
+    @Mock
     private DepartmentFileRepository departmentFileRepository;
 
-    @MockBean
+    @Mock
     private DepartmentFileService departmentFileService;
 
-    @MockBean
+    @Mock
     private DepartmentMapper departmentMapper;
 
-    @MockBean
+    @Mock
     private DepartmentRepo departmentRepo;
 
-    @Autowired
-    private DepartmentServiceImpl departmentServiceImpl;
-
-    @MockBean
+    @Mock
     private ObjectMapper objectMapper;
+
+    @InjectMocks
+    private DepartmentServiceImpl departmentServiceImpl;
 
     @Test
     void testCreateOrUpdate() throws IOException {

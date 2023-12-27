@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -109,7 +111,22 @@ class DepartmentFileServiceTest {
         departmentImg.setSize(3L);
         departmentImg.setType("Type");
 
-        Optional<DepartmentFileEntity> ofResult = Optional.of(departmentImg);
+        Department department2 = new Department();
+        department2.setDepartmentImg(departmentImg);
+        department2.setId(1L);
+        department2.setName("Name");
+        department2.setStudents(new HashSet<>());
+        department2.setTeachers(new HashSet<>());
+
+        DepartmentFileEntity departmentFileEntity = new DepartmentFileEntity();
+        departmentFileEntity.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
+        departmentFileEntity.setDepartment(department2);
+        departmentFileEntity.setFilePath("/directory/foo.txt");
+        departmentFileEntity.setId(1L);
+        departmentFileEntity.setName("Name");
+        departmentFileEntity.setSize(3L);
+        departmentFileEntity.setType("Type");
+        Optional<DepartmentFileEntity> ofResult = Optional.of(departmentFileEntity);
         when(departmentFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
 
         // Act
@@ -120,5 +137,81 @@ class DepartmentFileServiceTest {
         assertEquals("File delete successfully!", actualDeleteFileResult.getMessage());
         assertNull(actualDeleteFileResult.getResult());
         assertFalse(actualDeleteFileResult.getSuccess());
+    }
+
+    @Test
+    void testDeleteFile2() {
+        // Arrange
+        Department department = new Department();
+        department.setDepartmentImg(new DepartmentFileEntity());
+        department.setId(1L);
+        department.setName("Name");
+        department.setStudents(new HashSet<>());
+        department.setTeachers(new HashSet<>());
+
+        DepartmentFileEntity departmentImg = new DepartmentFileEntity();
+        departmentImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
+        departmentImg.setDepartment(department);
+        departmentImg.setFilePath("/directory/foo.txt");
+        departmentImg.setId(1L);
+        departmentImg.setName("Name");
+        departmentImg.setSize(3L);
+        departmentImg.setType("Type");
+
+        Department department2 = new Department();
+        department2.setDepartmentImg(departmentImg);
+        department2.setId(1L);
+        department2.setName("Name");
+        department2.setStudents(new HashSet<>());
+        department2.setTeachers(new HashSet<>());
+        DepartmentFileEntity departmentFileEntity = mock(DepartmentFileEntity.class);
+
+        when(departmentFileEntity.getFilePath()).thenReturn("/directory/foo.txt");
+        doNothing().when(departmentFileEntity).setCreated(Mockito.<LocalDateTime>any());
+        doNothing().when(departmentFileEntity).setDepartment(Mockito.<Department>any());
+        doNothing().when(departmentFileEntity).setFilePath(Mockito.<String>any());
+        doNothing().when(departmentFileEntity).setId(Mockito.<Long>any());
+        doNothing().when(departmentFileEntity).setName(Mockito.<String>any());
+        doNothing().when(departmentFileEntity).setSize(Mockito.<Long>any());
+        doNothing().when(departmentFileEntity).setType(Mockito.<String>any());
+
+        departmentFileEntity.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
+        departmentFileEntity.setDepartment(department2);
+        departmentFileEntity.setFilePath("/directory/foo.txt");
+        departmentFileEntity.setId(1L);
+        departmentFileEntity.setName("Name");
+        departmentFileEntity.setSize(3L);
+        departmentFileEntity.setType("Type");
+        Optional<DepartmentFileEntity> ofResult = Optional.of(departmentFileEntity);
+        when(departmentFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
+
+        // Act
+        Responsedto actualDeleteFileResult = departmentFileService.deleteFile("foo.txt");
+
+        // Assert
+        verify(departmentFileEntity).getFilePath();
+        verify(departmentFileEntity).setCreated(Mockito.<LocalDateTime>any());
+        verify(departmentFileEntity).setDepartment(Mockito.<Department>any());
+        verify(departmentFileEntity).setFilePath(Mockito.<String>any());
+        verify(departmentFileEntity).setId(Mockito.<Long>any());
+        verify(departmentFileEntity).setName(Mockito.<String>any());
+        verify(departmentFileEntity).setSize(Mockito.<Long>any());
+        verify(departmentFileEntity).setType(Mockito.<String>any());
+        verify(departmentFileRepository).findByName(Mockito.<String>any());
+        assertEquals("File delete successfully!", actualDeleteFileResult.getMessage());
+        assertNull(actualDeleteFileResult.getResult());
+        assertFalse(actualDeleteFileResult.getSuccess());
+    }
+
+
+    @Test
+    void testDeleteFile3() {
+        // Arrange
+        Optional<DepartmentFileEntity> emptyResult = Optional.empty();
+        when(departmentFileRepository.findByName(Mockito.<String>any())).thenReturn(emptyResult);
+
+        // Act and Assert
+        assertThrows(ItemNotFound.class, () -> departmentFileService.deleteFile("foo.txt"));
+        verify(departmentFileRepository).findByName(Mockito.<String>any());
     }
 }

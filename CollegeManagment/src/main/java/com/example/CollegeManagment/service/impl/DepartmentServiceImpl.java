@@ -12,6 +12,7 @@ import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.service.DepartmentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,20 +27,25 @@ import java.util.List;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    @Autowired
-    private DepartmentRepo departmentRepo;
+
+    private final DepartmentFileService departmentFileService;
+
+    private final DepartmentRepo departmentRepo;
+
+    private final DepartmentMapper departmentMapper;
+
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    private DepartmentMapper departmentMapper;
-
-    @Autowired
-    private DepartmentFileRepository departmentFileRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private DepartmentFileService departmentFileService;
+    public DepartmentServiceImpl(DepartmentFileService departmentFileService,
+                                 DepartmentRepo departmentRepo,
+                                 DepartmentMapper departmentMapper,
+                                 ObjectMapper objectMapper) {
+        this.departmentFileService = departmentFileService;
+        this.departmentRepo = departmentRepo;
+        this.departmentMapper = departmentMapper;
+        this.objectMapper = objectMapper;
+    }
 
 @Override
 public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFile file, Long id) {
@@ -48,7 +54,7 @@ public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFil
     try {
         departmentdto = objectMapper.readValue(departmentDto, DepartmentDto.class);
     } catch (JsonProcessingException e){
-        throw new RuntimeException(e);
+        throw new BadRequest("failed while converting to dto");
     }
 
     Department department = departmentMapper.toEntity(departmentdto);
@@ -57,7 +63,7 @@ public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFil
     try {
         departmentFileEntity = departmentFileService.upload(file);
     } catch (IOException e) {
-        throw new RuntimeException(e);
+        throw new BadRequest("upload failed");
     }
 
     if (id == null) {
