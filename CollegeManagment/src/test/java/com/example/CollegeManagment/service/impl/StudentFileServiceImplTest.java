@@ -6,10 +6,12 @@ import static org.mockito.Mockito.*;
 
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
+import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.*;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,11 +33,15 @@ import org.springframework.web.multipart.MultipartFile;
 @ContextConfiguration(classes = {StudentFileServiceImpl.class})
 @ExtendWith(SpringExtension.class)
 class StudentFileServiceImplTest {
+
     @Autowired
     private StudentFileServiceImpl studentFileServiceImpl;
 
     @MockBean
     private StudentProfileRepo studentProfileRepo;
+
+    @MockBean
+    private File fileMock;
 
 
     @Test
@@ -69,8 +75,15 @@ class StudentFileServiceImplTest {
         verify(studentProfileRepo, times(1)).existsByName(file.getOriginalFilename());
 
     }
+@Test
+void uploadDuplicateEntryException(){
+    MockMultipartFile file = new MockMultipartFile(
+            "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
+    when(studentProfileRepo.existsByName(any(String.class))).thenReturn(true);
 
+    assertThrows(BadRequest.class, () -> studentFileServiceImpl.upload(file));
 
+}
 
 
     @Test
@@ -93,60 +106,56 @@ class StudentFileServiceImplTest {
         assertEquals(test.image().length,file.getSize());
     }
 
+//    @Test
+//    void testDeletefile(){
+//        String filename = "test.jpg";
+//        String filePath = "/path/to/test.jpg";
+//
+//
+//
+//        StudentProfileImg studentProfileImg = new StudentProfileImg();
+//        studentProfileImg.setName(filename);
+//        studentProfileImg.setFilePath(filePath);
+//
+//        when(any(File.class)).thenReturn(fileMock);
+//        when(studentProfileRepo.findByName(any(String.class))).thenReturn(Optional.of(studentProfileImg));
+//        when(fileMock.exists()).thenReturn(true);
+//        when(fileMock.delete()).thenReturn(true);
+//        doNothing().when(studentProfileRepo).delete(any(StudentProfileImg.class));
+//
+//
+//
+//        // Act
+//        Responsedto response = studentFileServiceImpl.deletefile(filename);
+//
+//        // Assert
+//        assertNotNull(response);
+//        assertTrue(response.getSuccess());
+//        assertEquals("File delete successfully!", response.getMessage());
+//        assertNull(response.getResult());
+//
+//        // Verify interactions
+//        verify(fileMock).exists();
+//        verify(fileMock).delete();
+//        verify(studentProfileRepo).delete(studentProfileImg);
+//    }
+
     @Test
-    void testDeletefile() {
+    void testDeletefileException() {
         // Arrange
-        DepartmentFileEntity departmentImg = new DepartmentFileEntity();
-        departmentImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
-        departmentImg.setDepartment(new Department());
-        departmentImg.setFilePath("/directory/foo.txt");
-        departmentImg.setId(1L);
-        departmentImg.setName("Name");
-        departmentImg.setSize(3L);
-        departmentImg.setType("Type");
+        String filename = "test.jpg";
+        String filePath = "/path/to/test.jpg";
 
-        Department department = new Department();
-        department.setDepartmentImg(departmentImg);
-        department.setId(1L);
-        department.setName("Name");
-        department.setStudents(new HashSet<>());
-        department.setTeachers(new HashSet<>());
 
-        Student student = new Student();
-        student.setDepartment(new Department());
-        student.setPhoneNum("6625550144");
-        student.setProfileImg(new StudentProfileImg());
-        student.setSname("Sname");
-        student.setStudentId(1L);
-
-        StudentProfileImg profileImg = new StudentProfileImg();
-        profileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
-        profileImg.setFilePath("/directory/foo.txt");
-        profileImg.setId(1L);
-        profileImg.setLink("Link");
-        profileImg.setName("Name");
-        profileImg.setSize(3L);
-        profileImg.setStudent(student);
-        profileImg.setType("Type");
-
-        Student student2 = new Student();
-        student2.setDepartment(department);
-        student2.setPhoneNum("6625550144");
-        student2.setProfileImg(profileImg);
-        student2.setSname("Sname");
-        student2.setStudentId(1L);
 
         StudentProfileImg studentProfileImg = new StudentProfileImg();
-        studentProfileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
-        studentProfileImg.setFilePath("/directory/foo.txt");
-        studentProfileImg.setId(1L);
-        studentProfileImg.setLink("Link");
-        studentProfileImg.setName("Name");
-        studentProfileImg.setSize(3L);
-        studentProfileImg.setStudent(student2);
-        studentProfileImg.setType("Type");
-        Optional<StudentProfileImg> ofResult = Optional.of(studentProfileImg);
-        when(studentProfileRepo.findByName(Mockito.<String>any())).thenReturn(ofResult);
+        studentProfileImg.setName(filename);
+        studentProfileImg.setFilePath(filePath);
+
+        when(studentProfileRepo.findByName(any(String.class))).thenReturn(Optional.of(studentProfileImg));
+        when(fileMock.exists()).thenReturn(false);
+        when(fileMock.delete()).thenReturn(false);
+
 
         // Act and Assert
         assertThrows(BadRequest.class, () -> studentFileServiceImpl.deletefile("foo.txt"));
@@ -154,80 +163,4 @@ class StudentFileServiceImplTest {
     }
 
 
-    @Test
-    void testDeletefile2() {
-        // Arrange
-        DepartmentFileEntity departmentImg = new DepartmentFileEntity();
-        departmentImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
-        departmentImg.setDepartment(new Department());
-        departmentImg.setFilePath("/directory/foo.txt");
-        departmentImg.setId(1L);
-        departmentImg.setName("Name");
-        departmentImg.setSize(3L);
-        departmentImg.setType("Type");
-
-        Department department = new Department();
-        department.setDepartmentImg(departmentImg);
-        department.setId(1L);
-        department.setName("Name");
-        department.setStudents(new HashSet<>());
-        department.setTeachers(new HashSet<>());
-
-        Student student = new Student();
-        student.setDepartment(new Department());
-        student.setPhoneNum("6625550144");
-        student.setProfileImg(new StudentProfileImg());
-        student.setSname("Sname");
-        student.setStudentId(1L);
-
-        StudentProfileImg profileImg = new StudentProfileImg();
-        profileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
-        profileImg.setFilePath("/directory/foo.txt");
-        profileImg.setId(1L);
-        profileImg.setLink("Link");
-        profileImg.setName("Name");
-        profileImg.setSize(3L);
-        profileImg.setStudent(student);
-        profileImg.setType("Type");
-
-        Student student2 = new Student();
-        student2.setDepartment(department);
-        student2.setPhoneNum("6625550144");
-        student2.setProfileImg(profileImg);
-        student2.setSname("Sname");
-        student2.setStudentId(1L);
-        StudentProfileImg studentProfileImg = mock(StudentProfileImg.class);
-        when(studentProfileImg.getFilePath()).thenReturn("/directory/foo.txt");
-        doNothing().when(studentProfileImg).setCreated(Mockito.<LocalDateTime>any());
-        doNothing().when(studentProfileImg).setFilePath(Mockito.<String>any());
-        doNothing().when(studentProfileImg).setId(Mockito.<Long>any());
-        doNothing().when(studentProfileImg).setLink(Mockito.<String>any());
-        doNothing().when(studentProfileImg).setName(Mockito.<String>any());
-        doNothing().when(studentProfileImg).setSize(Mockito.<Long>any());
-        doNothing().when(studentProfileImg).setStudent(Mockito.<Student>any());
-        doNothing().when(studentProfileImg).setType(Mockito.<String>any());
-        studentProfileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
-        studentProfileImg.setFilePath("/directory/foo.txt");
-        studentProfileImg.setId(1L);
-        studentProfileImg.setLink("Link");
-        studentProfileImg.setName("Name");
-        studentProfileImg.setSize(3L);
-        studentProfileImg.setStudent(student2);
-        studentProfileImg.setType("Type");
-        Optional<StudentProfileImg> ofResult = Optional.of(studentProfileImg);
-        when(studentProfileRepo.findByName(Mockito.<String>any())).thenReturn(ofResult);
-
-        // Act and Assert
-        assertThrows(BadRequest.class, () -> studentFileServiceImpl.deletefile("foo.txt"));
-        verify(studentProfileImg).getFilePath();
-        verify(studentProfileImg).setCreated(Mockito.<LocalDateTime>any());
-        verify(studentProfileImg).setFilePath(Mockito.<String>any());
-        verify(studentProfileImg).setId(Mockito.<Long>any());
-        verify(studentProfileImg).setLink(Mockito.<String>any());
-        verify(studentProfileImg).setName(Mockito.<String>any());
-        verify(studentProfileImg).setSize(Mockito.<Long>any());
-        verify(studentProfileImg).setStudent(Mockito.<Student>any());
-        verify(studentProfileImg).setType(Mockito.<String>any());
-        verify(studentProfileRepo).findByName(Mockito.<String>any());
-    }
 }

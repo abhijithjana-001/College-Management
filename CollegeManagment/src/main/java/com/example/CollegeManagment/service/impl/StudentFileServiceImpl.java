@@ -46,7 +46,7 @@ public class StudentFileServiceImpl implements StudentFileService {
 
                 if(!studentProfileRepo.existsByName(file.getOriginalFilename()))
                 {
-                     studentProfileImgs=   StudentProfileImg.builder()
+                    studentProfileImgs=   StudentProfileImg.builder()
                             .name(file.getOriginalFilename())
                             .type(file.getContentType())
                             .size(file.getSize())
@@ -80,11 +80,8 @@ public class StudentFileServiceImpl implements StudentFileService {
         StudentProfileImg studentprofile= studentProfileRepo.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
         File file = new File(studentprofile.getFilePath());
         if (file.exists() && file.delete()) {
-
-                studentProfileRepo.delete(studentprofile);
-
-
-
+            System.out.println(file.exists());
+            studentProfileRepo.delete(studentprofile);
             return new Responsedto<>(true, "File delete successfully!", null);
         }
         else throw new BadRequest("File delete failed!");
