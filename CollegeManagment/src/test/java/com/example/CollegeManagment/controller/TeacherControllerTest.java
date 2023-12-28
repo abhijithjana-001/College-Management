@@ -42,21 +42,21 @@ class TeacherControllerTest {
 
     @Test
     void testAddTeacher() throws IOException {
-        TeacherServiceImpl teacherservice = mock(TeacherServiceImpl.class);
-        when(teacherservice.createorupdate( Mockito.<Long>any(),Mockito.<String>any(), Mockito.<MultipartFile>any()))
+        TeacherServiceImpl teacherService = mock(TeacherServiceImpl.class);
+        when(teacherService.createorupdate( Mockito.<Long>any(),Mockito.<String>any(), Mockito.<MultipartFile>any()))
                 .thenReturn(new Responsedto<>());
-        TeacherController teacherController = new TeacherController(teacherservice);
+        TeacherController teacherController = new TeacherController(teacherService);
 
         // Act
-        ResponseEntity<Responsedto<Teacher>> actualAddteacher = teacherController.addTeacher(
+        ResponseEntity<Responsedto<Teacher>> actualAddTeacher = teacherController.addTeacher(
                 "alice.liddell@example.org",
-                new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+                new MockMultipartFile("Name", new ByteArrayInputStream("AkeMal".getBytes("UTF-8"))));
 
         // Assert
-        verify(teacherservice).createorupdate(Mockito.<Long>any(), Mockito.<String>any(), Mockito.<MultipartFile>any());
-        assertEquals(200, actualAddteacher.getStatusCodeValue());
-        assertTrue(actualAddteacher.hasBody());
-        assertTrue(actualAddteacher.getHeaders().isEmpty());
+        verify(teacherService).createorupdate(Mockito.<Long>any(), Mockito.<String>any(), Mockito.<MultipartFile>any());
+        assertEquals(200, actualAddTeacher.getStatusCodeValue());
+        assertTrue(actualAddTeacher.hasBody());
+        assertTrue(actualAddTeacher.getHeaders().isEmpty());
     }
 
 

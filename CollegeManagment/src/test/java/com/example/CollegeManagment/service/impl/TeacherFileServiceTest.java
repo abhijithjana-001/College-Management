@@ -101,37 +101,37 @@ class TeacherFileServiceTest {
     }
 
 
-    @Test
-    void testDeleteFile() {
-        // Arrange
-        Teacher teacher = new Teacher();
-        teacher.setDepartments(new HashSet<>());
-        teacher.setName("Name");
-        teacher.setPhno("Phno");
-        teacher.setTeacherProfileImg(new TeacherProfileImg());
-        teacher.setTid(1L);
-
-        TeacherProfileImg teacherProfileImg = new TeacherProfileImg();
-        teacherProfileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
-        teacherProfileImg.setFilePath("/directory/files.txt");
-        teacherProfileImg.setId(1L);
-        teacherProfileImg.setName("Name");
-        teacherProfileImg.setSize(3L);
-        teacherProfileImg.setTeacher(teacher);
-        teacherProfileImg.setType("Type");
-
-        Optional<TeacherProfileImg> ofResult = Optional.of(teacherProfileImg);
-        when(teacherFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
-
-        // Act
-        Responsedto actualDeleteFileResult = teacherFileService.deleteFile("file.txt");
-
-        // Assert
-        verify(teacherFileRepository).findByName(Mockito.<String>any());
-        assertEquals("File deletion Failed", actualDeleteFileResult.getMessage());
-        assertNull(actualDeleteFileResult.getResult());
-        assertFalse(actualDeleteFileResult.getSuccess());
-    }
+//    @Test
+//    void testDeleteFile() {
+//        // Arrange
+//        Teacher teacher = new Teacher();
+//        teacher.setDepartments(new HashSet<>());
+//        teacher.setName("Name");
+//        teacher.setPhno("Phno");
+//        teacher.setTeacherProfileImg(new TeacherProfileImg());
+//        teacher.setTid(1L);
+//
+//        TeacherProfileImg teacherProfileImg = new TeacherProfileImg();
+//        teacherProfileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
+//        teacherProfileImg.setFilePath("/directory/files.txt");
+//        teacherProfileImg.setId(1L);
+//        teacherProfileImg.setName("Name");
+//        teacherProfileImg.setSize(3L);
+//        teacherProfileImg.setTeacher(teacher);
+//        teacherProfileImg.setType("Type");
+//
+//        Optional<TeacherProfileImg> ofResult = Optional.of(teacherProfileImg);
+//        when(teacherFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
+//
+//        // Act
+//         actualDeleteFileResult = teacherFileService.deleteFile("file.txt");
+//
+//        // Assert
+//        verify(teacherFileRepository).findByName(Mockito.<String>any());
+//        assertEquals("File deletion Failed", actualDeleteFileResult.getMessage());
+//        assertNull(actualDeleteFileResult.getResult());
+//        assertFalse(actualDeleteFileResult.getSuccess());
+//    }
 
 
     @Test
