@@ -100,7 +100,7 @@ class StudentServiceImplTest {
         student.setSname("Abhijith jana");
         student.setStudentId(1L);
 
-        doReturn(false).when(studentProfileRepo).existsByName(Mockito.any(String.class));
+        doReturn(studentProfileImg).when(studentFileService).upload(Mockito.any(MultipartFile.class));
         doReturn(true).when(studentRepo)
                 .existsById(any(Long.class));
         doReturn(Optional.of(student)).when(studentRepo)
@@ -261,8 +261,33 @@ class StudentServiceImplTest {
 
     }
 
+//Exception
+    @Test
+    void addOrUpdateStudentIdNotExist(){
+//        arrange
+        doReturn(false).when(studentRepo).existsById(any(Long.class));
+
+//      act and assert
+        assertThrows(ItemNotFound.class,()->
+                studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, 1L)
+                );
+
+    }
+
+    @Test
+    void addOrUpdateStudentDuplicatePhoneNumber(){
+//        arrange
 
 
-
+//        act and assert
+        assertThrows(ItemNotFound.class,()->
+                studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",new MockMultipartFile(
+                     "Name",
+                                "filename.txt",
+                                "image/plain",
+                                "AXAPTA".getBytes(StandardCharsets.UTF_8)
+                ), null)
+        );
+    }
 
 }
