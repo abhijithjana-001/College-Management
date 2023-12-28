@@ -59,8 +59,10 @@ class StudentServiceImplTest {
 
 
     @Test
-    void testAddOrUpdateWithIdNull() throws IOException {
+    void testAddOrUpdateWithIdNull()  {
 //arrange
+        StudentProfileImg studentProfileImg=new StudentProfileImg();
+        studentProfileImg.setName("img");
         Student student = new Student();
         student.setDepartment(new Department());
         student.setPhoneNum("1234567890");
@@ -70,7 +72,7 @@ class StudentServiceImplTest {
 
 
         doReturn(student).when(studentRepo).save(Mockito.any(Student.class));
-        doReturn(false).when(studentProfileRepo).existsByName(Mockito.any(String.class));
+        doReturn(studentProfileImg).when(studentFileService).upload(Mockito.any(MultipartFile.class));
         doReturn(false).when(studentRepo).existsByPhoneNum(Mockito.any(String.class));
 //      act
         Responsedto<Student> responsedto = studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",
@@ -100,7 +102,7 @@ class StudentServiceImplTest {
         student.setSname("Abhijith jana");
         student.setStudentId(1L);
 
-        doReturn(false).when(studentProfileRepo).existsByName(Mockito.any(String.class));
+        doReturn(studentProfileImg).when(studentFileService).upload(Mockito.any(MultipartFile.class));
         doReturn(true).when(studentRepo)
                 .existsById(any(Long.class));
         doReturn(Optional.of(student)).when(studentRepo)
@@ -223,7 +225,7 @@ class StudentServiceImplTest {
 
         // Assert
         verify(studentRepo).findById(Mockito.<Long>any());
-        assertEquals("student added successful", actualViewDetailsResult.getMessage());
+        assertEquals("Abhijith Jana details:", actualViewDetailsResult.getMessage());
         assertTrue(actualViewDetailsResult.getSuccess());
         assertSame(student, actualViewDetailsResult.getResult());
     }
@@ -261,7 +263,50 @@ class StudentServiceImplTest {
 
     }
 
+//Exception
+    @Test
+    void addOrUpdateStudentIdNotExist(){
+//        arrange
+        doReturn(false).when(studentRepo).existsById(any(Long.class));
 
+//      act and assert
+        assertThrows(ItemNotFound.class,()->
+                studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, 1L)
+                );
+
+    }
+
+    @Test
+    void addOrUpdateStudentDuplicatePhoneNumber(){
+//        arrange
+        StudentProfileImg studentProfileImg=new StudentProfileImg();
+        studentProfileImg.setName("img");
+
+        doReturn(studentProfileImg).when(studentFileService).upload(Mockito.any(MultipartFile.class));
+
+        doReturn(true).when(studentRepo).existsByPhoneNum(any(String.class));
+
+//        act and assert
+        assertThrows(BadRequest.class,()->
+                studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",new MockMultipartFile(
+                     "Name",
+                                "filename.txt",
+                                "image/plain",
+                                "AXAPTA".getBytes(StandardCharsets.UTF_8)
+                ), null)
+        );
+    }
+
+    @Test
+    void addOrUpdateStudentCreateWithNoImage(){
+//        arrange
+        doReturn(true).when(studentRepo).existsByPhoneNum(any(String.class));
+
+//        act and assert
+        assertThrows(BadRequest.class,()->
+                studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, null)
+        );
+    }
 
 
 
