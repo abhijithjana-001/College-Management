@@ -1,64 +1,56 @@
 package com.example.CollegeManagment.service.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.DepartmentFileEntity;
 import com.example.CollegeManagment.repository.DepartmentFileRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@ContextConfiguration(classes = {DepartmentFileService.class})
 @ExtendWith(SpringExtension.class)
+@SpringBootTest
 class DepartmentFileServiceTest {
-    @MockBean
+    @SpyBean
     private DepartmentFileRepository departmentFileRepository;
 
-    @Autowired
+    @SpyBean
     private DepartmentFileService departmentFileService;
 
-    @InjectMocks
-    private DepartmentServiceImpl departmentService;
 
     @Test
     void testUpload() throws IOException {
 
-        String uploadDir = "${file.path}";
-        MockMultipartFile mockFile = new MockMultipartFile("testFile", "test.png", "image/png", "Hello, World!".getBytes());
+        MockMultipartFile mockFile = new MockMultipartFile("test",
+                "test.png",
+                "image/png",
+                "Hello, World!".getBytes());
 
-        Path expectedFilePath = Paths.get(uploadDir, mockFile.getOriginalFilename());
+        DepartmentFileEntity departmentFileEntity = DepartmentFileEntity.builder()
+                .name(mockFile.getOriginalFilename())
+                .type(mockFile.getContentType())
+                .size(mockFile.getSize())
+                .filePath("C:\\Users\\user432\\Desktop\\CollegeManagement\\files\\"+mockFile.getOriginalFilename())
+                .created(LocalDateTime.now())
+                .build();
 
-        when(departmentFileRepository.save(any(DepartmentFileEntity.class))).thenAnswer(invocation -> {
-            DepartmentFileEntity savedEntity = invocation.getArgument(0);
-            savedEntity.setId(1L);
-            return savedEntity;
-        });
+        when(departmentFileRepository.existsByName(mockFile.getOriginalFilename())).thenReturn(false);
 
         // Act
         DepartmentFileEntity result = departmentFileService.upload(mockFile);
@@ -66,11 +58,11 @@ class DepartmentFileServiceTest {
         // Assert
         verify(departmentFileRepository).save(any(DepartmentFileEntity.class));
 
-        assertEquals(mockFile.getOriginalFilename(), result.getName());
-        assertEquals(mockFile.getContentType(), result.getType());
-        assertEquals(mockFile.getSize(), result.getSize());
-        assertEquals(expectedFilePath.toString(), result.getFilePath());
+        assertEquals(departmentFileEntity.getName(), result.getName());
+        assertEquals(departmentFileEntity.getType(), result.getType());
+        assertEquals(departmentFileEntity.getSize(), result.getSize());
         assertEquals(LocalDateTime.now().getDayOfMonth(), result.getCreated().getDayOfMonth());
+        assertEquals(departmentFileEntity.getFilePath(),result.getFilePath());
     }
 
     @Test
