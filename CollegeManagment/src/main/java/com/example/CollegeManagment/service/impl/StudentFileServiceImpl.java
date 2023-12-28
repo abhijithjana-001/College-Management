@@ -75,14 +75,13 @@ public class StudentFileServiceImpl implements StudentFileService {
          byte[] image = Files.readAllBytes(path);
         return new ImageData(contentType,image);
     }
-    public Responsedto deletefile(String filename){
-        StudentProfileImg studentprofile= studentProfileRepo.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
-        File file = new File(studentprofile.getFilePath());
+    public void deletefile(String filename){
+        StudentProfileImg studentProfile= studentProfileRepo.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
+        File file = new File(studentProfile.getFilePath());
         if (file.exists() && file.delete()) {
             System.out.println(file.exists());
-            studentProfileRepo.delete(studentprofile);
-            return new Responsedto<>(true, "File delete successfully!", null);
-        }
+            studentProfileRepo.delete(studentProfile);
+       }
         else throw new BadRequest("File delete failed!");
     }
 

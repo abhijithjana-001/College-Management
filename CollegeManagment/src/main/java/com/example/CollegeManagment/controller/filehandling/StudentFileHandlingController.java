@@ -30,15 +30,7 @@ private StudentFileServiceImpl studentFileServiceImpl;
         headers.setContentDispositionFormData("attachment", filename);
         return ResponseEntity.status(200).headers(headers).contentType(MediaType.valueOf(imageData.contenttype())).body(imageData.image());
     }
-    @PostMapping("/upload")
-    public ResponseEntity<Responsedto> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        StudentProfileImg upload = studentFileServiceImpl.upload(file);
-        return ResponseEntity.ok(new Responsedto(true,"uploaded successful",upload));
-    }
-    @DeleteMapping("/delete/{filename}")
-    public ResponseEntity<Responsedto> handleFileDelete(@PathVariable String filename) {
-        Responsedto deletefile = studentFileServiceImpl.deletefile(filename);
-        return ResponseEntity.ok(deletefile);
-    }
+
+
 
 }

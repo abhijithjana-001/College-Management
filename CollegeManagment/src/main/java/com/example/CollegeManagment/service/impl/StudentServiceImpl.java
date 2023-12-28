@@ -43,12 +43,12 @@ public class StudentServiceImpl implements Studentservice {
               }
 
     @Override
-    public Responsedto<Student> addorupdateStudent(String studentdtodata, MultipartFile file, Long id) {
+    public Responsedto<Student> addorupdateStudent(String studentDtoData, MultipartFile file, Long id) {
          Studentdto studentdto=null;
         Student savedStudent=null;
         StudentProfileImg studentProfileImg=null;
         try {
-            studentdto= objectMapper.readValue(studentdtodata,Studentdto.class);
+            studentdto= objectMapper.readValue(studentDtoData,Studentdto.class);
         }
         catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -92,18 +92,19 @@ public class StudentServiceImpl implements Studentservice {
     }
     public  Student updateStudent(Student student,MultipartFile file,Long id)
     {
+        String oldFile=studentRepo.findById(id).get().getProfileImg().getName();
+        Student savedStudent=null;
         if(!studentRepo.existsByPhoneNum(student.getPhoneNum())) {
-          return  studentRepo.save(student);
+            savedStudent=  studentRepo.save(student);
         } else if (studentRepo.findByPhoneNum(student.getPhoneNum()).get()
                 .getStudentId().equals( student.getStudentId())) {
-            String oldFile=studentRepo.findById(id).get().getProfileImg().getName();
-         Student savedStudent =studentRepo.save(student);
-         if(file!=null)
-            studentFileService.deletefile(oldFile);
-            return savedStudent;
+            savedStudent =studentRepo.save(student);
         } else {
             throw new BadRequest("phone number already exist");
         }
+        if(file!=null)
+            studentFileService.deletefile(oldFile);
+        return savedStudent;
     }
     @Override
     public  Responsedto<Student> viewdetails(Long id){
