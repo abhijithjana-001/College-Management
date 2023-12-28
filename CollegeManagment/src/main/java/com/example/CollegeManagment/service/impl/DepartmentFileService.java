@@ -32,6 +32,9 @@ public class DepartmentFileService{
     public DepartmentFileEntity upload(MultipartFile file) throws IOException {
        DepartmentFileEntity departmentFileEntities ;
 
+       if(file == null){
+           return null;
+       }
                 Path filePath = Paths.get(uploadDir, file.getOriginalFilename());
                 file.transferTo(filePath.toFile());
                 departmentFileEntities = DepartmentFileEntity.builder()
