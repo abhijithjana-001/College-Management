@@ -11,5 +11,4 @@ public interface DepartmentFileRepository extends JpaRepository<DepartmentFileEn
 
     Optional<DepartmentFileEntity> findByName(String name);
 
-
 }

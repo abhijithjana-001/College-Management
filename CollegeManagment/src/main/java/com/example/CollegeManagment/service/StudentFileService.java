@@ -13,7 +13,7 @@ public interface StudentFileService {
 
     public ImageData findByName(String name) throws IOException;
 
-    public Responsedto deletefile(String filename);
+    public void deletefile(String filename);
 
 
 }
