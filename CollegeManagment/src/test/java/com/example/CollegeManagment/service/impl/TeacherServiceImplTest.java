@@ -32,9 +32,15 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
@@ -42,31 +48,30 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-@ContextConfiguration(classes = {TeacherServiceImpl.class})
 @ExtendWith(SpringExtension.class)
 class TeacherServiceImplTest {
-    @MockBean
+    @Mock
     private DepartmentRepo departmentRepo;
 
-    @MockBean
+    @Mock
     private ObjectMapper objectMapper;
 
-    @MockBean
+    @Mock
     private TeacherFileService teacherFileService;
 
-    @MockBean
+    @Mock
     private TeacherMapStruct teacherMapStruct;
 
-    @MockBean
+    @Mock
     private TeacherRepo teacherRepo;
 
-    @Autowired
+    @InjectMocks
     private TeacherServiceImpl teacherServiceImpl;
 
 
 
     @Test
-    void testCreateorupdatewithnullId() throws IOException{
+    void testCreateOrUpdateWithNullId() throws IOException{
         Teacher teacher=new Teacher();
         teacher.setDepartments(new HashSet<>());
         teacher.setName("Deepak");
@@ -89,7 +94,7 @@ class TeacherServiceImplTest {
 
 
     @Test
-    void testCreateorupdateUpdate() throws IOException {
+    void testCreateOrUpdate_Update() throws IOException {
         // Arrange
         Teacher teacher=new Teacher();
         teacher.setDepartments(new HashSet<>());
@@ -123,7 +128,7 @@ class TeacherServiceImplTest {
     }
 
     @Test
-    void testCreateorupdateUpdateWithNoFile() throws IOException {
+    void testCreateOrUpdate_UpdateWithNoFile() throws IOException {
         Teacher teacher=new Teacher();
         teacher.setDepartments(new HashSet<>());
         teacher.setName("Deepak");
@@ -149,16 +154,7 @@ class TeacherServiceImplTest {
         assertEquals(responsedto.getResult(),teacher);
     }
 
-//    @Test
-//    void testCreatewithDuplicatePhoneNumber() {
-//        // Arrange
-//        when(teacherRepo.existsByPhno(Mockito.<String>any())).thenReturn(true);
-//
-//        // Act and Assert
-//        assertThrows(BadRequest.class, () -> teacherServiceImpl.createorupdate(1L,"teacherData",
-//                new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8")))));
-//        verify(teacherRepo).existsByPhno(Mockito.<String>any());
-//    }
+
 
     @Test
     void testFindAll() {
