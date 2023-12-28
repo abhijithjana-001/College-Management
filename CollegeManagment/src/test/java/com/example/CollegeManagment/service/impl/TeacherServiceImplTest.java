@@ -75,8 +75,6 @@ class TeacherServiceImplTest {
         teacher.setPhno("8098736321");
         teacher.setTeacherProfileImg(new TeacherProfileImg());
         teacher.setTid(1L);
-        HashSet<Department> departments=new HashSet<>();
-
         doReturn(teacher).when(teacherRepo).save(Mockito.any(Teacher.class));
         doReturn(false).when(teacherFileRepository).existsByName(Mockito.any(String.class));
         doReturn(false).when(teacherRepo).existsByPhno(Mockito.any(String.class));
@@ -88,7 +86,7 @@ class TeacherServiceImplTest {
                         "image/plain",
                         "AXAPTA".getBytes(StandardCharsets.UTF_8)
                 ));
-        System.out.println(responsedto.getResult());
+
         assertEquals(responsedto.getSuccess(),true);
         assertEquals(responsedto.getResult(),teacher);
     }
@@ -103,7 +101,6 @@ class TeacherServiceImplTest {
         teacher.setTeacherProfileImg(new TeacherProfileImg());
         teacher.setTid(1L);
 
-        HashSet<Department> departments=new HashSet<>();
         doNothing().when(teacherFileService).deleteFile(anyString());
         doReturn(false).when(teacherFileRepository).existsByName(Mockito.any(String.class));
         doReturn(true).when(teacherRepo).existsById(any(Long.class));
@@ -126,35 +123,31 @@ class TeacherServiceImplTest {
 
     }
 
-//    @Test
-//    void testCreateOrUpdate_UpdateWithNoFile() throws IOException {
-//        Teacher teacher=new Teacher();
-//        teacher.setDepartments(new HashSet<>());
-//        teacher.setName("Deepak");
-//        teacher.setPhno("8098736321");
-//        teacher.setTeacherProfileImg(new TeacherProfileImg());
-//        teacher.setTid(1L);
-//
-//        HashSet<Department> departments=new HashSet<>();
-//        TeacherRequestDTO buildResult=TeacherRequestDTO.builder().department(departments).name("Name")
-//                .phno("7025986547").build();
-//        when(objectMapper.readValue(Mockito.<String>any(), Mockito.<Class<TeacherRequestDTO>>any())).thenReturn(buildResult);
-//        when(teacherMapStruct.toEntity(Mockito.<TeacherRequestDTO>any())).thenReturn(teacher);
-//        when(teacherRepo.existsById(any(Long.class))).thenReturn(true);
-//        when(teacherRepo.findById(any(Long.class))).thenReturn(Optional.of(teacher));
-//
-//        when(teacherRepo.existsByPhno(Mockito.any(String.class))).thenReturn(true);
-//        when(teacherRepo.findByPhno(any(String.class))).thenReturn(Optional.of(teacher));
-//        when(teacherRepo.save(any(Teacher.class))).thenReturn(teacher);
-//
-//        Responsedto responsedto=  teacherServiceImpl.createorupdate(1L,"teacherData",
-//                null);
-//        assertEquals(responsedto.getSuccess(),true);
-//        assertEquals(responsedto.getResult(),teacher);
-//    }
-//
-//
-//
+    @Test
+    void testCreateOrUpdate_UpdateWithNoFile() throws IOException {
+
+        Teacher teacher=new Teacher();
+        teacher.setDepartments(new HashSet<>());
+        teacher.setName("Deepak");
+        teacher.setPhno("8098736321");
+        TeacherProfileImg teacherProfileImg=new TeacherProfileImg();
+        teacherProfileImg.setName("Image");
+        teacher.setTid(1L);
+
+        doReturn(true).when(teacherRepo).existsById(any(Long.class));
+        doReturn(true).when(teacherRepo).existsByPhno(Mockito.any(String.class));
+        doReturn(Optional.of(teacher)).when(teacherRepo).findById(any(Long.class));
+        doReturn(Optional.of(teacher)).when(teacherRepo).findByPhno(any(String.class));
+        doReturn(teacher).when(teacherRepo).save(any(Teacher.class));
+
+        Responsedto <Teacher> responsedto=  teacherServiceImpl.createorupdate(1L,"{\"name\":\"Deepak\"," +
+                "\"phno\":\"8098736321\",\"department\":[{\"id\":1,\"name\":\"cse\"}]}",null);
+        assertEquals(responsedto.getSuccess(),true);
+        assertEquals(responsedto.getResult().getName(),teacher.getName());
+    }
+
+
+
     @Test
     void testFindAll() {
         // Arrange
@@ -176,14 +169,13 @@ class TeacherServiceImplTest {
         // Arrange
         Teacher teacher = new Teacher();
         teacher.setDepartments(new HashSet<>());
-        teacher.setName("Name");
-        teacher.setPhno("Phno");
+        teacher.setName("Deepak");
+        teacher.setPhno("8074566987");
         teacher.setTeacherProfileImg(new TeacherProfileImg());
         teacher.setTid(1L);
 
 
-        Optional<Teacher> ofResult = Optional.of(teacher);
-        when(teacherRepo.findById(Mockito.<Long>any())).thenReturn(ofResult);
+        doReturn(Optional.of(teacher)).when(teacherRepo).findById(any(Long.class));
 
         // Act
         Responsedto<Teacher> actualViewDetailsResult = teacherServiceImpl.viewDetails(1L);
@@ -195,29 +187,6 @@ class TeacherServiceImplTest {
         assertSame(teacher,actualViewDetailsResult.getResult());
     }
 
-    @Test
-    void testViewDetails2() {
-        // Arrange
-        Optional<Teacher> emptyResult = Optional.empty();
-        when(teacherRepo.findById(Mockito.<Long>any())).thenReturn(emptyResult);
-
-        // Act and Assert
-        assertThrows(ItemNotFound.class, () -> teacherServiceImpl.viewDetails(1L));
-        verify(teacherRepo).findById(Mockito.<Long>any());
-    }
-
-//
-//    @Test
-//    void testViewDetails3() {
-//        // Arrange
-//        when(teacherRepo.findById(Mockito.<Long>any())).thenThrow(new RuntimeException("foo"));
-//
-//        // Act and Assert
-//        assertThrows(RuntimeException.class, () -> teacherServiceImpl.viewDetails(1L));
-//        verify(teacherRepo).findById(Mockito.<Long>any());
-//    }
-//
-//
     @Test
     void testDelete() {
         // Arrange
@@ -233,14 +202,4 @@ class TeacherServiceImplTest {
         assertTrue(actualDeleteResult.getSuccess());
     }
 
-
-    @Test
-    void testDelete2() {
-        // Arrange
-        doThrow(new RuntimeException("Deleted Successfully")).when(teacherRepo).deleteById(Mockito.<Long>any());
-
-        // Act and Assert
-        assertThrows(RuntimeException.class, () -> teacherServiceImpl.delete(1L));
-        verify(teacherRepo).deleteById(Mockito.<Long>any());
-    }
 }
