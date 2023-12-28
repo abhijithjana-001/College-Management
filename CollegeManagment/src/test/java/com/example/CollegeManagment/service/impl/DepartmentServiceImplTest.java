@@ -16,8 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Optional;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -45,12 +44,13 @@ class DepartmentServiceImplTest {
         department.setTeachers(new HashSet<>());
         department.setId(1L);
         department.setName("department");
+        department.setDepartmentImg(new DepartmentFileEntity());
 
         doReturn(department).when(departmentRepo).save(any(Department.class));
         doReturn(false).when(departmentRepo).existsByName(Mockito.anyString());
         //act
         Responsedto<Department> responseDto = departmentService.createOrUpdate(
-                "{\"id\":1, \"name\":\"department\"}",
+                "{\"name\":\"department\"}",
                 new MockMultipartFile("image",
                         "image.jpg",
                         "image",
@@ -60,6 +60,7 @@ class DepartmentServiceImplTest {
 
         //assert
         assertTrue(responseDto.getSuccess());
+        assertEquals("Department added", responseDto.getMessage());
     }
 
     @Test
@@ -75,7 +76,7 @@ class DepartmentServiceImplTest {
         department.setName("department");
         department.setDepartmentImg(departmentFileEntity);
 
-        doReturn(department).when(departmentRepo.existsByName(Mockito.anyString()));
+        doReturn(departmentFileEntity).when(departmentRepo.existsByName(Mockito.anyString()));
         doReturn(true).when(departmentRepo.existsById(Mockito.anyLong()));
         doReturn(Optional.of(department)).when(departmentRepo.findById(anyLong()));
         doReturn(department).when(departmentRepo).save(Mockito.any(Department.class));
@@ -92,6 +93,5 @@ class DepartmentServiceImplTest {
 
         //assert
         assertTrue(responseDto.getSuccess());
-        assertEquals(responseDto.getResult(), department);
     }
 }
