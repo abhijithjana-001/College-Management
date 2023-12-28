@@ -31,6 +31,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -46,29 +47,28 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @ExtendWith(SpringExtension.class)
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class TeacherFileServiceTest {
-    @Mock
+    @SpyBean
     private TeacherFileRepository teacherFileRepository;
 
-    @InjectMocks
+    @SpyBean
     private TeacherFileService teacherFileService;
 
-    @Mock
-    private File fileMock;
+
 
 
     @Test
     void testUpload() {
-        ReflectionTestUtils.setField(teacherFileService,"uploadDir","/Desktop/CollegeManagement/files/");
+
         MockMultipartFile file = new MockMultipartFile(
                 "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
 
-        TeacherProfileImg expectedTeacherProfileImg = TeacherProfileImg.builder()
+        TeacherProfileImg teacherProfileImg = TeacherProfileImg.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .size(file.getSize())
-                .filePath("\\Desktop\\CollegeManagement\\files\\"+file.getOriginalFilename())
+                .filePath("C:\\Users\\user0101\\Desktop\\CollegeManagement\\files\\"+file.getOriginalFilename())
                 .created(LocalDateTime.now())
                 .build();
 
@@ -80,10 +80,10 @@ class TeacherFileServiceTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals(expectedTeacherProfileImg.getName(), result.getName());
-        assertEquals(expectedTeacherProfileImg.getType(), result.getType());
-        assertEquals(expectedTeacherProfileImg.getSize(), result.getSize());
-        assertEquals(expectedTeacherProfileImg.getFilePath(), result.getFilePath());
+        assertEquals(teacherProfileImg.getName(), result.getName());
+        assertEquals(teacherProfileImg.getType(), result.getType());
+        assertEquals(teacherProfileImg.getSize(), result.getSize());
+        assertEquals(teacherProfileImg.getFilePath(), result.getFilePath());
 
         verify(teacherFileRepository, times(1)).existsByName(file.getOriginalFilename());
     }
@@ -101,37 +101,37 @@ class TeacherFileServiceTest {
     }
 
 
-//    @Test
-//    void testDeleteFile() {
-//        // Arrange
-//        Teacher teacher = new Teacher();
-//        teacher.setDepartments(new HashSet<>());
-//        teacher.setName("Name");
-//        teacher.setPhno("Phno");
-//        teacher.setTeacherProfileImg(new TeacherProfileImg());
-//        teacher.setTid(1L);
-//
-//        TeacherProfileImg teacherProfileImg = new TeacherProfileImg();
-//        teacherProfileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
-//        teacherProfileImg.setFilePath("/directory/files.txt");
-//        teacherProfileImg.setId(1L);
-//        teacherProfileImg.setName("Name");
-//        teacherProfileImg.setSize(3L);
-//        teacherProfileImg.setTeacher(teacher);
-//        teacherProfileImg.setType("Type");
-//
-//        Optional<TeacherProfileImg> ofResult = Optional.of(teacherProfileImg);
-//        when(teacherFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
-//
-//        // Act
-//         actualDeleteFileResult = teacherFileService.deleteFile("file.txt");
-//
-//        // Assert
-//        verify(teacherFileRepository).findByName(Mockito.<String>any());
-//        assertEquals("File deletion Failed", actualDeleteFileResult.getMessage());
-//        assertNull(actualDeleteFileResult.getResult());
-//        assertFalse(actualDeleteFileResult.getSuccess());
-//    }
+    @Test
+    void testDeleteFile() {
+        // Arrange
+        Teacher teacher = new Teacher();
+        teacher.setDepartments(new HashSet<>());
+        teacher.setName("Name");
+        teacher.setPhno("Phno");
+        teacher.setTeacherProfileImg(new TeacherProfileImg());
+        teacher.setTid(1L);
+
+        TeacherProfileImg teacherProfileImg = new TeacherProfileImg();
+        teacherProfileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
+        teacherProfileImg.setFilePath("/directory/files.txt");
+        teacherProfileImg.setId(1L);
+        teacherProfileImg.setName("Name");
+        teacherProfileImg.setSize(3L);
+        teacherProfileImg.setTeacher(teacher);
+        teacherProfileImg.setType("Type");
+
+        Optional<TeacherProfileImg> ofResult = Optional.of(teacherProfileImg);
+        when(teacherFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
+
+        // Act
+         actualDeleteFileResult = teacherFileService.deleteFile("file.txt");
+
+        // Assert
+        verify(teacherFileRepository).findByName(Mockito.<String>any());
+        assertEquals("File deletion Failed", actualDeleteFileResult.getMessage());
+        assertNull(actualDeleteFileResult.getResult());
+        assertFalse(actualDeleteFileResult.getSuccess());
+    }
 
 
     @Test
