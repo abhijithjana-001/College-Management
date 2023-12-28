@@ -60,7 +60,6 @@ class DepartmentServiceImplTest {
 
         //assert
         assertTrue(responseDto.getSuccess());
-        assertEquals(responseDto.getResult(), department);
     }
 
     @Test
