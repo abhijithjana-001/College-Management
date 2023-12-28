@@ -58,6 +58,8 @@ public class StudentServiceImpl implements Studentservice {
              studentProfileImg = studentFileService.upload(file);
         }
         if (id==null){
+            if(file==null)
+                throw new BadRequest("file is null ");
             student.setStudentId(new Student().getStudentId());
              student.setProfileImg(studentProfileImg);
              savedStudent= create(student);
@@ -82,7 +84,7 @@ public class StudentServiceImpl implements Studentservice {
 
         return new Responsedto<>(true,"student added or updated successful",savedStudent);
     }
-    public Student create(Student student){
+    private Student create(Student student){
         if(!studentRepo.existsByPhoneNum(student.getPhoneNum())) {
            return studentRepo.save(student);
         }
@@ -90,7 +92,7 @@ public class StudentServiceImpl implements Studentservice {
             throw new BadRequest("phone number already exist");
 
     }
-    public  Student updateStudent(Student student,MultipartFile file,Long id)
+    private   Student updateStudent(Student student,MultipartFile file,Long id)
     {
         String oldFile=studentRepo.findById(id).get().getProfileImg().getName();
         Student savedStudent=null;
@@ -110,7 +112,7 @@ public class StudentServiceImpl implements Studentservice {
     public  Responsedto<Student> viewdetails(Long id){
         Student student=studentRepo.findById(id)
                 .orElseThrow(()->  new ItemNotFound("Student with id "+id +" is not found"));
-        return new Responsedto<>(true,"student added successful",student);
+        return new Responsedto<>(true,student.getSname()+" details:",student);
     }
     @Override
     public Responsedto deletebyid(Long id)

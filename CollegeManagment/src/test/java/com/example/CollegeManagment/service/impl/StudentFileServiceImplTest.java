@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -40,26 +41,17 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-@ExtendWith(MockitoExtension.class)
-
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class StudentFileServiceImplTest {
 
-    @InjectMocks
+    @SpyBean
     private StudentFileServiceImpl studentFileServiceImpl;
 
-    @Mock
+    @SpyBean
     private StudentProfileRepo studentProfileRepo;
 
-    @Mock
-    private File fileMock;
 
-
-
-
-@BeforeEach
-void setUp(){
-    ReflectionTestUtils.setField(studentFileServiceImpl,"uploadDir","/Desktop/CollegeManagement/files/");
-}
 
     @Test
     void testUpload()  {
@@ -71,7 +63,7 @@ void setUp(){
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .size(file.getSize())
-                .filePath("\\Desktop\\CollegeManagement\\files\\"+file.getOriginalFilename())
+                .filePath("C:\\Users\\user453\\Desktop\\CollegeManagement\\files\\"+file.getOriginalFilename())
                 .created(LocalDateTime.now())
                 .build();
 
@@ -134,39 +126,29 @@ void uploadDuplicateEntryException() throws IOException {
         assertEquals(test.image().length,file.getSize());
     }
 
-//    @Test
-//    void testDeletefile(){
-//        String filename = "test.jpg";
-//        String filePath = "/path/to/test.jpg";
-//
-//
-//
-//        StudentProfileImg studentProfileImg = new StudentProfileImg();
-//        studentProfileImg.setName(filename);
-//        studentProfileImg.setFilePath(filePath);
-//
-//        when(any(File.class)).thenReturn(fileMock);
-//        when(studentProfileRepo.findByName(any(String.class))).thenReturn(Optional.of(studentProfileImg));
-//        when(fileMock.exists()).thenReturn(true);
-//        when(fileMock.delete()).thenReturn(true);
-//        doNothing().when(studentProfileRepo).delete(any(StudentProfileImg.class));
-//
-//
-//
-//        // Act
-//        Responsedto response = studentFileServiceImpl.deletefile(filename);
-//
-//        // Assert
-//        assertNotNull(response);
-//        assertTrue(response.getSuccess());
-//        assertEquals("File delete successfully!", response.getMessage());
-//        assertNull(response.getResult());
-//
-//        // Verify interactions
-//        verify(fileMock).exists();
-//        verify(fileMock).delete();
-//        verify(studentProfileRepo).delete(studentProfileImg);
-//    }
+    @Test
+    void testDeletefile(){
+//     assign
+        MockMultipartFile file = new MockMultipartFile(
+                "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
+        StudentProfileImg studentProfileImg = StudentProfileImg.builder()
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .size(file.getSize())
+                .filePath("${file.path}\\"+file.getOriginalFilename())
+                .created(LocalDateTime.now())
+                .build();
+
+        doReturn(Optional.of(studentProfileImg)).when(studentProfileRepo).findByName(any(String.class));
+
+
+
+        // Act
+        studentFileServiceImpl.deletefile("image");
+
+
+
+    }
 
     @Test
     void testDeleteFileException() {
