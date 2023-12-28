@@ -82,7 +82,7 @@ class StudentServiceImplTest {
 //assert
 
         assertEquals(responsedto.getSuccess(), true);
-        assertEquals(responsedto.getResult(),student);
+        assertSame(responsedto.getResult(),student);
 
     }
 
@@ -216,7 +216,7 @@ class StudentServiceImplTest {
         student.setSname("Abhijith Jana");
         student.setStudentId(1L);
 
-        doReturn(Optional.of(student)).when(studentRepo.findById(Mockito.<Long>any()));
+        doReturn(Optional.of(student)).when(studentRepo).findById(any(Long.class));
 
         // Act
         Responsedto<Student> actualViewDetailsResult = studentServiceImpl.viewdetails(1L);
@@ -228,63 +228,38 @@ class StudentServiceImplTest {
         assertSame(student, actualViewDetailsResult.getResult());
     }
 
-//    @Test
-//    void testDeleteById() {
-//        // Arrange
-//        doNothing().when(studentRepo).deleteById(Mockito.<Long>any());
-//
-//        // Act
-//        Responsedto actualDeleteByIdResult = studentServiceImpl.deletebyid(1L);
-//
-//        // Assert
-//        verify(studentRepo).deleteById(Mockito.<Long>any());
-//        assertEquals("student delete successful", actualDeleteByIdResult.getMessage());
-//        assertNull(actualDeleteByIdResult.getResult());
-//        assertTrue(actualDeleteByIdResult.getSuccess());
-//    }
-//
-//
-//
-//
-//    @Test
-//    void testListStudent() {
-//        // Arrange
-//
-//        Page page= new PageImpl(Arrays.asList(new Student(),new Student(),new Student()));
-//        when(studentRepo.findAll(Mockito.<Pageable>any())).thenReturn(page);
-//
-//        // Act
-//        Responsedto<List<Student>> actualListStudentResult = studentServiceImpl.listStudent(3, 10, "Sortby");
-//
-//        // Assert
-//        verify(studentRepo).findAll(Mockito.<Pageable>any());
-//        assertEquals("student list : 3 students", actualListStudentResult.getMessage());
-//        assertTrue(actualListStudentResult.getSuccess());
-//        assertEquals(3,actualListStudentResult.getResult().size());
-//
-//    }
-//
-//
-//    @Test
-//    void testUpdateIdNotFound() throws JsonProcessingException {
-////        arrange
-//        Student student = new Student();
-//        student.setDepartment(new Department());
-//        student.setPhoneNum("1234567890");
-//        student.setProfileImg(new StudentProfileImg());
-//        student.setSname("Sname");
-//        student.setStudentId(5L);
-//
-//
-//        Studentdto buildResult = Studentdto.builder().department(new Department()).phoneNum("6625550144").sname("Sname").build();
-//        when(objectMapper.readValue(Mockito.<String>any(), Mockito.<Class<Studentdto>>any())).thenReturn(buildResult);
-//        when(studentMaptructConfig.toEntity(Mockito.<Studentdto>any())).thenReturn(student);
-//        when(studentRepo.existsById(any(Long.class))).thenReturn(false);
-//
-////        act and assert
-//        assertThrows(ItemNotFound.class,()->studentServiceImpl.addorupdateStudent("student",null,3L));
-//
-//    }
+    @Test
+    void testDeleteById() {
+        // Arrange
+        doNothing().when(studentRepo).deleteById(Mockito.<Long>any());
+
+        // Act
+        Responsedto actualDeleteByIdResult = studentServiceImpl.deletebyid(1L);
+
+        // Assert
+        verify(studentRepo).deleteById(Mockito.<Long>any());
+        assertEquals("student delete successful", actualDeleteByIdResult.getMessage());
+        assertNull(actualDeleteByIdResult.getResult());
+        assertTrue(actualDeleteByIdResult.getSuccess());
+    }
+
+    @Test
+    void testListStudent() {
+        // Arrange
+
+        Page page= new PageImpl(Arrays.asList(new Student(),new Student(),new Student()));
+        doReturn(page).when(studentRepo).findAll(any(Pageable.class));
+
+        // Act
+        Responsedto<List<Student>> actualListStudentResult = studentServiceImpl.listStudent(3, 10, "name");
+
+        // Assert
+        verify(studentRepo).findAll(Mockito.<Pageable>any());
+        assertEquals("student list : 3 students", actualListStudentResult.getMessage());
+        assertTrue(actualListStudentResult.getSuccess());
+        assertEquals(3,actualListStudentResult.getResult().size());
+
+    }
 
 
 
