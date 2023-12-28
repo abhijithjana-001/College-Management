@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
@@ -32,7 +34,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {DepartmentServiceImpl.class})
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class DepartmentServiceImplTest {
     @MockBean
     private DepartmentFileService departmentFileService;
@@ -43,7 +46,7 @@ class DepartmentServiceImplTest {
     @MockBean
     private DepartmentRepo departmentRepo;
 
-    @Autowired
+    @SpyBean
     private DepartmentServiceImpl departmentServiceImpl;
 
     @MockBean
