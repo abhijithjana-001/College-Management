@@ -26,9 +26,11 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 
+import org.junit.Rule;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.rules.TemporaryFolder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -53,6 +55,8 @@ import org.springframework.web.multipart.MultipartFile;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class TeacherFileServiceTest {
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
     @SpyBean
     private TeacherFileRepository teacherFileRepository;
 
@@ -95,30 +99,28 @@ class TeacherFileServiceTest {
 
     @Test
     void testFindByName() throws IOException {
-        MockMultipartFile file = new MockMultipartFile(
-                "file", "sir.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
-        TeacherProfileImg teacherProfileImg = TeacherProfileImg.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .size(file.getSize())
-                .filePath("${file.path}\\"+file.getOriginalFilename())
-                .created(LocalDateTime.now())
-                .build();
-
-        Path mockedPath = Paths.get("${file.path}");
+    // Arrange
+        folder.create();
+        File file = folder.newFile("testFile.jpg");
+        Path path=Paths.get(file.getPath());
 
 
-        byte[] mockedImageBytes = "mocked image data".getBytes();
-        when(Files.readAllBytes(mockedPath)).thenReturn(mockedImageBytes);
+        TeacherProfileImg teacherProfileImg = new TeacherProfileImg();
 
-        FileSystem mockedFileSystem = mock(FileSystem.class);
-        when(mockedPath.getFileSystem()).thenReturn(mockedFileSystem);
+        teacherProfileImg.setTeacher(new Teacher());
+        teacherProfileImg.setFilePath(file.getPath());
+        teacherProfileImg.setId(1L);
+        teacherProfileImg.setName(file.getName());
+        teacherProfileImg.setSize(file.length());
+        teacherProfileImg.setType(Files.probeContentType(path));
 
         doReturn(Optional.of(teacherProfileImg)).when(teacherFileRepository).findByName(Mockito.<String>any());
-//       act
-        ImageData test = teacherFileService.findByName("test");
-//         Assert
-        assertEquals(test.contenttype(),file.getContentType());
+    //  Act
+        ImageData imageData = teacherFileService.findByName("testFile.jpg");
+
+    //  Assert
+        assertEquals(imageData.contenttype(),teacherProfileImg.getType());
+
     }
 
 
