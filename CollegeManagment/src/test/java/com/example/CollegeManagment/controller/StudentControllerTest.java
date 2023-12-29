@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.controller;
 
+import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.StudentRepo;
@@ -100,61 +101,49 @@ private  StudentController studentController;
         assertEquals(2, listStudent.getBody().getResult().size());
 
     }
-//
-//    /**
-//     * Method under test: {@link StudentController#deleteStudent(Long)}
-//     */
-    @Test
-    void testDeleteStudent() throws Exception {
-        // Arrange
-        when(studentservice.deletebyid(Mockito.<Long>any())).thenReturn(new Responsedto());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/student/delete/{id}", 1);
 
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(studentController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{}"));
+@Test
+void testDeleteStudent() throws Exception {
+    // Arrange
+    doNothing().when(studentRepo).deleteById(anyLong());
+
+    // Act
+    ResponseEntity<Responsedto<Void>> responsedtoResponseEntity = studentController.deleteStudent(7000L);
+
+    assertEquals(HttpStatusCode.valueOf(200), responsedtoResponseEntity.getStatusCode());
+    assertTrue(responsedtoResponseEntity.hasBody());
+
+}
+
+
+    @Test
+    void testFindStudent() throws Exception {
+        // Arrange
+
+        doReturn(Optional.of(new Student())).when(studentRepo).findById(anyLong());
+        // Act
+        ResponseEntity<Responsedto<Student>> findStudent = studentController.findstudent(1L);
+//       assert
+        assertEquals(HttpStatusCode.valueOf(200), findStudent.getStatusCode());
+        assertTrue(findStudent.hasBody());
+
     }
-//
-//    /**
-//     * Method under test: {@link StudentController#findstudent(Long)}
-//     */
-//    @Test
-//    void testFindstudent() throws Exception {
-//        // Arrange
-//        when(studentservice.viewdetails(Mockito.<Long>any())).thenReturn(new Responsedto<>());
-//        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/student/{id}", 1L);
-//
-//        // Act and Assert
-//        MockMvcBuilders.standaloneSetup(studentController)
-//                .build()
-//                .perform(requestBuilder)
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-//                .andExpect(MockMvcResultMatchers.content().string("{}"));
-//    }
-//
-//    /**
-//     * Method under test:
-//     * {@link StudentController#updateStudent(Long, String, MultipartFile)}
-//     */
-//    @Test
-//    void testUpdateStudent() throws Exception {
-//        // Arrange
-//        when(studentservice.addorupdateStudent(Mockito.<String>any(), Mockito.<MultipartFile>any(), Mockito.<Long>any()))
-//                .thenReturn(new Responsedto<>());
-//        MockHttpServletRequestBuilder paramResult = MockMvcRequestBuilders.put("/student/update").param("dto", "foo");
-//        MockHttpServletRequestBuilder requestBuilder = paramResult.param("id", String.valueOf(1L));
-//
-//        // Act and Assert
-//        MockMvcBuilders.standaloneSetup(studentController)
-//                .build()
-//                .perform(requestBuilder)
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-//                .andExpect(MockMvcResultMatchers.content().string("{}"));
-//    }
+
+
+    @Test
+    void testUpdateStudent() throws Exception {
+        // Arrange
+        Responsedto<Student> responsedto=new Responsedto<>(true,"student added or updated successful",new Student());
+
+       doReturn(responsedto).when(studentservice).addorupdateStudent(anyString(),any(MultipartFile.class),anyLong());
+
+        // Act
+        ResponseEntity<Responsedto<Student>> responsedtoResponseEntity = studentController.updateStudent(1L, "Studentdto", new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+
+        //        assert
+        assertEquals(HttpStatusCode.valueOf(200),responsedtoResponseEntity.getStatusCode());
+        assertEquals("student added or updated successful",responsedtoResponseEntity.getBody().getMessage());
+        assertTrue(responsedtoResponseEntity.getBody().getSuccess());
+
+    }
 }

@@ -113,7 +113,7 @@ public class StudentServiceImpl implements Studentservice {
         return new Responsedto<>(true,student.getSname()+" details:",student);
     }
     @Override
-    public Responsedto deletebyid(Long id)
+    public Responsedto<Void> deletebyid(Long id)
     {
         studentRepo.deleteById(id);
         return new Responsedto<>(true,"student delete successful",null);
