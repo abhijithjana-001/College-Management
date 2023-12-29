@@ -68,15 +68,14 @@ public class TeacherFileService {
         return  new ImageData(contentType,image);
     }
 
-    public Responsedto deleteFile(String fileName){
-        TeacherProfileImg teacherProfileImg=teacherFileRepository.findByName(fileName)
-                .orElseThrow(()->new ItemNotFound("Image "+fileName+" not found"));
-        File file=new File(teacherProfileImg.getFilePath());
+    public void deleteFile(String fileName) {
+        TeacherProfileImg teacherProfileImg = teacherFileRepository.findByName(fileName)
+                .orElseThrow(() -> new ItemNotFound("Image " + fileName + " not found"));
+        File file = new File(teacherProfileImg.getFilePath());
         if (file.exists() && file.delete()) {
             teacherFileRepository.delete(teacherProfileImg);
-            return new Responsedto<>(true,"File deleted successfully",null);
-         }
-        return   new Responsedto<>(false,"File deletion Failed",null);
-        }
+
+        } else throw new BadRequest("File deletion failed");
+    }
     }
 
