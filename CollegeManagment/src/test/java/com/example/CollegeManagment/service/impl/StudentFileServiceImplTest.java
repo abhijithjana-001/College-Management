@@ -11,6 +11,7 @@ import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +37,9 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class StudentFileServiceImplTest {
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
 
     @SpyBean
     private StudentFileServiceImpl studentFileServiceImpl;
@@ -44,8 +48,7 @@ class StudentFileServiceImplTest {
     private StudentProfileRepo studentProfileRepo;
 
 
-    @TempDir
-    Path tempDir;
+
 
 
     @Test
@@ -101,39 +104,35 @@ class StudentFileServiceImplTest {
     @Test
     void testFindByName() throws IOException {
         // Arrange
-        MockMultipartFile file = new MockMultipartFile(
-                "file", "sir.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
-        StudentProfileImg studentProfileImg = StudentProfileImg.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .size(file.getSize())
-                .filePath("${file.path}\\"+file.getOriginalFilename())
-                .created(LocalDateTime.now())
-                .build();
-
-        Path mockedPath = Paths.get("${file.path}");
+        folder.create();
+        File file = folder.newFile("myfile1.jpg");
+        Path path=Paths.get(file.getPath());
 
 
-        byte[] mockedImageBytes = "mocked image data".getBytes();
-        when(Files.readAllBytes(mockedPath)).thenReturn(mockedImageBytes);
+        StudentProfileImg studentProfileImg = new StudentProfileImg();
 
-// Mocking the behavior of the getFileSystem method
-        FileSystem mockedFileSystem = mock(FileSystem.class);
-        when(mockedPath.getFileSystem()).thenReturn(mockedFileSystem);
+        studentProfileImg.setStudent(new Student());
+        studentProfileImg.setFilePath(file.getPath());
+        studentProfileImg.setId(1L);
+        studentProfileImg.setName(file.getName());
+        studentProfileImg.setSize(file.length());
+        studentProfileImg.setType(Files.probeContentType(path));
+
 
 
         doReturn(Optional.of(studentProfileImg)).when(studentProfileRepo).findByName(Mockito.<String>any());
 //       act
-        ImageData test = studentFileServiceImpl.findByName("test");
+        ImageData imageData = studentFileServiceImpl.findByName("myfile1.jpeg");
 //         Assert
-        assertEquals(test.contenttype(),file.getContentType());
+
+
+
+        assertEquals(imageData.contenttype(),studentProfileImg.getType());
 
     }
 
     @Test
     void testFindByNameItemNotFound() throws IOException {
-
-
         // Act and Assert
         assertThrows(ItemNotFound.class, () -> studentFileServiceImpl.findByName("file.txt"));
         verify(studentFileServiceImpl).findByName(Mockito.<String>any());
@@ -142,14 +141,21 @@ class StudentFileServiceImplTest {
     @Test
     void testDeletefile() throws IOException {
 //     assign
+        folder.create();
+        File file = folder.newFile("myfile1.jpeg");
+
+
+
         StudentProfileImg studentProfileImg = new StudentProfileImg();
-        studentProfileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
+
         studentProfileImg.setStudent(new Student());
-        studentProfileImg.setFilePath("${file.path}//sir.jpg");
+        studentProfileImg.setFilePath(file.getPath());
         studentProfileImg.setId(1L);
-        studentProfileImg.setName("sir.jpg");
-        studentProfileImg.setSize(3L);
-        studentProfileImg.setType("Type");
+        studentProfileImg.setName(file.getName());
+        studentProfileImg.setSize(file.length());
+
+
+
 
         when(studentProfileRepo.findByName(Mockito.<String>any())).thenReturn(Optional.of(studentProfileImg));
         doNothing().when(studentProfileRepo).delete(any(StudentProfileImg.class));
@@ -158,7 +164,8 @@ class StudentFileServiceImplTest {
         // Act
         studentFileServiceImpl.deletefile("sir.jpg");
 
-
+//        assert
+        verify(studentProfileRepo,times(1)).delete(any(StudentProfileImg.class));
 
     }
 
