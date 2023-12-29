@@ -78,7 +78,7 @@ public class TeacherServiceImpl implements Teacherservice {
 
             if(!teacherRepo.existsByPhno(teacher.getPhno()))
                     {
-                teacherRepo.save(teacher);
+             teacher=   teacherRepo.save(teacher);
 
             } else if (teacherRepo.findByPhno(teacherRequestDTO.getPhno()).get().getTid()==teacher.getTid()) {
                 teacherRepo.save(teacher);

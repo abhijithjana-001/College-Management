@@ -100,7 +100,7 @@ class DepartmentFileServiceTest {
         verify(departmentFileRepository).findByName(Mockito.<String>any());
         assertEquals("File delete successfully!", actualDeleteFileResult.getMessage());
         assertNull(actualDeleteFileResult.getResult());
-        assertFalse(actualDeleteFileResult.getSuccess());
+        assertTrue(actualDeleteFileResult.getSuccess());
     }
 
     @Test

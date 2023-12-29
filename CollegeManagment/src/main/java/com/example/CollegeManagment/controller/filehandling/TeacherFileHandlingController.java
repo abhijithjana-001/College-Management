@@ -41,9 +41,5 @@ public class TeacherFileHandlingController {
                 .body(imageData.image());
     }
 
-    @DeleteMapping("/delete/{filename}")
-    public ResponseEntity<Responsedto> deleteFile(@PathVariable String filename) {
-       Responsedto deleteFile=teacherFileService.deleteFile(filename);
-       return ResponseEntity.ok(deleteFile);
-    }
+
 }
