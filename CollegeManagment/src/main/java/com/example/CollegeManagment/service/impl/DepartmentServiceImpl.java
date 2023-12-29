@@ -45,7 +45,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.objectMapper = objectMapper;
     }
 
-@Override
+    @Override
 public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFile file, Long id) {
     DepartmentDto departmentdto = null;
 
@@ -90,7 +90,6 @@ public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFil
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         Page<Department> pageDepartment = departmentRepo.findAll(pageable);
         List<Department> departments = pageDepartment.getContent();
-
         return new Responsedto<>(true, "Department List", departments);
     }
 
