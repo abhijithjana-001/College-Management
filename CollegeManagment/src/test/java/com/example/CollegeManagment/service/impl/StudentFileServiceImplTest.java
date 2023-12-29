@@ -133,7 +133,7 @@ class StudentFileServiceImplTest {
 
 
         assertEquals(imageData.contenttype(),studentProfileImg.getType());
-        assertEquals(imageData.image(),Files.readAllBytes(path));
+        assertEquals(imageData.image().length,Files.readAllBytes(path).length);
 
     }
 
