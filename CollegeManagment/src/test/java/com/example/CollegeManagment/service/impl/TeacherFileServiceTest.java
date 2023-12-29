@@ -12,13 +12,15 @@ import static org.mockito.Mockito.*;
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
-import com.example.CollegeManagment.entity.DepartmentFileEntity;
-import com.example.CollegeManagment.entity.Teacher;
-import com.example.CollegeManagment.entity.TeacherProfileImg;
+import com.example.CollegeManagment.entity.*;
 import com.example.CollegeManagment.repository.TeacherFileRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -58,8 +60,6 @@ class TeacherFileServiceTest {
     private TeacherFileService teacherFileService;
 
 
-
-
     @Test
     void testUpload() {
 
@@ -93,6 +93,33 @@ class TeacherFileServiceTest {
                 (file.getOriginalFilename());
     }
 
+    @Test
+    void testFindByName() throws IOException {
+        MockMultipartFile file = new MockMultipartFile(
+                "file", "sir.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
+        TeacherProfileImg teacherProfileImg = TeacherProfileImg.builder()
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .size(file.getSize())
+                .filePath("${file.path}\\"+file.getOriginalFilename())
+                .created(LocalDateTime.now())
+                .build();
+
+        Path mockedPath = Paths.get("${file.path}");
+
+
+        byte[] mockedImageBytes = "mocked image data".getBytes();
+        when(Files.readAllBytes(mockedPath)).thenReturn(mockedImageBytes);
+
+        FileSystem mockedFileSystem = mock(FileSystem.class);
+        when(mockedPath.getFileSystem()).thenReturn(mockedFileSystem);
+
+        doReturn(Optional.of(teacherProfileImg)).when(teacherFileRepository).findByName(Mockito.<String>any());
+//       act
+        ImageData test = teacherFileService.findByName("test");
+//         Assert
+        assertEquals(test.contenttype(),file.getContentType());
+    }
 
 
     @Test
@@ -104,27 +131,20 @@ class TeacherFileServiceTest {
 
     @Test
     void testDeleteFile() {
-    Teacher teacher=new Teacher();
-    teacher.setTid(1L);
-    teacher.setName("Deepak");
-    teacher.setPhno("8075505822");
-    TeacherProfileImg teacherProfileImg=new TeacherProfileImg();
-    teacherProfileImg.setId(2L);
-    teacherProfileImg.setName("image.jpg");
-    teacherProfileImg.setType("Type");
-    teacherProfileImg.setFilePath("/files/image.jpg");
-    teacherProfileImg.setCreated
-            (LocalDateTime.of(2020,12,10,5,20,25));
-    teacherProfileImg.setSize(5L);
+        TeacherProfileImg teacherProfileImg = new TeacherProfileImg();
+        teacherProfileImg.setCreated
+                (LocalDateTime.of(2010,10,10,5,5,55));
+        teacherProfileImg.setTeacher(new Teacher());
+        teacherProfileImg.setFilePath("${file.path}//testImage.jpg");
+        teacherProfileImg.setId(1L);
+        teacherProfileImg.setName("sir.jpg");
+        teacherProfileImg.setSize(3L);
+        teacherProfileImg.setType("Type");
 
-        Optional<TeacherProfileImg> ofResult = Optional.of(teacherProfileImg);
-        when(teacherFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
-        Responsedto actualDeleteFileResult = teacherFileService.deleteFile("image.jpg");
-        verify(teacherFileRepository).findByName(Mockito.<String>any());
-        assertEquals("File deletion Failed", actualDeleteFileResult.getMessage());
-        assertNull(actualDeleteFileResult.getResult());
-        assertFalse(actualDeleteFileResult.getSuccess());
+        when(teacherFileRepository.findByName(Mockito.<String>any())).thenReturn(Optional.of(teacherProfileImg));
+        doNothing().when(teacherFileRepository).delete(teacherProfileImg);
 
+        teacherFileService.deleteFile("testImage.jpg");
     }
     @Test
     void testDeleteFile2() {
