@@ -10,13 +10,15 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Optional;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -42,21 +44,23 @@ class DepartmentServiceImplTest {
         Department department = new Department();
         department.setStudents(new HashSet<>());
         department.setTeachers(new HashSet<>());
+        department.setDepartmentImg(new DepartmentFileEntity());
         department.setId(1L);
         department.setName("department");
-        department.setDepartmentImg(new DepartmentFileEntity());
+
+        String departmentDto = "{\"name\":\"department\"}";
+
+        MultipartFile file = new MockMultipartFile("image",
+                "image.jpg",
+                "image",
+                "toByte".getBytes(StandardCharsets.UTF_8)
+        );
 
         doReturn(department).when(departmentRepo).save(any(Department.class));
         doReturn(false).when(departmentRepo).existsByName(Mockito.anyString());
-        //act
-        Responsedto<Department> responseDto = departmentService.createOrUpdate(
-                "{\"name\":\"department\"}",
-                new MockMultipartFile("image",
-                        "image.jpg",
-                        "image",
-                        "toByte".getBytes(StandardCharsets.UTF_8)
-                ),1L);
 
+        //act
+        Responsedto<Department> responseDto = departmentService.createOrUpdate(departmentDto, file, null);
 
         //assert
         assertTrue(responseDto.getSuccess());
@@ -84,12 +88,14 @@ class DepartmentServiceImplTest {
 
         //act
         Responsedto<Department> responseDto = departmentService.createOrUpdate(
-                "{\"id\":1,\"name\":\"department\"}",
+                "{\"id\":1,\"name\":\"department_1\"}",
                 new MockMultipartFile("image",
                         "image.jpg",
                         "image",
                         "toByte".getBytes(StandardCharsets.UTF_8)
                 ),1L);
+
+        System.out.println(responseDto.getResult());
 
         //assert
         assertTrue(responseDto.getSuccess());

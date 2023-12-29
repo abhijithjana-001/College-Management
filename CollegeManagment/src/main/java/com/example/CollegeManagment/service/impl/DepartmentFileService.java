@@ -25,7 +25,8 @@ public class DepartmentFileService{
 
     private final DepartmentFileRepository departmentFileRepository;
     @Autowired
-    public DepartmentFileService(DepartmentFileRepository departmentFileRepository) {
+    public DepartmentFileService(String uploadDir, DepartmentFileRepository departmentFileRepository) {
+        this.uploadDir = uploadDir;
         this.departmentFileRepository = departmentFileRepository;
     }
 

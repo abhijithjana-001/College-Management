@@ -5,14 +5,17 @@ import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.DepartmentFileEntity;
 import com.example.CollegeManagment.repository.DepartmentFileRepository;
+import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,8 +24,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -66,7 +69,7 @@ class DepartmentFileServiceTest {
     }
 
     @Test
-    void testFindByName() throws IOException {
+    void testFindByName() {
         // Arrange
         Optional<DepartmentFileEntity> emptyResult = Optional.empty();
         when(departmentFileRepository.findByName(Mockito.<String>any())).thenReturn(emptyResult);
@@ -78,6 +81,7 @@ class DepartmentFileServiceTest {
 
     @Test
     void testDeleteFile() {
+        //arrange
         Department department = new Department();
         department.setDepartmentImg(new DepartmentFileEntity());
         department.setId(1L);
@@ -94,20 +98,48 @@ class DepartmentFileServiceTest {
         departmentImg.setSize(3L);
         departmentImg.setType("Type");
 
+        //act
         Optional<DepartmentFileEntity> ofResult = Optional.of(departmentImg);
         when(departmentFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
         Responsedto actualDeleteFileResult = departmentFileService.deleteFile("image.jpg");
         verify(departmentFileRepository).findByName(Mockito.<String>any());
-        assertEquals("File delete successfully!", actualDeleteFileResult.getMessage());
+
+        //assert
+        assertEquals("File delete failed!", actualDeleteFileResult.getMessage());
         assertNull(actualDeleteFileResult.getResult());
-        assertTrue(actualDeleteFileResult.getSuccess());
+        assertFalse(actualDeleteFileResult.getSuccess());
     }
+
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
+    @Test
+    void testDeleteFile2() throws IOException {
+        folder.create();
+        File file = folder.newFile("image.jpg");
+
+        DepartmentFileEntity departmentImg = new DepartmentFileEntity();
+        departmentImg.setDepartment(new Department());
+        departmentImg.setFilePath(file.getPath());
+        departmentImg.setId(1L);
+        departmentImg.setName(file.getName());
+        departmentImg.setSize(3L);
+
+        when(departmentFileRepository.findByName(anyString())).thenReturn(Optional.of(departmentImg));
+        doNothing().when(departmentFileRepository).delete(any(DepartmentFileEntity.class));
+
+        Responsedto responsedto = departmentFileService.deleteFile("image.jpg");
+
+        assertTrue(responsedto.getSuccess());
+        assertEquals("File delete success!", responsedto.getMessage());
+    }
+
 
     @Test
     void testDeleteFile3() {
         Optional<DepartmentFileEntity> emptyResult = Optional.empty();
         when(departmentFileRepository.findByName(Mockito.<String>any())).thenReturn(emptyResult);
-        assertThrows(ItemNotFound.class, () -> departmentFileService.deleteFile("foo.txt"));
+        assertThrows(ItemNotFound.class, () -> departmentFileService.deleteFile("image.jpg"));
         verify(departmentFileRepository).findByName(Mockito.<String>any());
     }
 }
