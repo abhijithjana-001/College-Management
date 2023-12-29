@@ -21,6 +21,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -52,34 +53,38 @@ class StudentFileServiceImplTest {
 
 
     @Test
-    void testUpload()  {
+    void testUpload() throws IOException {
+//        arrange
+        folder.create();
+        File file = folder.newFile("myfile1.jpg");
+        Path path=Paths.get(file.getPath());
 
-        MockMultipartFile file = new MockMultipartFile(
-                "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
 
-        StudentProfileImg expectedStudentProfileImg = StudentProfileImg.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .size(file.getSize())
-                .filePath("C:\\Users\\user453\\Desktop\\CollegeManagement\\files\\"+file.getOriginalFilename())
-                .created(LocalDateTime.now())
-                .build();
+        StudentProfileImg studentProfileImg = new StudentProfileImg();
+        studentProfileImg.setStudent(new Student());
+        studentProfileImg.setFilePath(file.getPath());
+        studentProfileImg.setId(1L);
+        studentProfileImg.setName(file.getName());
+        studentProfileImg.setSize(file.length());
+        studentProfileImg.setType(Files.probeContentType(path));
 
-     doReturn(false).when(studentProfileRepo).existsByName(anyString());
+        MockMultipartFile multipartFile = new MockMultipartFile(
+                "file", file.getName(),Files.probeContentType(path), new FileInputStream(file));
+        doReturn(false).when(studentProfileRepo).existsByName(anyString());
 
 
         // Act
-        StudentProfileImg result = studentFileServiceImpl.upload(file);
+        StudentProfileImg result = studentFileServiceImpl.upload(multipartFile);
 
         // Assert
         assertNotNull(result);
-        assertEquals(expectedStudentProfileImg.getName(), result.getName());
-        assertEquals(expectedStudentProfileImg.getType(), result.getType());
-        assertEquals(expectedStudentProfileImg.getSize(), result.getSize());
-        assertEquals(expectedStudentProfileImg.getFilePath(), result.getFilePath());
+        assertEquals(studentProfileImg.getName(), result.getName());
+        assertEquals(studentProfileImg.getType(), result.getType());
+        assertEquals(studentProfileImg.getSize(), result.getSize());
 
 
-        verify(studentProfileRepo, times(1)).existsByName(file.getOriginalFilename());
+
+        verify(studentProfileRepo, times(1)).existsByName(multipartFile.getOriginalFilename());
 
     }
 
@@ -128,6 +133,7 @@ class StudentFileServiceImplTest {
 
 
         assertEquals(imageData.contenttype(),studentProfileImg.getType());
+        assertEquals(imageData.image(),Files.readAllBytes(path));
 
     }
 
