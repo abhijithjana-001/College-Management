@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -106,33 +107,29 @@ class TeacherControllerTest {
     @Test
     void testFindTeacher() throws Exception {
         // Arrange
-        when(teacherservice.viewDetails(Mockito.<Long>any())).thenReturn(new Responsedto<>());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/teacher/{id}", 1L);
-
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(teacherController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{}"));
+        doReturn(Optional.of(new Teacher())).when(teacherRepo).findById(anyLong());
+        // Act
+        ResponseEntity<Responsedto<Teacher>> findTeacher=teacherController.findTeacher(1L);
+        //Assert
+        assertEquals(HttpStatusCode.valueOf(200),findTeacher.getStatusCode());
+        assertTrue(findTeacher.hasBody());
     }
 
 
     @Test
     void testUpdate() throws Exception {
-        // Arrange
-        when(teacherservice.createorupdate(Mockito.<Long>any(), Mockito.<String>any(), Mockito.<MultipartFile>any()))
-                .thenReturn(new Responsedto<>());
-        MockHttpServletRequestBuilder paramResult = MockMvcRequestBuilders.put("/teacher/update").param("dto", "foo");
-        MockHttpServletRequestBuilder requestBuilder = paramResult.param("id", String.valueOf(1L));
-
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(teacherController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{}"));
+        //Arrange
+    Responsedto<Teacher> responsedto=new Responsedto<>(true,"Teacher updated successfully",new Teacher());
+    doReturn(responsedto).when(teacherservice).createorupdate( Mockito.<Long>any(),Mockito.<String>any(), Mockito.<MultipartFile>any());
+        //Act
+    ResponseEntity<Responsedto<Teacher>> responsedtoResponseEntity=teacherController
+            .update(1L,"TeacherRequestDTO",
+                    new MockMultipartFile
+                            ("Name",new ByteArrayInputStream("AXA".getBytes("UTF-8"))));
+        //Assert
+        assertEquals(HttpStatusCode.valueOf(200),responsedtoResponseEntity.getStatusCode());
+        assertEquals("Teacher updated successfully",responsedtoResponseEntity
+                .getBody().getMessage());
+        assertTrue(responsedtoResponseEntity.getBody().getSuccess());
     }
 }
