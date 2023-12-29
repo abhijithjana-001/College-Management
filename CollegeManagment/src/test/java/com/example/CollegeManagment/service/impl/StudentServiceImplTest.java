@@ -145,8 +145,6 @@ class StudentServiceImplTest {
 
         doReturn(true).when(studentRepo)
                 .existsById(any(Long.class));
-        doReturn(Optional.of(student)).when(studentRepo)
-                .findById(any(Long.class));
         doReturn(false).when(studentRepo)
                 .existsByPhoneNum(any(String.class));
         doReturn(Optional.of(student)).when(studentRepo)

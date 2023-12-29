@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.entity;
 
 
-public record ImageData(String contenttype,byte[] image) {
+public record
+ImageData(String contenttype,byte[] image) {
 }

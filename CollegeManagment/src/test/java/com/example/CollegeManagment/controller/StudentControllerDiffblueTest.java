@@ -1,16 +1,24 @@
 package com.example.CollegeManagment.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.service.Studentservice;
 import com.example.CollegeManagment.service.impl.StudentServiceImpl;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,20 +29,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
+@ContextConfiguration(classes = {StudentController.class})
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-class StudentControllerTest {
-    @SpyBean
+class StudentControllerDiffblueTest {
+    @Autowired
     private StudentController studentController;
 
-    @SpyBean
+    @MockBean
     private Studentservice studentservice;
 
     /**

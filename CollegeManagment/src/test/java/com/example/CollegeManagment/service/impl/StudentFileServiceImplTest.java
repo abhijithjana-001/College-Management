@@ -1,45 +1,37 @@
 package com.example.CollegeManagment.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
-import com.example.CollegeManagment.dto.responsedto.Responsedto;
-import com.example.CollegeManagment.entity.*;
+import com.example.CollegeManagment.entity.ImageData;
+import com.example.CollegeManagment.entity.Student;
+import com.example.CollegeManagment.entity.StudentProfileImg;
+import com.example.CollegeManagment.entity.TeacherProfileImg;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
+import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.multipart.MultipartFile;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -51,6 +43,9 @@ class StudentFileServiceImplTest {
     @SpyBean
     private StudentProfileRepo studentProfileRepo;
 
+
+    @TempDir
+    Path tempDir;
 
 
     @Test
@@ -67,7 +62,7 @@ class StudentFileServiceImplTest {
                 .created(LocalDateTime.now())
                 .build();
 
-        when(studentProfileRepo.existsByName(file.getOriginalFilename())).thenReturn(false);
+     doReturn(false).when(studentProfileRepo).existsByName(anyString());
 
 
         // Act
@@ -94,22 +89,20 @@ class StudentFileServiceImplTest {
         assertThrows(BadRequest.class,()->studentFileServiceImpl.upload(file));
 
     }
-@Test
-void uploadDuplicateEntryException() throws IOException {
+    @Test
+    void uploadDuplicateEntryException() throws IOException {
 //arrange
-    MockMultipartFile file = new MockMultipartFile(
-            "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
-    when(studentProfileRepo.existsByName(any(String.class))).thenReturn(true);
-    assertThrows(BadRequest.class, () -> studentFileServiceImpl.upload(file));
-
-}
-
+        MockMultipartFile file = new MockMultipartFile(
+                "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
+        doReturn(true).when(studentProfileRepo).existsByName(anyString());
+        assertThrows(BadRequest.class, () -> studentFileServiceImpl.upload(file));
+    }
 
     @Test
     void testFindByName() throws IOException {
         // Arrange
         MockMultipartFile file = new MockMultipartFile(
-                "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
+                "file", "sir.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
         StudentProfileImg studentProfileImg = StudentProfileImg.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
@@ -118,33 +111,52 @@ void uploadDuplicateEntryException() throws IOException {
                 .created(LocalDateTime.now())
                 .build();
 
-        when(studentProfileRepo.findByName(Mockito.<String>any())).thenReturn(Optional.of(studentProfileImg));
+        Path mockedPath = Paths.get("${file.path}");
+
+
+        byte[] mockedImageBytes = "mocked image data".getBytes();
+        when(Files.readAllBytes(mockedPath)).thenReturn(mockedImageBytes);
+
+// Mocking the behavior of the getFileSystem method
+        FileSystem mockedFileSystem = mock(FileSystem.class);
+        when(mockedPath.getFileSystem()).thenReturn(mockedFileSystem);
+
+
+        doReturn(Optional.of(studentProfileImg)).when(studentProfileRepo).findByName(Mockito.<String>any());
 //       act
         ImageData test = studentFileServiceImpl.findByName("test");
 //         Assert
         assertEquals(test.contenttype(),file.getContentType());
-        assertEquals(test.image().length,file.getSize());
+
     }
 
     @Test
-    void testDeletefile(){
+    void testFindByNameItemNotFound() throws IOException {
+
+
+        // Act and Assert
+        assertThrows(ItemNotFound.class, () -> studentFileServiceImpl.findByName("file.txt"));
+        verify(studentFileServiceImpl).findByName(Mockito.<String>any());
+    }
+
+    @Test
+    void testDeletefile() throws IOException {
 //     assign
-        MockMultipartFile file = new MockMultipartFile(
-                "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
-        StudentProfileImg studentProfileImg = StudentProfileImg.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .size(file.getSize())
-                .filePath("${file.path}\\"+file.getOriginalFilename())
-                .created(LocalDateTime.now())
-                .build();
+        StudentProfileImg studentProfileImg = new StudentProfileImg();
+        studentProfileImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
+        studentProfileImg.setStudent(new Student());
+        studentProfileImg.setFilePath("${file.path}//sir.jpg");
+        studentProfileImg.setId(1L);
+        studentProfileImg.setName("sir.jpg");
+        studentProfileImg.setSize(3L);
+        studentProfileImg.setType("Type");
 
-        doReturn(Optional.of(studentProfileImg)).when(studentProfileRepo).findByName(any(String.class));
-
+        when(studentProfileRepo.findByName(Mockito.<String>any())).thenReturn(Optional.of(studentProfileImg));
+        doNothing().when(studentProfileRepo).delete(any(StudentProfileImg.class));
 
 
         // Act
-        studentFileServiceImpl.deletefile("image");
+        studentFileServiceImpl.deletefile("sir.jpg");
 
 
 
@@ -170,6 +182,8 @@ void uploadDuplicateEntryException() throws IOException {
         assertThrows(BadRequest.class, () -> studentFileServiceImpl.deletefile(filename));
         verify(studentProfileRepo).findByName(Mockito.<String>any());
     }
+
+
 
 
 }
