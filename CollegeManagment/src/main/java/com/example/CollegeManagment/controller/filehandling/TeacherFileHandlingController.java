@@ -35,9 +35,9 @@ public class TeacherFileHandlingController {
     public ResponseEntity<byte[]> downloadImage(@PathVariable String fileName) throws IOException {
         ImageData imageData=teacherFileService.findByName(fileName);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.valueOf(imageData.contenttype()));
+        headers.setContentType(MediaType.valueOf(imageData.contentType()));
         headers.setContentDispositionFormData("attachment", fileName);
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).contentType(MediaType.valueOf(imageData.contenttype()))
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).contentType(MediaType.valueOf(imageData.contentType()))
                 .body(imageData.image());
     }
 

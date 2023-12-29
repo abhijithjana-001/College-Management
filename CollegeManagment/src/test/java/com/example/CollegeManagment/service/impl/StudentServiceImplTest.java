@@ -271,7 +271,6 @@ class StudentServiceImplTest {
         assertThrows(ItemNotFound.class,()->
                 studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, 1L)
                 );
-
     }
 
     @Test

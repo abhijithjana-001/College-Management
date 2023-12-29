@@ -9,45 +9,26 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
-import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.*;
 import com.example.CollegeManagment.repository.TeacherFileRepository;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.boot.test.mock.mockito.SpyBeans;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 
 @ExtendWith(SpringExtension.class)
@@ -118,7 +99,7 @@ class TeacherFileServiceTest {
 //       act
         ImageData test = teacherFileService.findByName("test");
 //         Assert
-        assertEquals(test.contenttype(),file.getContentType());
+        assertEquals(test.contentType(),file.getContentType());
     }
 
 
