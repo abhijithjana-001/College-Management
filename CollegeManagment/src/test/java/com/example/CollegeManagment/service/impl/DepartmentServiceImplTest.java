@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.service.impl;
 
+import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.DepartmentFileEntity;
@@ -95,9 +96,21 @@ class DepartmentServiceImplTest {
                         "toByte".getBytes(StandardCharsets.UTF_8)
                 ),1L);
 
-        System.out.println(responseDto.getResult());
 
         //assert
         assertTrue(responseDto.getSuccess());
+    }
+
+    @Test
+    void  addOrUpdate_Update1(){
+        //arrange
+//        String
+
+        //act
+        Responsedto<Department> responsedto = departmentService.createOrUpdate(null,null,null);
+
+
+        //assert
+
     }
 }
