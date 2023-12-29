@@ -1,6 +1,7 @@
 package com.example.CollegeManagment.service.impl;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.*;
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.DepartmentFileEntity;
 import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.entity.TeacherProfileImg;
 import com.example.CollegeManagment.repository.TeacherFileRepository;
@@ -62,13 +64,15 @@ class TeacherFileServiceTest {
     void testUpload() {
 
         MockMultipartFile file = new MockMultipartFile(
-                "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
+                "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE,
+                "test data".getBytes());
 
         TeacherProfileImg teacherProfileImg = TeacherProfileImg.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .size(file.getSize())
-                .filePath("C:\\Users\\user0101\\Desktop\\CollegeManagement\\files\\"+file.getOriginalFilename())
+                .filePath("C:\\Users\\user0101\\Desktop\\CollegeManagement\\files\\"+file
+                        .getOriginalFilename())
                 .created(LocalDateTime.now())
                 .build();
 
@@ -85,18 +89,14 @@ class TeacherFileServiceTest {
         assertEquals(teacherProfileImg.getSize(), result.getSize());
         assertEquals(teacherProfileImg.getFilePath(), result.getFilePath());
 
-        verify(teacherFileRepository, times(1)).existsByName(file.getOriginalFilename());
+        verify(teacherFileRepository, times(1)).existsByName
+                (file.getOriginalFilename());
     }
 
 
 
     @Test
     void testFindByNameItemNotFound() throws IOException {
-        // Arrange
-        Optional<TeacherProfileImg> emptyResult = Optional.empty();
-        when(teacherFileRepository.findByName(Mockito.<String>any())).thenReturn(emptyResult);
-
-        // Act and Assert
         assertThrows(ItemNotFound.class, () -> teacherFileService.findByName("file.txt"));
         verify(teacherFileRepository).findByName(Mockito.<String>any());
     }
@@ -104,20 +104,28 @@ class TeacherFileServiceTest {
 
     @Test
     void testDeleteFile() {
-    MockMultipartFile file=new MockMultipartFile(
-            "file","testFile.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
-    TeacherProfileImg teacherProfileImg=TeacherProfileImg.builder()
-            .name(file.getOriginalFilename())
-            .type(file.getContentType())
-            .size(file.getSize())
-            .filePath("${file.path}\\"+file.getOriginalFilename())
-            .created(LocalDateTime.now())
-            .build();
-        doReturn(Optional.of(teacherProfileImg)).when(teacherFileRepository).findByName(any(String.class));
-        teacherFileService.deleteFile("image");
+    Teacher teacher=new Teacher();
+    teacher.setTid(1L);
+    teacher.setName("Deepak");
+    teacher.setPhno("8075505822");
+    TeacherProfileImg teacherProfileImg=new TeacherProfileImg();
+    teacherProfileImg.setId(2L);
+    teacherProfileImg.setName("image.jpg");
+    teacherProfileImg.setType("Type");
+    teacherProfileImg.setFilePath("/files/image.jpg");
+    teacherProfileImg.setCreated
+            (LocalDateTime.of(2020,12,10,5,20,25));
+    teacherProfileImg.setSize(5L);
+
+        Optional<TeacherProfileImg> ofResult = Optional.of(teacherProfileImg);
+        when(teacherFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
+        Responsedto actualDeleteFileResult = teacherFileService.deleteFile("image.jpg");
+        verify(teacherFileRepository).findByName(Mockito.<String>any());
+        assertEquals("File deletion Failed", actualDeleteFileResult.getMessage());
+        assertNull(actualDeleteFileResult.getResult());
+        assertFalse(actualDeleteFileResult.getSuccess());
+
     }
-
-
     @Test
     void testDeleteFile2() {
         // Arrange
