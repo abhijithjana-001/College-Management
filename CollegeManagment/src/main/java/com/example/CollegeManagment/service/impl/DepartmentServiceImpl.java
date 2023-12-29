@@ -7,12 +7,10 @@ import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.DepartmentFileEntity;
-import com.example.CollegeManagment.repository.DepartmentFileRepository;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.service.DepartmentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -98,6 +96,7 @@ public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFil
 
     @Override
     public Responsedto<Department> delete(Long id) {
+        departmentFileService.deleteFile(departmentRepo.findById(id).get().getDepartmentImg().getName());
         departmentRepo.deleteById(id);
         return new Responsedto<>(true, "Successfully Deleted", null);
     }

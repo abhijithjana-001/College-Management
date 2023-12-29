@@ -64,9 +64,9 @@ public class DepartmentFileService{
         File file = new File(departmentFileEntity.getFilePath());
         if (file.exists() && file.delete()) {
             departmentFileRepository.delete(departmentFileEntity);
-            return new Responsedto<>(true, "File delete successfully!", null);
+            return new Responsedto<>(true, "File delete success!", null);
         } else {
-            return new Responsedto<>(false, "File delete successfully!", null);
+            return new Responsedto<>(false, "File delete failed!", null);
         }
     }
 
