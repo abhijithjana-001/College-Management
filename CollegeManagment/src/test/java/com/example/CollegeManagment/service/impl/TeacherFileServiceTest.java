@@ -121,7 +121,7 @@ class TeacherFileServiceTest {
         ImageData imageData = teacherFileService.findByName("testFile.jpg");
 
     //  Assert
-        assertEquals(imageData.contenttype(),teacherProfileImg.getType());
+        assertEquals(imageData.contentType(),teacherProfileImg.getType());
 
     }
 

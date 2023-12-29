@@ -2,18 +2,19 @@ package com.example.CollegeManagment.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Teacher;
+import com.example.CollegeManagment.repository.TeacherFileRepository;
+import com.example.CollegeManagment.repository.TeacherRepo;
 import com.example.CollegeManagment.service.Teacherservice;
 import com.example.CollegeManagment.service.impl.TeacherServiceImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,6 +46,9 @@ class TeacherControllerTest {
 
     @SpyBean
     private Teacherservice teacherservice;
+
+    @SpyBean
+    private TeacherRepo teacherRepo;
 
 
     @Test
@@ -66,17 +74,16 @@ class TeacherControllerTest {
     @Test
     void testFindAll() throws Exception {
         // Arrange
-        when(teacherservice.findAll(Mockito.<Integer>any(), Mockito.<Integer>any(), Mockito.<String>any()))
-                .thenReturn(new Responsedto<>());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/teacher/teachers");
+       Page page=new PageImpl(Arrays.asList(new Teacher(),new Teacher(),new Teacher()));
+       doReturn(page).when(teacherRepo).findAll(any(Pageable.class));
 
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(teacherController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{}"));
+       //Act
+       ResponseEntity<Responsedto<List<Teacher>>> teacherList = teacherController.findAll(1,3,"name");
+
+       //Assert
+        assertEquals(HttpStatusCode.valueOf(200),teacherList.getStatusCode());
+        assertTrue(teacherList.hasBody());
+        assertEquals(3,teacherList.getBody().getResult().size());
     }
 
 
