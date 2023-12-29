@@ -1,60 +1,46 @@
 package com.example.CollegeManagment.controller.filehandling;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-
-import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.ImageData;
-import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.service.impl.StudentFileServiceImpl;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
-@ContextConfiguration(classes = {StudentFileHandlingController.class})
+import java.util.Optional;
+
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(StudentFileHandlingController.class)
+@SpringBootTest
 class StudentFileHandlingControllerTest {
-    @Autowired
+    @SpyBean
     private StudentFileHandlingController studentFileHandlingController;
 
-    @MockBean
+    @SpyBean
     private StudentFileServiceImpl studentFileServiceImpl;
 
 
     @Test
     void testGetfile() throws Exception {
         // Arrange
-        when(studentFileServiceImpl.findByName(Mockito.<String>any()))
-                .thenReturn(new ImageData("text/plain", "AXAXAXAX".getBytes("UTF-8")));
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/student/file/{filename}", "foo.txt");
+        ImageData imageData=new ImageData("image/jpeg", "AXAXAXAX".getBytes("UTF-8"));
+      doReturn(imageData).when(studentFileServiceImpl).findByName(Mockito.<String>any());
 
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(studentFileHandlingController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("text/plain"))
-                .andExpect(MockMvcResultMatchers.content().string("AXAXAXAX"));
+
+        // Act
+        ResponseEntity<byte[]> getFile = studentFileHandlingController.getfile("test.jpeg");
+//        assert
+      assertEquals(getFile.getStatusCode(), HttpStatusCode.valueOf(200));
+    assertEquals(getFile.getHeaders().getContentType().toString(),"image/jpeg");
+    assertEquals(getFile.getBody(),imageData.image());
     }
 
 

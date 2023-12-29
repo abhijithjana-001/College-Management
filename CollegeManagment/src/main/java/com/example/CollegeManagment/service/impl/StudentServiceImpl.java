@@ -78,7 +78,6 @@ public class StudentServiceImpl implements Studentservice {
              }
              else
                  throw new ItemNotFound("Student with id " + id + " is not found");
-
         }
 
 
@@ -90,7 +89,6 @@ public class StudentServiceImpl implements Studentservice {
         }
         else
             throw new BadRequest("phone number already exist");
-
     }
     private   Student updateStudent(Student student,MultipartFile file,Long id)
     {
@@ -115,7 +113,7 @@ public class StudentServiceImpl implements Studentservice {
         return new Responsedto<>(true,student.getSname()+" details:",student);
     }
     @Override
-    public Responsedto deletebyid(Long id)
+    public Responsedto<Void> deletebyid(Long id)
     {
         studentRepo.deleteById(id);
         return new Responsedto<>(true,"student delete successful",null);

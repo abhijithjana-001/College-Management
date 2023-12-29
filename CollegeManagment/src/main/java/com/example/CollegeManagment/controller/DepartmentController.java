@@ -48,5 +48,5 @@ public class DepartmentController {
         return ResponseEntity.ok(Responsedto);
     }
 
-    
+
 }

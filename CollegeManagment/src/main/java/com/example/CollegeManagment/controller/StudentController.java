@@ -41,8 +41,8 @@ public class StudentController {
         return ResponseEntity.ok(responsedto);
     }
      @DeleteMapping("/delete/{id}")
-     public ResponseEntity<Responsedto<Student>> deleteStudent(@PathVariable Long id){
-         Responsedto<Student> responsedto=studentservice.deletebyid(id);
+     public ResponseEntity<Responsedto<Void>> deleteStudent(@PathVariable Long id){
+         Responsedto responsedto=studentservice.deletebyid(id);
          return ResponseEntity.ok(responsedto);
      }
      @PutMapping("/update")
