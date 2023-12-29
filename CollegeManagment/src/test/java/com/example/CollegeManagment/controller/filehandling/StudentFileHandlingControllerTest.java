@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {StudentFileHandlingController.class})
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(StudentFileHandlingController.class)
+
 class StudentFileHandlingControllerTest {
     @Autowired
     private StudentFileHandlingController studentFileHandlingController;
