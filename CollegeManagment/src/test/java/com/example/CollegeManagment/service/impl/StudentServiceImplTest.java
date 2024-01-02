@@ -2,8 +2,6 @@ package com.example.CollegeManagment.service.impl;
 
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
-import com.example.CollegeManagment.config.StudentMaptructConfig;
-import com.example.CollegeManagment.dto.requestdto.Studentdto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.Student;
@@ -11,27 +9,18 @@ import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.StudentFileService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -51,11 +40,12 @@ class StudentServiceImplTest {
 
     @SpyBean
     private StudentRepo studentRepo;
-    @SpyBean
-    private StudentProfileRepo studentProfileRepo;
 
     @SpyBean
     private StudentFileService studentFileService;
+
+    @SpyBean
+    private StudentProfileRepo studentProfileRepo;
 
     @Test
     void testAddOrUpdateWithIdNull()  {
@@ -66,7 +56,7 @@ class StudentServiceImplTest {
         student.setDepartment(new Department());
         student.setPhoneNum("1234567890");
         student.setProfileImg(new StudentProfileImg());
-        student.setSname("Abhijith Jana");
+        student.setSname("Abhijeet Jana");
         student.setStudentId(1L);
 
 
@@ -74,7 +64,7 @@ class StudentServiceImplTest {
         doReturn(studentProfileImg).when(studentFileService).upload(Mockito.any(MultipartFile.class));
         doReturn(false).when(studentRepo).existsByPhoneNum(Mockito.any(String.class));
 //      act
-        Responsedto<Student> responsedto = studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",
+        Responsedto<Student> responsedto = studentServiceImpl.addorupdateStudent("{\"name\":\"Abhijeet Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",
                 new MockMultipartFile( "Name",
                         "filename.txt",
                         "image/plain",
@@ -98,7 +88,7 @@ class StudentServiceImplTest {
         student.setDepartment(new Department());
         student.setPhoneNum("1234567890");
         student.setProfileImg(studentProfileImg);
-        student.setSname("Abhijith jana");
+        student.setSname("Abhijeet jana");
         student.setStudentId(1L);
 
         doReturn(studentProfileImg).when(studentFileService).upload(Mockito.any(MultipartFile.class));
@@ -113,7 +103,7 @@ class StudentServiceImplTest {
         doNothing().when(studentFileService).deletefile(any(String.class));
 
 //      act
-        Responsedto<Student> responsedto = studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",
+        Responsedto<Student> responsedto = studentServiceImpl.addorupdateStudent("{\"name\":\"Abhijeet Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",
                 new MockMultipartFile( "Name",
                         "filename.txt",
                         "image/plain",
@@ -131,13 +121,12 @@ class StudentServiceImplTest {
 //      arrange
         StudentProfileImg studentProfileImg=new StudentProfileImg();
         studentProfileImg.setName("img1");
-//        studentProfileImg.setFilePath("C/:/Users/user453/Desktop/CollegeManagement/files/test/");
 
         Student student = new Student();
         student.setDepartment(new Department());
         student.setPhoneNum("1234567890");
         student.setProfileImg(studentProfileImg);
-        student.setSname("Abhijith Jana");
+        student.setSname("Abhijeet Jana");
         student.setStudentId(1L);
 
 
@@ -156,7 +145,7 @@ class StudentServiceImplTest {
 
 
 //       act
-        Responsedto<Student> responsedto = studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, 1L);
+        Responsedto<Student> responsedto = studentServiceImpl.addorupdateStudent("{\"name\":\"Abhijeet Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, 1L);
 
 //        assert
         assertEquals(responsedto.getSuccess(),true);
@@ -169,13 +158,13 @@ class StudentServiceImplTest {
 //      arrange
         StudentProfileImg studentProfileImg=new StudentProfileImg();
         studentProfileImg.setName("img1");
-//        studentProfileImg.setFilePath("C/:/Users/user453/Desktop/CollegeManagement/files/test/");
+
 
         Student student = new Student();
         student.setDepartment(new Department());
         student.setPhoneNum("1234567890");
         student.setProfileImg(studentProfileImg);
-        student.setSname("Abhijith Jana");
+        student.setSname("Abhijeet Jana");
         student.setStudentId(1L);
 
 
@@ -196,7 +185,7 @@ class StudentServiceImplTest {
 
 
 //       act
-        Responsedto<Student> responsedto = studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, 1L);
+        Responsedto<Student> responsedto = studentServiceImpl.addorupdateStudent("{\"name\":\"Abhijeet Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, 1L);
 
 //        assert
         assertEquals(responsedto.getSuccess(),true);
@@ -212,7 +201,7 @@ class StudentServiceImplTest {
         student.setDepartment(new Department());
         student.setPhoneNum("1234567890");
         student.setProfileImg(new StudentProfileImg());
-        student.setSname("Abhijith Jana");
+        student.setSname("Abhijeet Jana");
         student.setStudentId(1L);
 
         doReturn(Optional.of(student)).when(studentRepo).findById(any(Long.class));
@@ -222,7 +211,7 @@ class StudentServiceImplTest {
 
         // Assert
         verify(studentRepo).findById(Mockito.<Long>any());
-        assertEquals("Abhijith Jana details:", actualViewDetailsResult.getMessage());
+        assertEquals("Abhijeet Jana details:", actualViewDetailsResult.getMessage());
         assertTrue(actualViewDetailsResult.getSuccess());
         assertSame(student, actualViewDetailsResult.getResult());
     }
@@ -230,10 +219,22 @@ class StudentServiceImplTest {
     @Test
     void testDeleteById() {
         // Arrange
-        doNothing().when(studentRepo).deleteById(Mockito.<Long>any());
+        StudentProfileImg studentProfileImg=new StudentProfileImg();
+        studentProfileImg.setName("img1");
 
+
+        Student student = new Student();
+        student.setDepartment(new Department());
+        student.setPhoneNum("1234567890");
+        student.setProfileImg(studentProfileImg);
+        student.setSname("Abhijeet Jana");
+        student.setStudentId(1L);
+
+        doNothing().when(studentRepo).deleteById(Mockito.<Long>any());
+        doNothing().when(studentFileService).deletefile(anyString());
+        doReturn(Optional.of(student)).when(studentRepo).findById(anyLong());
         // Act
-        Responsedto actualDeleteByIdResult = studentServiceImpl.deletebyid(1L);
+        Responsedto<Void> actualDeleteByIdResult = studentServiceImpl.deletebyid(1L);
 
         // Assert
         verify(studentRepo).deleteById(Mockito.<Long>any());
@@ -246,7 +247,7 @@ class StudentServiceImplTest {
     void testListStudent() {
         // Arrange
 
-        Page page= new PageImpl(Arrays.asList(new Student(),new Student(),new Student()));
+        Page<Student> page= new PageImpl<>(Arrays.asList(new Student(),new Student(),new Student()));
         doReturn(page).when(studentRepo).findAll(any(Pageable.class));
 
         // Act
@@ -268,7 +269,7 @@ class StudentServiceImplTest {
 
 //      act and assert
         assertThrows(ItemNotFound.class,()->
-                studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, 1L)
+                studentServiceImpl.addorupdateStudent("{\"name\":\"Abhijeet Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, 1L)
                 );
     }
 
@@ -284,7 +285,7 @@ class StudentServiceImplTest {
 
 //        act and assert
         assertThrows(BadRequest.class,()->
-                studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",new MockMultipartFile(
+                studentServiceImpl.addorupdateStudent("{\"name\":\"Abhijeet Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",new MockMultipartFile(
                      "Name",
                                 "filename.txt",
                                 "image/plain",
@@ -296,13 +297,15 @@ class StudentServiceImplTest {
     @Test
     void addOrUpdateStudentCreateWithNoImage(){
 //        arrange
+
         doReturn(true).when(studentRepo).existsByPhoneNum(any(String.class));
 
 //        act and assert
         assertThrows(BadRequest.class,()->
-                studentServiceImpl.addorupdateStudent("{\"sname\":\"Abhijith Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, null)
+                studentServiceImpl.addorupdateStudent("{\"name\":\"Abhijeet Jana\",\"department\":{\"id\":1,\"name\":\"cse\"},\"phoneNum\":\"1234567890\"}",null, null)
         );
     }
+
 
 
 

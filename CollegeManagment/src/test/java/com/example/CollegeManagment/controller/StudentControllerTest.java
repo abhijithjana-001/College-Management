@@ -4,10 +4,8 @@ import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.StudentRepo;
 import com.example.CollegeManagment.service.Studentservice;
-import com.example.CollegeManagment.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
@@ -21,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,20 +50,19 @@ class StudentControllerTest {
         doReturn(responsedto).when(studentservice).addorupdateStudent(anyString(),any(MultipartFile.class),isNull());
 
         // Act
-        ResponseEntity<Responsedto<Student>> responsedtoResponseEntity = studentController.addstudent( "studentDto", new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+        ResponseEntity<Responsedto<Student>> responsedtoResponseEntity = studentController.addStudent( "studentDto", new MockMultipartFile("Name", new ByteArrayInputStream("AXAPTA".getBytes(StandardCharsets.UTF_8))));
 
         //        assert
         assertEquals(HttpStatusCode.valueOf(200),responsedtoResponseEntity.getStatusCode());
-        assertEquals("student added or updated successful",responsedtoResponseEntity.getBody().getMessage());
+        assertEquals("student added or updated successful", Objects.requireNonNull(responsedtoResponseEntity.getBody()).getMessage());
         assertTrue(responsedtoResponseEntity.getBody().getSuccess());
 
     }
 
-
     @Test
-    void testListStudent() throws Exception {
+    void testListStudent() {
         // Arrange
-        Page page=new PageImpl(Arrays.asList(new Student(),new Student()));
+        Page<Student> page=new PageImpl<>(Arrays.asList(new Student(),new Student()));
 
         doReturn(page).when(studentRepo).findAll(any(Pageable.class));
         // Act
@@ -73,12 +72,12 @@ class StudentControllerTest {
 
         assertEquals(HttpStatusCode.valueOf(200), listStudent.getStatusCode());
         assertTrue(listStudent.hasBody());
-        assertEquals(2, listStudent.getBody().getResult().size());
+        assertEquals(2, Objects.requireNonNull(listStudent.getBody()).getResult().size());
 
     }
 
 @Test
-void testDeleteStudent() throws Exception {
+void testDeleteStudent() {
     // Arrange
     doNothing().when(studentRepo).deleteById(anyLong());
 
@@ -89,10 +88,8 @@ void testDeleteStudent() throws Exception {
     assertTrue(responsedtoResponseEntity.hasBody());
 
 }
-
-
     @Test
-    void testFindStudent() throws Exception {
+    void testFindStudent()  {
         // Arrange
 
         doReturn(Optional.of(new Student())).when(studentRepo).findById(anyLong());
@@ -104,7 +101,6 @@ void testDeleteStudent() throws Exception {
 
     }
 
-
     @Test
     void testUpdateStudent() throws Exception {
         // Arrange
@@ -113,11 +109,11 @@ void testDeleteStudent() throws Exception {
        doReturn(responsedto).when(studentservice).addorupdateStudent(anyString(),any(MultipartFile.class),anyLong());
 
         // Act
-        ResponseEntity<Responsedto<Student>> responsedtoResponseEntity = studentController.updateStudent(1L, "studentDto", new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+        ResponseEntity<Responsedto<Student>> responsedtoResponseEntity = studentController.updateStudent(1L, "studentDto", new MockMultipartFile("Name", new ByteArrayInputStream("AXAPTA".getBytes(StandardCharsets.UTF_8))));
 
         //        assert
         assertEquals(HttpStatusCode.valueOf(200),responsedtoResponseEntity.getStatusCode());
-        assertEquals("student added or updated successful",responsedtoResponseEntity.getBody().getMessage());
+        assertEquals("student added or updated successful", Objects.requireNonNull(responsedtoResponseEntity.getBody()).getMessage());
         assertTrue(responsedtoResponseEntity.getBody().getSuccess());
 
     }

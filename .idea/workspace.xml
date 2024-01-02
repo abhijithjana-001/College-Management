@@ -1,6 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="RunManager" selected="JUnit.java in CollegeManagment">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4690166e-96ae-49b1-ac3f-24fc65f00d17" name="Changes" comment=".">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/main/java/com/example/CollegeManagment/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/main/java/com/example/CollegeManagment/controller/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentFileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentFileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/controller/StudentControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/controller/StudentControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/controller/filehandling/StudentFileHandlingControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/controller/filehandling/StudentFileHandlingControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/service/impl/DepartmentFileServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/service/impl/DepartmentFileServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/service/impl/StudentFileServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/service/impl/StudentFileServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/service/impl/StudentServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/service/impl/StudentServiceImplTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2aNtXDR1q2sw1M8sSFlb5L4buFT" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "JUnit.DepartmentFileServiceTest.executor": "Run",
+    "JUnit.DepartmentFileServiceTest.testUpload.executor": "Run",
+    "JUnit.StudentControllerTest.executor": "Run",
+    "JUnit.StudentControllerTest.testAddStudent.executor": "Run",
+    "JUnit.StudentControllerTest.testListStudent.executor": "Run",
+    "JUnit.StudentControllerTest.testUpdateStudent.executor": "Run",
+    "JUnit.StudentFileHandlingControllerTest.executor": "Run",
+    "JUnit.StudentFileHandlingControllerTest.testGetFile.executor": "Run",
+    "JUnit.StudentFileServiceImplTest.executor": "Coverage",
+    "JUnit.StudentFileServiceImplTest.testUploadWithIOException.executor": "Run",
+    "JUnit.StudentServiceImplTest.executor": "Run",
+    "JUnit.StudentServiceImplTest.testDeleteById.executor": "Run",
+    "JUnit.StudentServiceImplTest.testListStudent.executor": "Run",
+    "JUnit.StudentServiceImplTest.testViewDetails.executor": "Run",
+    "JUnit.java in CollegeManagment.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.CollegeManagementApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/user453/Desktop/project/college2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Spring Boot.CollegeManagementApplication">
+    <configuration name="StudentFileServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CollegeManagment" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.CollegeManagment.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.CollegeManagment.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.example.CollegeManagment.service.impl.StudentFileServiceImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StudentFileServiceImplTest.testUploadWithIOException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CollegeManagment" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.CollegeManagment.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.CollegeManagment.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.example.CollegeManagment.service.impl.StudentFileServiceImplTest" />
+      <option name="METHOD_NAME" value="testUploadWithIOException" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StudentServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CollegeManagment" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.CollegeManagment.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.CollegeManagment.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.example.CollegeManagment.service.impl.StudentServiceImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StudentServiceImplTest.testDeleteById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CollegeManagment" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.CollegeManagment.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.CollegeManagment.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.example.CollegeManagment.service.impl.StudentServiceImplTest" />
+      <option name="METHOD_NAME" value="testDeleteById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="java in CollegeManagment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CollegeManagment" />
       <option name="TEST_OBJECT" value="directory" />
@@ -19,8 +152,62 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.StudentServiceImplTest" />
+        <item itemvalue="JUnit.StudentServiceImplTest.testDeleteById" />
         <item itemvalue="JUnit.java in CollegeManagment" />
+        <item itemvalue="JUnit.StudentFileServiceImplTest.testUploadWithIOException" />
+        <item itemvalue="JUnit.StudentFileServiceImplTest" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-openjdk-21.0.1-3183f394aec4-7d648f2c" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4690166e-96ae-49b1-ac3f-24fc65f00d17" name="Changes" comment="" />
+      <created>1704170901287</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704170901287</updated>
+      <workItem from="1704170902433" duration="8782000" />
+    </task>
+    <task id="LOCAL-00001" summary=".">
+      <option name="closed" value="true" />
+      <created>1704171060908</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1704171060908</updated>
+    </task>
+    <task id="LOCAL-00002" summary=".">
+      <option name="closed" value="true" />
+      <created>1704171072923</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1704171072923</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/college2$java_in_CollegeManagment.ic" NAME="java in CollegeManagment Coverage Results" MODIFIED="1704171875062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/college2$StudentFileServiceImplTest.ic" NAME="StudentFileServiceImplTest Coverage Results" MODIFIED="1704176237973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.CollegeManagment.service.impl.*</FILTER>
+    </SUITE>
   </component>
 </project>

@@ -2,15 +2,12 @@ package com.example.CollegeManagment.service.impl;
 
 import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
-import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
 import com.example.CollegeManagment.service.StudentFileService;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,8 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-
-import java.util.*;
+import java.util.Objects;
 
 @Service
 public class StudentFileServiceImpl implements StudentFileService {
@@ -35,8 +31,6 @@ public class StudentFileServiceImpl implements StudentFileService {
 
     public StudentProfileImg  upload(MultipartFile file)  {
         isImage(file);
-
-
         StudentProfileImg studentProfileImgs;
                try{
                    Path directoryPath = Paths.get(uploadDir);
@@ -63,14 +57,13 @@ public class StudentFileServiceImpl implements StudentFileService {
 
                 return studentProfileImgs;
         } catch (IOException e) {
-            e.printStackTrace();
             throw  new BadRequest("File upload failed \n"+e.getMessage());
         }
     }
 
     public ImageData findByName(String name) throws  IOException {
-        StudentProfileImg studentprofile= studentProfileRepo.findByName(name).orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));
-        Path path = Paths.get(studentprofile.getFilePath());
+        StudentProfileImg studentProfile= studentProfileRepo.findByName(name).orElseThrow(()->new ItemNotFound("Image with name "+name+" not found"));
+        Path path = Paths.get(studentProfile.getFilePath());
          String contentType = Files.probeContentType(path);
          byte[] image = Files.readAllBytes(path);
         return new ImageData(contentType,image);
@@ -87,10 +80,9 @@ public class StudentFileServiceImpl implements StudentFileService {
 
 
 
-    private Boolean isImage(MultipartFile file){
-        if(file.getContentType().startsWith("image"))
-            return true;
-        else
+    private void isImage(MultipartFile file) {
+        if (!Objects.requireNonNull(file.getContentType()).startsWith("image"))
+
             throw new BadRequest("uploaded file is not an image");
     }
 }

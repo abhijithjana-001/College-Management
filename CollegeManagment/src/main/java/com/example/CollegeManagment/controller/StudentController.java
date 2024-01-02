@@ -18,10 +18,10 @@ public class StudentController {
         this.studentservice=studentservice;
     }
     @PostMapping("/add")
-    public ResponseEntity<Responsedto<Student>> addstudent(
-            @Valid @RequestParam(name = "dto") String studentdto,
+    public ResponseEntity<Responsedto<Student>> addStudent(
+            @Valid @RequestParam(name = "dto") String studentDto,
             @RequestParam(name = "file")MultipartFile file){
-                 Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentdto,file,null);
+                 Responsedto<Student> responsedto=studentservice.addorupdateStudent(studentDto,file,null);
                  return ResponseEntity.ok(responsedto);
     }
     @GetMapping("/list")

@@ -10,12 +10,13 @@ import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.rules.TemporaryFolder;
-import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,7 +46,7 @@ class StudentFileServiceImplTest {
     void testUpload() throws IOException {
 //        arrange
         folder.create();
-        File file = folder.newFile("myfile1.jpg");
+        File file = folder.newFile("file1.jpg");
         Path path=Paths.get(file.getPath());
 
         StudentProfileImg studentProfileImg = new StudentProfileImg();
@@ -82,7 +83,7 @@ class StudentFileServiceImplTest {
 
     }
     @Test
-    void uploadDuplicateEntryException() throws IOException {
+    void uploadDuplicateEntryException()  {
 //arrange
         MockMultipartFile file = new MockMultipartFile(
                 "file", "test-file.jpg", MediaType.IMAGE_JPEG_VALUE, "test data".getBytes());
@@ -94,7 +95,7 @@ class StudentFileServiceImplTest {
     void testFindByName() throws IOException {
         // Arrange
         folder.create();
-        File file = folder.newFile("myfile1.jpg");
+        File file = folder.newFile("file1.jpg");
         Path path=Paths.get(file.getPath());
 
 
@@ -106,9 +107,9 @@ class StudentFileServiceImplTest {
         studentProfileImg.setName(file.getName());
         studentProfileImg.setSize(file.length());
         studentProfileImg.setType(Files.probeContentType(path));
-        doReturn(Optional.of(studentProfileImg)).when(studentProfileRepo).findByName(Mockito.<String>any());
+        doReturn(Optional.of(studentProfileImg)).when(studentProfileRepo).findByName(anyString());
 //       act
-        ImageData imageData = studentFileServiceImpl.findByName("myfile1.jpeg");
+        ImageData imageData = studentFileServiceImpl.findByName("file1.jpeg");
 //       Assert
         assertEquals(imageData.contentType(),studentProfileImg.getType());
 
@@ -119,14 +120,14 @@ class StudentFileServiceImplTest {
     void testFindByNameItemNotFound() throws IOException {
         // Act and Assert
         assertThrows(ItemNotFound.class, () -> studentFileServiceImpl.findByName("file.txt"));
-        verify(studentFileServiceImpl).findByName(Mockito.<String>any());
+        verify(studentFileServiceImpl).findByName(anyString());
     }
 
     @Test
     void testDeleteFile() throws IOException {
 //     assign
         folder.create();
-        File file = folder.newFile("myfile1.jpeg");
+        File file = folder.newFile("file1.jpeg");
 
         StudentProfileImg studentProfileImg = new StudentProfileImg();
 
@@ -136,7 +137,7 @@ class StudentFileServiceImplTest {
         studentProfileImg.setName(file.getName());
         studentProfileImg.setSize(file.length());
 
-        when(studentProfileRepo.findByName(Mockito.<String>any())).thenReturn(Optional.of(studentProfileImg));
+        when(studentProfileRepo.findByName(anyString())).thenReturn(Optional.of(studentProfileImg));
         doNothing().when(studentProfileRepo).delete(any(StudentProfileImg.class));
         // Act
         studentFileServiceImpl.deletefile("sir.jpg");
@@ -155,6 +156,7 @@ class StudentFileServiceImplTest {
 
         // Act and Assert
         assertThrows(BadRequest.class, () -> studentFileServiceImpl.deletefile("test.jpg"));
-        verify(studentProfileRepo).findByName(Mockito.<String>any());
+        verify(studentProfileRepo).findByName(anyString());
     }
+
 }

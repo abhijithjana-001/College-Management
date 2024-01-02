@@ -9,18 +9,17 @@ import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.repository.StudentProfileRepo;
 import com.example.CollegeManagment.repository.StudentRepo;
-
 import com.example.CollegeManagment.service.StudentFileService;
 import com.example.CollegeManagment.service.Studentservice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 @Service
 public class StudentServiceImpl implements Studentservice {
@@ -32,13 +31,11 @@ public class StudentServiceImpl implements Studentservice {
              StudentRepo studentRepo,
              StudentMaptructConfig studentMaptructConfig,
              StudentFileService studentFileService,
-             StudentProfileRepo studentProfileRepo,
              ObjectMapper objectMapper
              ){
                 this.studentRepo=studentRepo;
                 this.studentMaptructConfig=studentMaptructConfig;
                 this.studentFileService=studentFileService;
-
                 this.objectMapper=objectMapper;
               }
 
@@ -115,14 +112,17 @@ public class StudentServiceImpl implements Studentservice {
     @Override
     public Responsedto<Void> deletebyid(Long id)
     {
+        Student student=studentRepo.findById(id)
+            .orElseThrow(()->  new ItemNotFound("Student with id "+id +" is not found"));
+        studentFileService.deletefile(student.getProfileImg().getName());
         studentRepo.deleteById(id);
         return new Responsedto<>(true,"student delete successful",null);
     }
     @Override
-    public Responsedto<List<Student>> listStudent(Integer pagesize,Integer pagenumber,String sortby){
-        Pageable pageable= PageRequest.of(pagenumber,pagesize,Sort.by(sortby).ascending());
-        Page<Student> pagestudent = studentRepo.findAll(pageable);
-        List<Student> students =pagestudent.getContent();
+    public Responsedto<List<Student>> listStudent(Integer pageSize,Integer pageNumber,String sortBy){
+        Pageable pageable= PageRequest.of(pageNumber,pageSize,Sort.by(sortBy).ascending());
+        Page<Student> pageStudent = studentRepo.findAll(pageable);
+        List<Student> students =pageStudent.getContent();
         return new Responsedto<>(true,"student list : "+students.size()+" students" ,students);
     }
 }
