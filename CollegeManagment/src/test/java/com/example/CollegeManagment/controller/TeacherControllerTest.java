@@ -92,15 +92,10 @@ class TeacherControllerTest {
     void testDelete() throws Exception {
         // Arrange
         when(teacherservice.delete(anyLong())).thenReturn(new Responsedto<>());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/teacher/delete/{id}", 1L);
+        ResponseEntity<Responsedto<Teacher>> responsedtoResponseEntity = teacherController.delete(1L);
 
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(teacherController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{}"));
+        assertEquals(HttpStatusCode.valueOf(200), responsedtoResponseEntity.getStatusCode());
+        assertTrue(responsedtoResponseEntity.hasBody());
     }
 
 

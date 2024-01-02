@@ -39,7 +39,7 @@ class TeacherFileHandlingControllerTest {
     @Test
     void testDownloadImage() throws Exception {
         // Arrange
-        ImageData imageData=new ImageData("image/jpg", "AXAXAXAX"
+        ImageData imageData=new ImageData("image/jpg", "AXEL"
                 .getBytes("UTF-8"));
         doReturn(imageData).when(teacherFileService).findByName(Mockito.anyString());
 
