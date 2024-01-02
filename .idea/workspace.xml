@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4690166e-96ae-49b1-ac3f-24fc65f00d17" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/controller/DepartmentControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/controller/DepartmentControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/service/impl/DepartmentFileServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/service/impl/DepartmentFileServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,11 +20,11 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2aNtXDR1q2sw1M8sSFlb5L4buFT" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -32,6 +34,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "JUnit.CollegeManagment in CollegeManagment.executor": "Run",
+    "JUnit.DepartmentControllerTest.testAddDepartment.executor": "Run",
+    "JUnit.DepartmentControllerTest.testDeleteDepartment.executor": "Run",
     "JUnit.DepartmentFileServiceTest.executor": "Run",
     "JUnit.DepartmentFileServiceTest.testUpload.executor": "Run",
     "JUnit.StudentControllerTest.executor": "Run",
@@ -49,6 +54,7 @@
     "JUnit.StudentServiceImplTest.testViewDetails.executor": "Run",
     "JUnit.java in CollegeManagment.executor": "Coverage",
     "Maven.CollegeManagment [clean,verify...].executor": "Run",
+    "Maven.CollegeManagment [mvn,clean,verify...].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -69,27 +75,20 @@
 }]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
-      <command value="mvn clean verify sonar:sonar \   -Dsonar.projectKey=CollegeManagement \   -Dsonar.projectName='CollegeManagement' \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.token=sqb_fbd1bd15b569a86038550d36c65a5487a49b601a" />
-      <command value="mvn clean verify sonar:sonar \   -Dsonar.projectKey=College-Managment-System \   -Dsonar.projectName='College Managment System' \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.token=sqp_329c4308ba661bf0fdeee097a252e19a5588aeed" />
+      <command value="mvn mvn clean verify sonar:sonar \   -Dsonar.projectKey=College-Management \   -Dsonar.projectName='College-Management' \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.token=sqp_7388195450ca661a96f0cc06e78a5d2d8e94b2bd" />
+      <command value="mvn clean verify sonar:sonar \   -Dsonar.projectKey=College-Management \   -Dsonar.projectName='College-Management' \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.token=sqp_7388195450ca661a96f0cc06e78a5d2d8e94b2bd" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.java in CollegeManagment">
-    <configuration name="StudentControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.DepartmentControllerTest.testDeleteDepartment">
+    <configuration name="CollegeManagment in CollegeManagment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CollegeManagment" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.CollegeManagment.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.CollegeManagment.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.CollegeManagment.controller.StudentControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StudentControllerTest.testDeleteStudent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DepartmentControllerTest.testAddDepartment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CollegeManagment" />
       <extension name="coverage">
         <pattern>
@@ -98,8 +97,24 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.CollegeManagment.controller" />
-      <option name="MAIN_CLASS_NAME" value="com.example.CollegeManagment.controller.StudentControllerTest" />
-      <option name="METHOD_NAME" value="testDeleteStudent" />
+      <option name="MAIN_CLASS_NAME" value="com.example.CollegeManagment.controller.DepartmentControllerTest" />
+      <option name="METHOD_NAME" value="testAddDepartment" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DepartmentControllerTest.testDeleteDepartment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CollegeManagment" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.CollegeManagment.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.CollegeManagment.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.CollegeManagment.controller.DepartmentControllerTest" />
+      <option name="METHOD_NAME" value="testDeleteDepartment" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -121,21 +136,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StudentServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CollegeManagment" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.CollegeManagment.service.impl.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.CollegeManagment.service.impl" />
-      <option name="MAIN_CLASS_NAME" value="com.example.CollegeManagment.service.impl.StudentServiceImplTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="java in CollegeManagment" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CollegeManagment" />
       <option name="TEST_OBJECT" value="directory" />
@@ -143,6 +143,42 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="CollegeManagment [clean,verify...]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="verify" />
+                <option value="sonar:sonar" />
+                <option value="-Dsonar.projectKey=College-Management" />
+                <option value="-Dsonar.projectName='College-Management'" />
+                <option value="-Dsonar.host.url=http://localhost:9000" />
+                <option value="-Dsonar.token=sqp_2b006977df16270700e75c0234771f914ed4bf3f" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/CollegeManagment" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
     </configuration>
     <configuration name="CollegeManagementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -152,13 +188,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.CollegeManagment in CollegeManagment" />
+      <item itemvalue="JUnit.DepartmentControllerTest.testAddDepartment" />
+      <item itemvalue="JUnit.DepartmentControllerTest.testDeleteDepartment" />
+      <item itemvalue="JUnit.StudentControllerTest.testListStudent" />
+      <item itemvalue="JUnit.java in CollegeManagment" />
+      <item itemvalue="Maven.CollegeManagment [clean,verify...]" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DepartmentControllerTest.testDeleteDepartment" />
+        <item itemvalue="JUnit.DepartmentControllerTest.testAddDepartment" />
+        <item itemvalue="JUnit.CollegeManagment in CollegeManagment" />
         <item itemvalue="JUnit.java in CollegeManagment" />
         <item itemvalue="JUnit.StudentControllerTest.testListStudent" />
-        <item itemvalue="JUnit.StudentControllerTest" />
-        <item itemvalue="JUnit.StudentControllerTest.testDeleteStudent" />
-        <item itemvalue="JUnit.StudentServiceImplTest" />
       </list>
     </recent_temporary>
   </component>
@@ -177,7 +221,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1704170901287</updated>
-      <workItem from="1704170902433" duration="12773000" />
+      <workItem from="1704170902433" duration="11218000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -203,13 +247,13 @@
       <option name="project" value="LOCAL" />
       <updated>1704183273817</updated>
     </task>
-    <task id="LOCAL-00004" summary=".">
+    <task id="LOCAL-00004" summary="department completed2">
       <option name="closed" value="true" />
-      <created>1704186278717</created>
+      <created>1704187956411</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1704186278725</updated>
+      <updated>1704187956411</updated>
     </task>
     <option name="localTasksCounter" value="5" />
     <servers />
@@ -223,12 +267,13 @@
     <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/college2$java_in_CollegeManagment.ic" NAME="java in CollegeManagment Coverage Results" MODIFIED="1704185692194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/college2$StudentFileServiceImplTest.ic" NAME="StudentFileServiceImplTest Coverage Results" MODIFIED="1704176237973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.example.CollegeManagment.service.impl.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/College_Management$CollegeManagment_in_CollegeManagment.ic" NAME="CollegeManagment in CollegeManagment Coverage Results" MODIFIED="1704188228298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/college2$StudentServiceImplTest.ic" NAME="StudentServiceImplTest Coverage Results" MODIFIED="1704183216497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.example.CollegeManagment.service.impl.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/college2$java_in_CollegeManagment.ic" NAME="java in CollegeManagment Coverage Results" MODIFIED="1704185692194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
