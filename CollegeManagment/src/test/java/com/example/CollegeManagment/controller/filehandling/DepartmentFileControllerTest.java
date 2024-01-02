@@ -1,44 +1,40 @@
 package com.example.CollegeManagment.controller.filehandling;
 
-import static org.mockito.Mockito.when;
-
 import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.service.impl.DepartmentFileService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-@ContextConfiguration(classes = {DepartmentFileController.class})
-@ExtendWith(SpringExtension.class)
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doReturn;
+
 class DepartmentFileControllerTest {
-    @Autowired
+
+    @SpyBean
     private DepartmentFileController departmentFileController;
 
-    @MockBean
+    @SpyBean
     private DepartmentFileService departmentFileService;
 
+
+
     @Test
-    void testGetFile() throws Exception {
+    public void testGetFile() throws Exception {
         // Arrange
-        when(departmentFileService.findByName(Mockito.<String>any()))
-                .thenReturn(new ImageData("text/plain", "AXAXAXAX".getBytes("UTF-8")));
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/department/file/{filename}", "foo.txt");
+        ImageData imageData = new ImageData("image/jpeg", "AXAXAXAX".getBytes("UTF-8"));
+        doReturn(imageData).when(departmentFileService).findByName(Mockito.<String>any());
 
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(departmentFileController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("text/plain"))
-                .andExpect(MockMvcResultMatchers.content().string("AXAXAXAX"));
+        // Act
+        ResponseEntity<byte[]> getFile = departmentFileController.getFile("test.jpeg");
+
+        // Assert
+        assertEquals(getFile.getStatusCode(), HttpStatus.OK);
+        assertEquals(getFile.getHeaders().getContentType().toString(), "image/jpeg");
+        assertEquals(getFile.getHeaders().getContentDisposition().toString(), "attachment; filename=\"test.jpeg\"");
+        assertArrayEquals(getFile.getBody(), imageData.image());
     }
-
 }
