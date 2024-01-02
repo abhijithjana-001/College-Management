@@ -6,6 +6,7 @@ import com.example.CollegeManagment.entity.DepartmentFileEntity;
 import com.example.CollegeManagment.repository.DepartmentFileRepository;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.rules.TemporaryFolder;
@@ -19,7 +20,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -134,32 +134,16 @@ class DepartmentServiceImplTest {
     @Test
     public void testDelete() throws IOException {
         // Arrange
-        Long id = 1L;
-
-
-
-        folder.create();
-        File file = folder.newFile("image.jpg");
-
-        DepartmentFileEntity departmentImg = new DepartmentFileEntity();
-        departmentImg.setDepartment(new Department());
-        departmentImg.setFilePath(file.getPath());
-        departmentImg.setId(1L);
-        departmentImg.setName(file.getName());
-        departmentImg.setSize(3L);
-
-        Department department =new Department();
-        department.setId(1L);
-        department.setName("department");
-        department.setDepartmentImg(departmentImg);
-
-        doReturn(new Responsedto<Department>()).when(departmentFileService).deleteFile(anyString());
+        doNothing().when(departmentRepo).deleteById(Mockito.<Long>any());
 
         // Act
-        Responsedto<Department> response = departmentService.delete(id);
+        Responsedto actualDeleteResult = departmentService.delete(1L);
 
         // Assert
-        assertTrue(response.getSuccess());
-        assertEquals("Successfully Deleted", response.getMessage());
+        verify(departmentRepo).deleteById(Mockito.<Long>any());
+        Assertions.assertEquals("Successfully Deleted", actualDeleteResult.getMessage());
+        Assertions.assertNull(actualDeleteResult.getResult());
+        Assertions.assertTrue(actualDeleteResult.getSuccess());
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.CollegeManagment.service.impl;
 
+import com.example.CollegeManagment.Exception.BadRequest;
 import com.example.CollegeManagment.Exception.ItemNotFound;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.DepartmentFileEntity;
@@ -59,14 +60,13 @@ public class DepartmentFileService{
         return  new ImageData(contentType,image);
     }
 
-    public Responsedto deleteFile(String filename){
-        DepartmentFileEntity departmentFileEntity = departmentFileRepository.findByName(filename).orElseThrow(()->new ItemNotFound("Image with name "+filename+" not found"));
+    public void deleteFile(String filename) {
+        DepartmentFileEntity departmentFileEntity = departmentFileRepository.findByName(filename).orElseThrow(() -> new ItemNotFound("Image with name " + filename + " not found"));
         File file = new File(departmentFileEntity.getFilePath());
         if (file.exists() && file.delete()) {
             departmentFileRepository.delete(departmentFileEntity);
-            return new Responsedto<>(true, "File delete success!", null);
         } else {
-            return new Responsedto<>(false, "File delete failed!", null);
+            throw new BadRequest("File deletion failed");
         }
     }
 
