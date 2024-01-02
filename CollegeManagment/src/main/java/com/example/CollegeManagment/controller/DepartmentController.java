@@ -16,9 +16,10 @@ import java.util.List;
 @RequestMapping(value = "/api/department")
 public class DepartmentController {
 
-    @Autowired
-    private DepartmentService departmentService;
 
+    private final DepartmentService departmentService;
+
+    @Autowired
     public DepartmentController(DepartmentServiceImpl departmentService) {
         this.departmentService = departmentService;
     }
@@ -39,6 +40,12 @@ public class DepartmentController {
         return ResponseEntity.ok(responsedto);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Responsedto<Department>> findDepartment(@PathVariable Long id){
+        Responsedto<Department> responsedto=departmentService.viewDetails(id);
+        return ResponseEntity.ok(responsedto);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Responsedto<Department>> update(@PathVariable(name = "id") Long id,
                                                           @Valid @RequestParam(name = "dto") String departmentDto,
@@ -49,7 +56,7 @@ public class DepartmentController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Responsedto<Department>> delete(@PathVariable Long id) {
-        Responsedto responsedto = departmentService.delete(id);
+        Responsedto<Department> responsedto = departmentService.delete(id);
         return ResponseEntity.ok(responsedto);
     }
 

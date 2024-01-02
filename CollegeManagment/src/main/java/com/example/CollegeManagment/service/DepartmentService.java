@@ -13,4 +13,6 @@ public interface DepartmentService {
     Responsedto<List<Department>> findAllDepartments(Integer pageSize, Integer pageNumber, String sortBy);
 
     Responsedto<Department> delete(Long id);
+
+    Responsedto<Department> viewDetails(Long id);
 }

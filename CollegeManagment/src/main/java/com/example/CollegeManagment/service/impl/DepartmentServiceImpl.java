@@ -7,6 +7,7 @@ import com.example.CollegeManagment.dto.requestdto.DepartmentDto;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.DepartmentFileEntity;
+import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.service.DepartmentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -99,4 +100,10 @@ public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFil
         return new Responsedto<>(true, "Successfully Deleted", null);
     }
 
+    @Override
+    public  Responsedto<Department> viewDetails(Long id){
+        Department department = departmentRepo.findById(id)
+                .orElseThrow(()->  new ItemNotFound("Department with id "+id +" is not found"));
+        return new Responsedto<>(true,department.getName()+" details:",department);
+    }
 }
