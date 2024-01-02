@@ -66,7 +66,7 @@ class DepartmentControllerTest {
 
         // Assert
         verify(departmentService).createOrUpdate(Mockito.<String>any(), Mockito.<MultipartFile>any(), Mockito.<Long>any());
-        assertEquals(200, departments.getStatusCodeValue());
+        assertEquals(200, departments.getStatusCode().value());
         assertTrue(departments.hasBody());
         assertTrue(departments.getHeaders().isEmpty());
     }
