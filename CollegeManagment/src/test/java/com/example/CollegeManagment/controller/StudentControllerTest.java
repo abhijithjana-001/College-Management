@@ -20,10 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -63,8 +60,9 @@ class StudentControllerTest {
     void testListStudent() {
         // Arrange
         Page<Student> page=new PageImpl<>(Arrays.asList(new Student(),new Student()));
-
         doReturn(page).when(studentRepo).findAll(any(Pageable.class));
+
+
         // Act
         ResponseEntity<Responsedto<List<Student>>> listStudent = studentController.listStudent(1,2,"sname");
 
@@ -79,8 +77,8 @@ class StudentControllerTest {
 @Test
 void testDeleteStudent() {
     // Arrange
-    doNothing().when(studentRepo).deleteById(anyLong());
-
+    Responsedto<Void> responsedto= new Responsedto<>(true,"student delete successful",null);
+    doReturn(responsedto).when(studentservice).deletebyid(anyLong());
     // Act
     ResponseEntity<Responsedto<Void>> responsedtoResponseEntity = studentController.deleteStudent(7L);
 
