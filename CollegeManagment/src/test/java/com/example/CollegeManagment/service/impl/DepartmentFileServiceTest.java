@@ -79,37 +79,6 @@ class DepartmentFileServiceTest {
         verify(departmentFileRepository).findByName(Mockito.<String>any());
     }
 
-//    @Test
-//    void testDeleteFile() {
-//        //arrange
-//        Department department = new Department();
-//        department.setDepartmentImg(new DepartmentFileEntity());
-//        department.setId(1L);
-//        department.setName("Name");
-//        department.setStudents(new HashSet<>());
-//        department.setTeachers(new HashSet<>());
-//
-//        DepartmentFileEntity departmentImg = new DepartmentFileEntity();
-//        departmentImg.setCreated(LocalDate.of(1970, 1, 1).atStartOfDay());
-//        departmentImg.setDepartment(department);
-//        departmentImg.setFilePath("/directory/image.jpg");
-//        departmentImg.setId(1L);
-//        departmentImg.setName("image.jpg");
-//        departmentImg.setSize(3L);
-//        departmentImg.setType("Type");
-//
-//        //act
-//        Optional<DepartmentFileEntity> ofResult = Optional.of(departmentImg);
-//        when(departmentFileRepository.findByName(Mockito.<String>any())).thenReturn(ofResult);
-//        departmentFileService.deleteFile("image.jpg");
-//        verify(departmentFileRepository).findByName(Mockito.<String>any());
-//
-//        //assert
-//        assertEquals("File delete failed!", actualDeleteFileResult.getMessage());
-//        assertNull(actualDeleteFileResult.getResult());
-//        assertFalse(actualDeleteFileResult.getSuccess());
-//    }
-
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
