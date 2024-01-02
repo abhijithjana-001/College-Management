@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.mockito.Mockito.doReturn;
@@ -36,11 +37,12 @@ class StudentFileHandlingControllerTest {
 
 
         // Act
-        ResponseEntity<byte[]> getFile = studentFileHandlingController.getfile("test.jpeg");
+        ResponseEntity<byte[]> file = studentFileHandlingController.getfile("test.jpeg");
 //        assert
-      assertEquals(getFile.getStatusCode(), HttpStatusCode.valueOf(200));
-    assertEquals(getFile.getHeaders().getContentType().toString(),"image/jpeg");
-    assertEquals(getFile.getBody(),imageData.image());
+      assertEquals(file.getStatusCode(), HttpStatusCode.valueOf(200));
+    assertEquals(Objects.requireNonNull(file.getHeaders().getContentType()).toString(),"image/jpeg");
+    assertEquals(file.getBody(),imageData.image());
+
     }
 
 
