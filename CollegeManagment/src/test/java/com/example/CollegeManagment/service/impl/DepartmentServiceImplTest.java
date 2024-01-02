@@ -132,7 +132,7 @@ class DepartmentServiceImplTest {
     public TemporaryFolder folder = new TemporaryFolder();
 
     @Test
-    public void test_delete_valid_id_null_image() throws IOException {
+    public void testDelete() throws IOException {
         // Arrange
         Long id = 1L;
 

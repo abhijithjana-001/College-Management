@@ -3,6 +3,7 @@ package com.example.CollegeManagment.controller;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.repository.DepartmentRepo;
+import com.example.CollegeManagment.service.DepartmentService;
 import com.example.CollegeManagment.service.impl.DepartmentFileService;
 import com.example.CollegeManagment.service.impl.DepartmentServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
@@ -86,18 +88,25 @@ class DepartmentControllerTest {
     }
 
     @Test
-    public void test_valid_department_id() {
-        // Arrange
-        Long id = 1L;
-        Responsedto<Department> response = new Responsedto<>(true, "Department deleted successfully", null);
-        when(departmentService.delete(id)).thenReturn(response);
+    void testDeleteDepartment() {
+        //arrange
+        DepartmentServiceImpl departmentService = mock(DepartmentServiceImpl.class);
+        DepartmentController departmentController = new DepartmentController(departmentService);
 
-        // Act
-        ResponseEntity<Responsedto<Department>> responseEntity = departmentController.delete(id);
+        Long departmentId = 1L;
+        Responsedto expectedResponse = new Responsedto(true, "Successfully Deleted", null);
+
+        when(departmentService.delete(departmentId)).thenReturn(expectedResponse);
+
+        //act
+        ResponseEntity<Responsedto<Department>> responseEntity = departmentController.delete(departmentId);
+
+        verify(departmentService, times(1)).delete(departmentId);
 
         // Assert
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(response, responseEntity.getBody());
+        assertNotNull(responseEntity);
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(expectedResponse, responseEntity.getBody());
     }
 
     @Test
