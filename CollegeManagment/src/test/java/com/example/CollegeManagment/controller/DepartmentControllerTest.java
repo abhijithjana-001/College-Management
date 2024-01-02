@@ -95,7 +95,7 @@ class DepartmentControllerTest {
         Long departmentId = 1L;
         Responsedto expectedResponse = new Responsedto(true, "Successfully Deleted", null);
 
-        when(departmentService.delete(departmentId)).thenReturn(expectedResponse);
+      doReturn(expectedResponse).when(departmentService).delete(departmentId);
 
         //act
         ResponseEntity<Responsedto<Department>> responseEntity = departmentController.delete(departmentId);
