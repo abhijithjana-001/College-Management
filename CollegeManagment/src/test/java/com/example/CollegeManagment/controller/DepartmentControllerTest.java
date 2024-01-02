@@ -2,6 +2,7 @@ package com.example.CollegeManagment.controller;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
+import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import com.example.CollegeManagment.service.DepartmentService;
 import com.example.CollegeManagment.service.impl.DepartmentFileService;
@@ -25,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -90,9 +92,6 @@ class DepartmentControllerTest {
     @Test
     void testDeleteDepartment() {
         //arrange
-        DepartmentServiceImpl departmentService = mock(DepartmentServiceImpl.class);
-        DepartmentController departmentController = new DepartmentController(departmentService);
-
         Long departmentId = 1L;
         Responsedto expectedResponse = new Responsedto(true, "Successfully Deleted", null);
 
@@ -123,6 +122,19 @@ class DepartmentControllerTest {
         assertEquals(HttpStatusCode.valueOf(200),responsedtoResponseEntity.getStatusCode());
         assertEquals("department added or updated successful",responsedtoResponseEntity.getBody().getMessage());
         assertTrue(responsedtoResponseEntity.getBody().getSuccess());
+
+    }
+
+    @Test
+    void testFindDepartment() throws Exception {
+        // Arrange
+
+        doReturn(Optional.of(new Department())).when(departmentRepo).findById(anyLong());
+        // Act
+        ResponseEntity<Responsedto<Department>> findDepartment = departmentController.findDepartment(1L);
+        //assert
+        assertEquals(HttpStatusCode.valueOf(200), findDepartment.getStatusCode());
+        assertTrue(findDepartment.hasBody());
 
     }
 }

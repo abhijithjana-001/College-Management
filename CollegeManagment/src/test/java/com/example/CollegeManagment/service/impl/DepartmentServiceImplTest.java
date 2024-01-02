@@ -3,6 +3,8 @@ package com.example.CollegeManagment.service.impl;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.entity.DepartmentFileEntity;
+import com.example.CollegeManagment.entity.Student;
+import com.example.CollegeManagment.entity.StudentProfileImg;
 import com.example.CollegeManagment.repository.DepartmentFileRepository;
 import com.example.CollegeManagment.repository.DepartmentRepo;
 import org.junit.Rule;
@@ -30,6 +32,7 @@ import java.util.Optional;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -101,7 +104,29 @@ class DepartmentServiceImplTest {
     }
 
     @Test
-    public void listAllDepartment() {
+    void testViewDetails() {
+        // Arrange
+        Department department = new Department();
+        department.setStudents(new HashSet<>());
+        department.setTeachers(new HashSet<>());
+        department.setDepartmentImg(new DepartmentFileEntity());
+        department.setName("Department");
+        department.setId(1L);
+
+        doReturn(Optional.of(department)).when(departmentRepo).findById(any(Long.class));
+
+        // Act
+        Responsedto<Department> actualViewDetailsResult = departmentService.viewDetails(1L);
+
+        // Assert
+        verify(departmentRepo).findById(Mockito.<Long>any());
+        Assertions.assertEquals("Department details:", actualViewDetailsResult.getMessage());
+        Assertions.assertTrue(actualViewDetailsResult.getSuccess());
+        assertSame(department, actualViewDetailsResult.getResult());
+    }
+
+    @Test
+    void listAllDepartment() {
         // Arrange
         Integer pageSize = 10;
         Integer pageNumber = 0;
@@ -128,11 +153,8 @@ class DepartmentServiceImplTest {
         assertEquals(departments.size(), resultDepartments.size());
     }
 
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
-
     @Test
-    public void testDelete() throws IOException {
+    void testDelete() throws IOException {
         // Arrange
         doNothing().when(departmentRepo).deleteById(Mockito.<Long>any());
 
