@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4690166e-96ae-49b1-ac3f-24fc65f00d17" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/controller/StudentControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/test/java/com/example/CollegeManagment/controller/StudentControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +48,7 @@
     "JUnit.StudentServiceImplTest.testListStudent.executor": "Run",
     "JUnit.StudentServiceImplTest.testViewDetails.executor": "Run",
     "JUnit.java in CollegeManagment.executor": "Coverage",
+    "Maven.CollegeManagment [clean,verify...].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -67,6 +67,12 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean verify sonar:sonar \   -Dsonar.projectKey=CollegeManagement \   -Dsonar.projectName='CollegeManagement' \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.token=sqb_fbd1bd15b569a86038550d36c65a5487a49b601a" />
+      <command value="mvn clean verify sonar:sonar \   -Dsonar.projectKey=College-Managment-System \   -Dsonar.projectName='College Managment System' \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.token=sqp_329c4308ba661bf0fdeee097a252e19a5588aeed" />
+    </option>
+  </component>
   <component name="RunManager" selected="JUnit.java in CollegeManagment">
     <configuration name="StudentControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CollegeManagment" />
@@ -171,7 +177,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1704170901287</updated>
-      <workItem from="1704170902433" duration="11218000" />
+      <workItem from="1704170902433" duration="12773000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -197,7 +203,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704183273817</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary=".">
+      <option name="closed" value="true" />
+      <created>1704186278717</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704186278725</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

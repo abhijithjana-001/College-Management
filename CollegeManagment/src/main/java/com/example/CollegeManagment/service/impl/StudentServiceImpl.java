@@ -104,7 +104,8 @@ public class StudentServiceImpl implements Studentservice {
         return savedStudent;
     }
     @Override
-    public  Responsedto<Student> viewdetails(Long id){
+    public  Responsedto<Student> viewdetails(Long id)
+    {
         Student student=studentRepo.findById(id)
                 .orElseThrow(()->  new ItemNotFound("Student with id "+id +" is not found"));
         return new Responsedto<>(true,student.getSname()+" details:",student);
