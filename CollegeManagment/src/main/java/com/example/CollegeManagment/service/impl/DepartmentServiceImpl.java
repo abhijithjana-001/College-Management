@@ -95,7 +95,6 @@ public Responsedto<Department> createOrUpdate(String departmentDto, MultipartFil
 
     @Override
     public Responsedto<Department> delete(Long id) {
-        departmentFileService.deleteFile(departmentRepo.findById(id).get().getDepartmentImg().getName());
         departmentRepo.deleteById(id);
         return new Responsedto<>(true, "Successfully Deleted", null);
     }

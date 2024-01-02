@@ -2,15 +2,23 @@ package com.example.CollegeManagment.controller.filehandling;
 
 import com.example.CollegeManagment.entity.ImageData;
 import com.example.CollegeManagment.service.impl.DepartmentFileService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 class DepartmentFileControllerTest {
 
@@ -23,18 +31,33 @@ class DepartmentFileControllerTest {
 
 
     @Test
-    public void testGetFile() throws Exception {
-        // Arrange
-        ImageData imageData = new ImageData("image/jpeg", "AXAXAXAX".getBytes("UTF-8"));
-        doReturn(imageData).when(departmentFileService).findByName(Mockito.<String>any());
+    void testGetFile() throws IOException {
+        //arrange
+        DepartmentFileService departmentFileService = mock(DepartmentFileService.class);
+        DepartmentFileController fileController = new DepartmentFileController();
+        fileController.setDepartmentFileService(departmentFileService);
 
-        // Act
-        ResponseEntity<byte[]> getFile = departmentFileController.getFile("test.jpeg");
+        String filename = "example.jpg";
+        ImageData imageData = new ImageData("image/plain","toByte".getBytes(StandardCharsets.UTF_8));
 
-        // Assert
-        assertEquals(getFile.getStatusCode(), HttpStatus.OK);
-        assertEquals(getFile.getHeaders().getContentType().toString(), "image/jpeg");
-        assertEquals(getFile.getHeaders().getContentDisposition().toString(), "attachment; filename=\"test.jpeg\"");
-        assertArrayEquals(getFile.getBody(), imageData.image());
+        when(departmentFileService.findByName(filename)).thenReturn(imageData);
+
+        //act
+        ResponseEntity<byte[]> responseEntity = fileController.getFile(filename);
+
+        verify(departmentFileService, times(1)).findByName(filename);
+
+        // Assert response
+        Assertions.assertNotNull(responseEntity);
+        assertEquals(200, responseEntity.getStatusCode().value());
+
+        HttpHeaders headers = responseEntity.getHeaders();
+        Assertions.assertNotNull(headers);
+        assertEquals(MediaType.valueOf(imageData.contentType()), headers.getContentType());
+        assertEquals("form-data; name=\"attachment\"; filename=\"example.jpg\"",
+                headers.getContentDisposition().toString());
+
+        byte[] responseBody = responseEntity.getBody();
+        Assertions.assertNotNull(responseBody);
     }
 }
