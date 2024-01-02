@@ -34,37 +34,29 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class StudentControllerTest {
 
-
-
-
     @SpyBean
     private Studentservice studentservice;
 
-@SpyBean
-private  StudentController studentController;
+    @SpyBean
+    private  StudentController studentController;
 
-@SpyBean
+    @SpyBean
     StudentRepo studentRepo;
 
     @Test
-    void testAddstudent() throws IOException {
+    void testAddStudent() throws IOException {
+        Responsedto<Student> responsedto=new Responsedto<>(true,"student added or updated successful",new Student());
 
-        // Arrange
-        StudentServiceImpl studentservice = mock(StudentServiceImpl.class);
-        when(studentservice.addorupdateStudent(Mockito.<String>any(), Mockito.<MultipartFile>any(), Mockito.<Long>any()))
-                .thenReturn(new Responsedto<>());
-        StudentController studentController = new StudentController(studentservice);
+        doReturn(responsedto).when(studentservice).addorupdateStudent(anyString(),any(MultipartFile.class),isNull());
 
         // Act
-        ResponseEntity<Responsedto<Student>> actualAddstudentResult = studentController.addstudent(
-                "alice.liddell@example.org",
-                new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+        ResponseEntity<Responsedto<Student>> responsedtoResponseEntity = studentController.addstudent( "studentDto", new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
 
-        // Assert
-        verify(studentservice).addorupdateStudent(Mockito.<String>any(), Mockito.<MultipartFile>any(), Mockito.<Long>any());
-        assertEquals(200, actualAddstudentResult.getStatusCodeValue());
-        assertTrue(actualAddstudentResult.hasBody());
-        assertTrue(actualAddstudentResult.getHeaders().isEmpty());
+        //        assert
+        assertEquals(HttpStatusCode.valueOf(200),responsedtoResponseEntity.getStatusCode());
+        assertEquals("student added or updated successful",responsedtoResponseEntity.getBody().getMessage());
+        assertTrue(responsedtoResponseEntity.getBody().getSuccess());
+
     }
 
 
@@ -91,7 +83,7 @@ void testDeleteStudent() throws Exception {
     doNothing().when(studentRepo).deleteById(anyLong());
 
     // Act
-    ResponseEntity<Responsedto<Void>> responsedtoResponseEntity = studentController.deleteStudent(7000L);
+    ResponseEntity<Responsedto<Void>> responsedtoResponseEntity = studentController.deleteStudent(7L);
 
     assertEquals(HttpStatusCode.valueOf(200), responsedtoResponseEntity.getStatusCode());
     assertTrue(responsedtoResponseEntity.hasBody());
@@ -121,7 +113,7 @@ void testDeleteStudent() throws Exception {
        doReturn(responsedto).when(studentservice).addorupdateStudent(anyString(),any(MultipartFile.class),anyLong());
 
         // Act
-        ResponseEntity<Responsedto<Student>> responsedtoResponseEntity = studentController.updateStudent(1L, "Studentdto", new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+        ResponseEntity<Responsedto<Student>> responsedtoResponseEntity = studentController.updateStudent(1L, "studentDto", new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
 
         //        assert
         assertEquals(HttpStatusCode.valueOf(200),responsedtoResponseEntity.getStatusCode());

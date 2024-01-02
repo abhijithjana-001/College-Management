@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
+import com.example.CollegeManagment.entity.Student;
 import com.example.CollegeManagment.entity.Teacher;
 import com.example.CollegeManagment.repository.TeacherFileRepository;
 import com.example.CollegeManagment.repository.TeacherRepo;
@@ -54,10 +55,9 @@ class TeacherControllerTest {
 
     @Test
     void testAddTeacher() throws IOException {
-        TeacherServiceImpl teacherService = mock(TeacherServiceImpl.class);
-        when(teacherService.createorupdate( Mockito.<Long>any(),Mockito.<String>any(), Mockito.<MultipartFile>any()))
-                .thenReturn(new Responsedto<>());
-        TeacherController teacherController = new TeacherController(teacherService);
+        Responsedto<Teacher> responsedto=new Responsedto<>(true,"Teacher created or updated successful",new Teacher());
+
+        doReturn(responsedto).when(teacherservice).createorupdate(isNull(),anyString(),any(MultipartFile.class));
 
         // Act
         ResponseEntity<Responsedto<Teacher>> actualAddTeacher = teacherController.addTeacher(
@@ -65,7 +65,7 @@ class TeacherControllerTest {
                 new MockMultipartFile("Name", new ByteArrayInputStream("AkeMal".getBytes("UTF-8"))));
 
         // Assert
-        verify(teacherService).createorupdate(Mockito.<Long>any(), Mockito.<String>any(), Mockito.<MultipartFile>any());
+        verify(teacherservice).createorupdate(Mockito.<Long>any(), Mockito.<String>any(), Mockito.<MultipartFile>any());
         assertEquals(200, actualAddTeacher.getStatusCodeValue());
         assertTrue(actualAddTeacher.hasBody());
         assertTrue(actualAddTeacher.getHeaders().isEmpty());
@@ -92,15 +92,10 @@ class TeacherControllerTest {
     void testDelete() throws Exception {
         // Arrange
         when(teacherservice.delete(anyLong())).thenReturn(new Responsedto<>());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/teacher/delete/{id}", 1L);
+        ResponseEntity<Responsedto<Teacher>> responsedtoResponseEntity = teacherController.delete(1L);
 
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(teacherController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{}"));
+        assertEquals(HttpStatusCode.valueOf(200), responsedtoResponseEntity.getStatusCode());
+        assertTrue(responsedtoResponseEntity.hasBody());
     }
 
 
