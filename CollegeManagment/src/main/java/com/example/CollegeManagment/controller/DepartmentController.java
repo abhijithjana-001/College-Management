@@ -3,6 +3,7 @@ package com.example.CollegeManagment.controller;
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
 import com.example.CollegeManagment.service.DepartmentService;
+import com.example.CollegeManagment.service.impl.DepartmentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,10 @@ public class DepartmentController {
 
     @Autowired
     private DepartmentService departmentService;
+
+    public DepartmentController(DepartmentServiceImpl departmentService) {
+        this.departmentService = departmentService;
+    }
 
     @PostMapping(value = "/create")
     public ResponseEntity<Responsedto<Department>> addDepartment(@Valid @RequestParam(name = "dto") String departmentDto, @RequestParam(name = "file")MultipartFile file) {
@@ -44,8 +49,8 @@ public class DepartmentController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Responsedto<Department>> delete(@PathVariable Long id) {
-        Responsedto<Department> Responsedto = departmentService.delete(id);
-        return ResponseEntity.ok(Responsedto);
+        Responsedto responsedto = departmentService.delete(id);
+        return ResponseEntity.ok(responsedto);
     }
 
 

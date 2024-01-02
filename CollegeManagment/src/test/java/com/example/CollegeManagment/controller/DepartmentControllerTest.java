@@ -1,112 +1,119 @@
 package com.example.CollegeManagment.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import com.example.CollegeManagment.dto.responsedto.Responsedto;
 import com.example.CollegeManagment.entity.Department;
-import com.example.CollegeManagment.service.DepartmentService;
-
+import com.example.CollegeManagment.repository.DepartmentRepo;
+import com.example.CollegeManagment.service.impl.DepartmentFileService;
+import com.example.CollegeManagment.service.impl.DepartmentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
-@ContextConfiguration(classes = {DepartmentController.class})
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(SpringExtension.class)
+@SpringBootTest
 class DepartmentControllerTest {
-    @Autowired
+
+    @SpyBean
+    private DepartmentServiceImpl departmentService;
+
+    @SpyBean
+    private DepartmentFileService departmentFileService;
+
+    @SpyBean
     private DepartmentController departmentController;
 
-    @MockBean
-    private DepartmentService departmentService;
-
-
-    @Test
-    void testAddDepartment() {
-        // Arrange
-        String departmentDtoJson = "{\"name\":\"YourDepartmentName\"}";
-        MultipartFile file = new MockMultipartFile(
-                "file",
-                "file.txt",
-                "text/plain",
-                "file content".getBytes());
-
-        Department createdDepartment = new Department();
-        createdDepartment.setId(1L);
-        createdDepartment.setName("YourDepartmentName");
-
-        Responsedto<Department> responseDto = new Responsedto<>(createdDepartment);
-
-        when(departmentService.createOrUpdate(any(), any(), any())).thenReturn(responseDto);
-
-        // Act
-        ResponseEntity<Responsedto<Department>> responseEntity = departmentController.addDepartment(departmentDtoJson, file);
-
-        // Assert
-        assertEquals(200, responseEntity.getStatusCodeValue());
-        assertEquals(responseDto, responseEntity.getBody());
-    }
-
+    @SpyBean
+    DepartmentRepo departmentRepo;
 
     @Test
-    void testFindAllDepartments() throws Exception {
+    void testAddDepartment() throws IOException {
+
         // Arrange
-        when(departmentService.findAllDepartments(Mockito.<Integer>any(), Mockito.<Integer>any(), Mockito.<String>any()))
-                .thenReturn(new Responsedto<>());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/department/listDepartments");
-
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(departmentController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{}"));
-    }
-
-
-    @Test
-    void testDelete() throws Exception {
-        // Arrange
-        when(departmentService.delete(Mockito.<Long>any())).thenReturn(new Responsedto<>());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/department/delete/{id}", 1L);
-
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(departmentController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{}"));
-    }
-
-
-    @Test
-    void testUpdate() throws Exception {
-        // Arrange
+        DepartmentServiceImpl departmentService = mock(DepartmentServiceImpl.class);
         when(departmentService.createOrUpdate(Mockito.<String>any(), Mockito.<MultipartFile>any(), Mockito.<Long>any()))
                 .thenReturn(new Responsedto<>());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/department/update/{id}", 1L)
-                .param("dto", "foo");
+        DepartmentController departmentController = new DepartmentController(departmentService);
 
-        // Act and Assert
-        MockMvcBuilders.standaloneSetup(departmentController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{}"));
+        // Act
+        ResponseEntity<Responsedto<Department>> departments = departmentController.addDepartment(
+                "departmentDto",
+                new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+
+        // Assert
+        verify(departmentService).createOrUpdate(Mockito.<String>any(), Mockito.<MultipartFile>any(), Mockito.<Long>any());
+        assertEquals(200, departments.getStatusCodeValue());
+        assertTrue(departments.hasBody());
+        assertTrue(departments.getHeaders().isEmpty());
+    }
+
+
+    @Test
+    void testListDepartment() throws Exception {
+        // Arrange
+        Page page=new PageImpl(Arrays.asList(new Department(),new Department()));
+
+        doReturn(page).when(departmentRepo).findAll(any(Pageable.class));
+        // Act
+        ResponseEntity<Responsedto<List<Department>>> listDepartment = departmentController
+                .findAllDepartments(1,2,"name");
+
+        // Assert
+        assertEquals(HttpStatusCode.valueOf(200), listDepartment.getStatusCode());
+        assertTrue(listDepartment.hasBody());
+        assertEquals(2, listDepartment.getBody().getResult().size());
+
+    }
+
+    @Test
+    public void test_valid_department_id() {
+        // Arrange
+        Long id = 1L;
+        Responsedto<Department> response = new Responsedto<>(true, "Department deleted successfully", null);
+        when(departmentService.delete(id)).thenReturn(response);
+
+        // Act
+        ResponseEntity<Responsedto<Department>> responseEntity = departmentController.delete(id);
+
+        // Assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(response, responseEntity.getBody());
+    }
+
+    @Test
+    void testUpdateDepartment() throws Exception {
+        // Arrange
+        Responsedto<Department> responsedto=new Responsedto<>(true,"department added or updated successful",new Department());
+
+        doReturn(responsedto).when(departmentService).createOrUpdate(anyString(),any(MultipartFile.class),anyLong());
+
+        // Act
+        ResponseEntity<Responsedto<Department>> responsedtoResponseEntity = departmentController.update(1L, "departmentDto", new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
+
+        //        assert
+        assertEquals(HttpStatusCode.valueOf(200),responsedtoResponseEntity.getStatusCode());
+        assertEquals("department added or updated successful",responsedtoResponseEntity.getBody().getMessage());
+        assertTrue(responsedtoResponseEntity.getBody().getSuccess());
+
     }
 }

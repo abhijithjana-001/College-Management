@@ -25,11 +25,6 @@ public class TeacherFileHandlingController {
     @Autowired
     private TeacherFileService teacherFileService;
 
-    @PostMapping("/upload")
-    public ResponseEntity<Responsedto> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        TeacherProfileImg upload=teacherFileService.upload(file);
-        return ResponseEntity.ok(new Responsedto(true,"uploaded successfully",upload));
-    }
 
     @GetMapping("/{fileName}")
     public ResponseEntity<byte[]> downloadImage(@PathVariable String fileName) throws IOException {
