@@ -139,11 +139,11 @@ class TeacherFileServiceTest {
         File file = folder.newFile("testFile.jpg");
 
         TeacherProfileImg teacherProfileImg = new TeacherProfileImg();
+        teacherProfileImg.setId(1L);
         teacherProfileImg.setCreated
                 (LocalDateTime.of(2010,10,10,5,5,55));
         teacherProfileImg.setTeacher(new Teacher());
         teacherProfileImg.setFilePath(file.getPath());
-        teacherProfileImg.setId(1L);
         teacherProfileImg.setName(file.getName());
         teacherProfileImg.setSize(file.length());
         teacherProfileImg.setType("Type");
