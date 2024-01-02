@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4690166e-96ae-49b1-ac3f-24fc65f00d17" name="Changes" comment="." />
+    <list default="true" id="4690166e-96ae-49b1-ac3f-24fc65f00d17" name="Changes" comment=".">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CollegeManagment/src/main/java/com/example/CollegeManagment/service/impl/StudentServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,6 +47,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "JUnit.DepartmentControllerTest.testDeleteDepartment.executor": "Debug",
     "JUnit.DepartmentFileServiceTest.executor": "Run",
     "JUnit.DepartmentFileServiceTest.testUpload.executor": "Run",
     "JUnit.StudentControllerTest.executor": "Run",
@@ -86,7 +90,7 @@
       <command value="mvn clean verify sonar:sonar \   -Dsonar.projectKey=College-Managment-System \   -Dsonar.projectName='College Managment System' \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.token=sqp_329c4308ba661bf0fdeee097a252e19a5588aeed" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.java in CollegeManagment">
+  <component name="RunManager" selected="Spring Boot.CollegeManagementApplication">
     <configuration name="StudentControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CollegeManagment" />
       <extension name="coverage">
@@ -190,7 +194,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1704170901287</updated>
-      <workItem from="1704170902433" duration="13472000" />
+      <workItem from="1704170902433" duration="15551000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -232,7 +236,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704187814620</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary=".">
+      <option name="closed" value="true" />
+      <created>1704188095216</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1704188095216</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,7 +256,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/college2$java_in_CollegeManagment.ic" NAME="java in CollegeManagment Coverage Results" MODIFIED="1704185692194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/college2$java_in_CollegeManagment.ic" NAME="java in CollegeManagment Coverage Results" MODIFIED="1704188815221" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/college2$StudentFileServiceImplTest.ic" NAME="StudentFileServiceImplTest Coverage Results" MODIFIED="1704176237973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.example.CollegeManagment.service.impl.*</FILTER>
     </SUITE>
